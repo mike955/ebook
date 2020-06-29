@@ -1,0 +1,17 @@
+package conf
+
+const (
+	PORT = ":50805"
+	
+	
+	MYSQL_HOST = ""
+	MYSQL_PORT = 33060
+	MYSQL_USER = ""
+	MYSQL_PASSWORD = ""
+	MYSQL_DATABASE = ""
+	
+	
+	REDIS_HOST = ""
+	REDIS_PORT = 33060
+	REDIS_PASSWORD = ""
+)
