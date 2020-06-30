@@ -1,7 +1,6 @@
 package main
 
 import (
-	"ebook/api/user"
 	pb "ebook/api/user"
 	"ebook/conf"
 	"ebook/internal/service"
@@ -10,16 +9,6 @@ import (
 	"log"
 	"net"
 )
-
-type server struct {
-	user.UnimplementedUserServer
-}
-
-// 定义helloService并实现约定的接口
-type helloService struct{}
-
-// HelloService Hello服务
-var HelloService = helloService{}
 
 func main()  {
 	port := conf.PORT

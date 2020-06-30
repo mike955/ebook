@@ -3,17 +3,20 @@ package service
 import (
 	"context"
 	pb "ebook/api/user"
+	"ebook/internal/data"
 	"fmt"
 )
 
 type userService struct {
-	//data data.User
+	UserData data.UserData
 	//dao dao.User
 }
 
 var UserService = &userService{}
 
-func (s *userService) SignUp(ctx context.Context, req *pb.SignUpRequest) (response *pb.SignUpResponse, err error){
+func (service *userService) SignUp(ctx context.Context, req *pb.SignUpRequest) (response *pb.SignUpResponse, err error){
+	
+	// check request
 	fmt.Println("hello ", req.AccountName)
 	response = new(pb.SignUpResponse)
 	response.Error = 0
@@ -30,18 +33,18 @@ func (s *userService) SignUp(ctx context.Context, req *pb.SignUpRequest) (respon
 		XXX_unrecognized:     nil,
 		XXX_sizecache:        0,
 	}
+	return service.UserData.SignUp(req)
+}
+func (service *userService) SignIn(ctx context.Context, req *pb.SignInRequest) (response *pb.SignInResponse,err error){
 	return
 }
-func (s *userService) SignIn(ctx context.Context, req *pb.SignInRequest) (response *pb.SignInResponse,err error){
+func (service *userService) SignOut(ctx context.Context, req *pb.SignOutRequest) (response *pb.SignOutResponse,err error){
 	return
 }
-func (s *userService) SignOut(ctx context.Context, req *pb.SignOutRequest) (response *pb.SignOutResponse,err error){
+func (service *userService) GetUser(ctx context.Context, req *pb.GetUserRequest) (response *pb.GetUserResponse,err error){
 	return
 }
-func (s *userService) GetUser(ctx context.Context, req *pb.GetUserRequest) (response *pb.GetUserResponse,err error){
-	return
-}
-func (s *userService) GetUsers(ctx context.Context, req *pb.GetUsersRequest) (response *pb.GetUsersResponse,err error){
+func (service *userService) GetUsers(ctx context.Context, req *pb.GetUsersRequest) (response *pb.GetUsersResponse,err error){
 	return
 }
 
