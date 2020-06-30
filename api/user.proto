@@ -12,7 +12,7 @@ service User {
     }
     rpc SignIn (SignInRequest) returns (SignInResponse) {}  // 登陆
     rpc SignOut (SignOutRequest) returns (SignOutResponse) {} // 登出
-    rpc GetUser (GetUserRequest) returns (GetUserRequest) {}  // 获取用户详情
+    rpc GetUser (GetUserRequest) returns (GetUserResponse) {}  // 获取用户详情
     rpc GetUsers (GetUsersRequest) returns (GetUsersResponse) {}  // 批量获取用户详情
 }
 

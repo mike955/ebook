@@ -1,7 +1,7 @@
 package conf
 
 const (
-	PORT = ":50805"
+	PORT = ":50801"
 	
 	
 	MYSQL_HOST = ""
