@@ -15,9 +15,9 @@ var DB *gorm.DB
 
 type CommonModel struct {
 	ID         int `gorm:"primary_key" json:"id"`
-	CreateTime  int `json:"create_time"`
-	UpdateTime int `json:"update_time"`
-	IsDelete  int `json:"is_delete"`
+	CreateTime  string `json:"create_time"`
+	UpdateTime string `json:"update_time"`
+	IsDelete  uint `gorm:"default:0" json:"is_delete"`
 }
 
 func SetUp()  {
@@ -33,14 +33,10 @@ func SetUp()  {
 		log.Fatalf("dao.init.Setup err: %v", err)
 	}
 	
-	//gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
-	//	return setting.DatabaseSetting.TablePrefix + defaultTableName
-	//}
-	
 	DB.SingularTable(true)
 	DB.Callback().Create().Replace("gorm:update_time_stamp", updateTimeStampForCreateCallback)
 	DB.Callback().Update().Replace("gorm:update_time_stamp", updateTimeStampForUpdateCallback)
-	DB.Callback().Delete().Replace("gorm:delete", deleteCallback)
+	//DB.Callback().Delete().Replace("gorm:delete", deleteCallback)
 	DB.DB().SetMaxIdleConns(10)
 	DB.DB().SetMaxOpenConns(100)
 }
@@ -53,14 +49,14 @@ func CloseDB() {
 // updateTimeStampForCreateCallback will set `CreatedOn`, `ModifiedOn` when creating
 func updateTimeStampForCreateCallback(scope *gorm.Scope) {
 	if !scope.HasError() {
-		nowTime := time.Now().Unix()
-		if createTimeField, ok := scope.FieldByName("CreatedOn"); ok {
+		nowTime := time.Now().Format("2006-01-02 15:04:05")
+		if createTimeField, ok := scope.FieldByName("CreateTime"); ok {
 			if createTimeField.IsBlank {
 				createTimeField.Set(nowTime)
 			}
 		}
 		
-		if modifyTimeField, ok := scope.FieldByName("ModifiedOn"); ok {
+		if modifyTimeField, ok := scope.FieldByName("UpdateTime"); ok {
 			if modifyTimeField.IsBlank {
 				modifyTimeField.Set(nowTime)
 			}
@@ -71,39 +67,10 @@ func updateTimeStampForCreateCallback(scope *gorm.Scope) {
 // updateTimeStampForUpdateCallback will set `ModifiedOn` when updating
 func updateTimeStampForUpdateCallback(scope *gorm.Scope) {
 	if _, ok := scope.Get("gorm:update_column"); !ok {
-		scope.SetColumn("ModifiedOn", time.Now().Unix())
+		scope.SetColumn("UpdateTime", time.Now().Format("2006-01-02 15:04:05"))
 	}
 }
 
-// deleteCallback will set `DeletedOn` where deleting
-func deleteCallback(scope *gorm.Scope) {
-	if !scope.HasError() {
-		var extraOption string
-		if str, ok := scope.Get("gorm:delete_option"); ok {
-			extraOption = fmt.Sprint(str)
-		}
-		
-		deletedOnField, hasDeletedOnField := scope.FieldByName("DeletedOn")
-		
-		if !scope.Search.Unscoped && hasDeletedOnField {
-			scope.Raw(fmt.Sprintf(
-				"UPDATE %v SET %v=%v%v%v",
-				scope.QuotedTableName(),
-				scope.Quote(deletedOnField.DBName),
-				scope.AddToVars(time.Now().Unix()),
-				addExtraSpaceIfExist(scope.CombinedConditionSql()),
-				addExtraSpaceIfExist(extraOption),
-			)).Exec()
-		} else {
-			scope.Raw(fmt.Sprintf(
-				"DELETE FROM %v%v%v",
-				scope.QuotedTableName(),
-				addExtraSpaceIfExist(scope.CombinedConditionSql()),
-				addExtraSpaceIfExist(extraOption),
-			)).Exec()
-		}
-	}
-}
 
 // addExtraSpaceIfExist adds a separator
 func addExtraSpaceIfExist(str string) string {

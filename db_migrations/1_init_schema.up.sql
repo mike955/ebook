@@ -5,7 +5,7 @@ CREATE TABLE `ebook`.`account` (
     `account_name` VARCHAR(256) NOT NULL COMMENT '账户名称',
     `account_email` VARCHAR(256) NOT NULL COMMENT '账户邮箱',
     `account_password` BINARY(64) NOT NULL COMMENT '账户名称',
-    `salt` BINARY(32) NOT NULL COMMENT '盐',
+    `salt` BINARY(64) NOT NULL COMMENT '盐',
     `account_role` TINYINT(4) DEFAULT 2 NOT NULL COMMENT '账户角色,1:管理员,2:普通用户',
     `status` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '账户状态,0:正常,1:关闭',
     `is_delete` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '账户状态,0:正常,1:删除',

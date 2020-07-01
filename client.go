@@ -5,11 +5,12 @@ import (
 	pb "ebook/api/user"
 	"google.golang.org/grpc"
 	"log"
+	"math/rand"
 	"time"
 )
 
 const (
-	address     = "localhost:50801"
+	address     = "127.0.0.1:50801"
 )
 
 func main() {
@@ -23,7 +24,7 @@ func main() {
 	
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.SignUp(ctx, &pb.SignUpRequest{AccountName: "mike"})
+	r, err := c.SignUp(ctx, &pb.SignUpRequest{AccountName: "mike" + string(rand.Int())})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}

@@ -5,7 +5,7 @@ const (
 	
 	
 	MYSQL_TYPE = "mysql"
-	MYSQL_HOST = "192.168.56.202"
+	MYSQL_HOST = "192.168.56.101"
 	MYSQL_PORT = 3306
 	MYSQL_USER = "root"
 	MYSQL_PASSWORD = "@Cai3564423"

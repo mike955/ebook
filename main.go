@@ -3,12 +3,17 @@ package main
 import (
 	pb "ebook/api/user"
 	"ebook/conf"
+	"ebook/internal/dao"
 	"ebook/internal/service"
 	"fmt"
 	"google.golang.org/grpc"
 	"log"
 	"net"
 )
+
+func init()  {
+	dao.SetUp()
+}
 
 func main()  {
 	port := conf.PORT

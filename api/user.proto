@@ -25,7 +25,7 @@ message SignUpRequest {
 message SignUpResponse {
   int64 error = 1;
   string errmsg = 2;
-  UserInfo data = 3;
+  bool data = 3;
 }
 
 message SignInRequest {

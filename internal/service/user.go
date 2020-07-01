@@ -18,21 +18,6 @@ func (service *userService) SignUp(ctx context.Context, req *pb.SignUpRequest) (
 	
 	// check request
 	fmt.Println("hello ", req.AccountName)
-	response = new(pb.SignUpResponse)
-	response.Error = 0
-	response.Errmsg = ""
-	response.Data = &pb.UserInfo{
-		Id:                   0,
-		AccountId:            "",
-		AccountName:          req.AccountName,
-		AccountEmail:         "",
-		AccountRole:          "",
-		CreateTime:           "",
-		UpdateTime:           "",
-		XXX_NoUnkeyedLiteral: struct{}{},
-		XXX_unrecognized:     nil,
-		XXX_sizecache:        0,
-	}
 	return service.UserData.SignUp(req)
 }
 func (service *userService) SignIn(ctx context.Context, req *pb.SignInRequest) (response *pb.SignInResponse,err error){

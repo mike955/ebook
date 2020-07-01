@@ -5,7 +5,7 @@ import (
 	"ebook/internal/dao"
 	"ebook/pkg/utils"
 	"fmt"
-	"github.com/jinzhu/gorm"
+	"log"
 )
 
 type UserData struct {
@@ -24,21 +24,36 @@ func (data UserData) getByID(id int64) (response *pb.UserInfo, err error){
 }
 
 func (data UserData) SignUp(params *pb.SignUpRequest) (response *pb.SignUpResponse, err error){
-	//data := make(map[string]interface{})
-	_, err = data.UserDao.FindByAccountName(params.AccountName)
-	if err != gorm.ErrRecordNotFound {
-	
+	response = &pb.SignUpResponse{
+		Error: 0,
+		Errmsg: "",
+	}
+	response.Error = 0
+	response.Errmsg = ""
+	account, err := data.UserDao.FindByAccountName(params.AccountName)
+	fmt.Println(account)
+	fmt.Println(err)
+	if err != nil {
+		log.Println("Sign up error")
 	}
 	insertData := make(map[string]interface{})
-	insertData["accountId"] = utils.GenerateAccountId()
+	
+	salt := utils.GenerateAccountId()
+	fmt.Println(salt)
+	insertData["accountId"] = utils.GenerateRandom(16)
 	insertData["accountName"] = params.AccountName
 	insertData["accountEmail"] = params.AccountEmail
+	insertData["salt"] = utils.GenerateRandom(32)
+	insertData["accountPassword"] = utils.Sha512(fmt.Sprintf("%s%s", insertData["salt"], params.AccountPassword))
+	insertData["accountRole"] = uint(0)
+	insertData["status"] = uint(0)
 	
-	//fmt.Println("hello ", params.AccountName)
-	//response = new(pb.SignUpResponse)
-	//response.Error = 0
-	//response.Errmsg = ""
-	//response.Data = &pb.UserInfo{
-	//}
+	if err = data.UserDao.Add(insertData); err != nil {
+		response.Error = 111
+		response.Data = false
+		response.Errmsg = "sign up error"
+	} else {
+		response.Data = true
+	}
 	return
 }
