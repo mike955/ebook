@@ -3,7 +3,7 @@ syntax = "proto3";
 package user.api;
 option go_package = "user";
 
-import "google/api/annotations.proto";
+import "third_party/google/api/annotations.proto";
 
 service User {
     rpc SignUp (SignUpRequest) returns (SignUpResponse) { // 注册
