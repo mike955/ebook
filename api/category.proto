@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package category.api;
+
+option go_package = "category";
+
+service Category {
+  rpc Add (AddRequest) returns (AddResponse) {
+    // option (google.api.http) = {
+    //     post: ""
+    // };
+  }
+  rpc Delete (DeleteRequest) returns (DeleteResponse) {}
+  rpc Update (UpdateRequest) returns (UpdateResponse) {}
+  rpc GetCategory (GetCategoryRequest) returns (GetCategoryResponse) {}
+  rpc Getcategories (GetcategoriesRequest) returns (GetcategoriesResponse) {}
+}
+
+message AddRequest {
+  string book_name  = 1;
+  string english_name  = 2;
+  string alias_name  = 3;
+  int32 category  = 4;
+  string publish_time  = 5;
+  string key_words  = 6;
+}
+
+message AddResponse {
+  int64 error = 1;
+  string errmsg = 2;
+  bool data = 3;
+}
+
+message DeleteRequest {}
+message DeleteResponse {
+  int64 error = 1;
+  string errmsg = 2;
+  bool data = 3;
+}
+
+message UpdateRequest {}
+message UpdateResponse {
+  int64 error = 1;
+  string errmsg = 2;
+  bool data = 3;
+}
+
+message GetCategoryRequest {
+  string id  = 1;
+  string category  = 2;
+  string category_name  = 3;
+}
+message GetCategoryResponse {
+  int64 error = 1;
+  string errmsg = 2;
+  CategoryInfo data = 3;
+}
+
+message GetcategoriesRequest {
+  repeated string id  = 1;
+  repeated string category  = 2;
+  repeated string category_name  = 3;
+}
+message GetcategoriesResponse {
+  int64 error = 1;
+  string errmsg = 2;
+  repeated CategoryInfo data = 3;
+}
+
+message CategoryInfo {
+  int64 id  = 1;
+  string category  = 2;
+  string category_name  = 3;
+  string create_time  = 3;
+  string update_time  = 4;
+}

@@ -1,19 +1,48 @@
 syntax = "proto3";
 
 package user.api;
-
 option go_package = "user";
+
+import "google/api/annotations.proto";
 
 service User {
     rpc SignUp (SignUpRequest) returns (SignUpResponse) { // 注册
-        // option (google.api.http) = {
-        //     post: ""
-        // };
+        option (google.api.http) = {
+            post: "/user/signup",
+            body: "*"
+        };
     }
-    rpc SignIn (SignInRequest) returns (SignInResponse) {}  // 登陆
-    rpc SignOut (SignOutRequest) returns (SignOutResponse) {} // 登出
-    rpc GetUser (GetUserRequest) returns (GetUserResponse) {}  // 获取用户详情
-    rpc GetUsers (GetUsersRequest) returns (GetUsersResponse) {}  // 批量获取用户详情
+    rpc SignIn (SignInRequest) returns (SignInResponse) {
+      option (google.api.http) = {
+        post: "/user/signin",
+        body: "*"
+    };
+    }  // 登陆
+    rpc SignOut (SignOutRequest) returns (SignOutResponse) {
+      option (google.api.http) = {
+        post: "/user/signout",
+        body: "*"
+    };
+    } // 登出
+    rpc GetUser (GetUserRequest) returns (GetUserResponse) {
+      option (google.api.http) = {
+        post: "/user/getUser",
+        body: "*"
+    };
+    }  // 获取用户详情
+    rpc GetUsers (GetUsersRequest) returns (GetUsersResponse) {
+      option (google.api.http) = {
+        post: "/user/getUsers",
+        body: "*"
+    };
+    }  // 批量获取用户详情
+
+
+    // rpc GetUsers () returns () {}  // 修改用户角色
+
+    // rpc GetUsers () returns () {}  // 添加权限
+
+    // rpc GetUsers () returns () {}  // 删除权限
 }
 
 message SignUpRequest {

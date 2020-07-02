@@ -2,4 +2,91 @@ syntax = "proto3";
 
 package ebook.api;
 
-option go_package = "api";
+option go_package = "ebook";
+
+service Ebook {
+  rpc Add (AddRequest) returns (AddResponse) { // 新增电子书
+    // option (google.api.http) = {
+    //     post: ""
+    // };
+  }
+  rpc Delete (DeleteRequest) returns (DeleteResponse) {}  // 删除电子书
+  rpc Update (UpdateRequest) returns (UpdateResponse) {}  // 修改电子书
+  rpc GetEbook (GetEbookRequest) returns (GetEbookResponse) {}  // 获取电子书详情
+  rpc GetEbooks (GetEbooksRequest) returns (GetEbooksResponse) {}  // 批量获取电子书
+}
+
+message AddRequest {
+  string book_name  = 1;
+  string english_name  = 2;
+  string alias_name  = 3;
+  int32 category  = 4;
+  string publish_time  = 5;
+  string key_words  = 6;
+}
+
+message AddResponse {
+  int64 error = 1;
+  string errmsg = 2;
+  bool data = 3;
+}
+
+message DeleteRequest {}
+message DeleteResponse {
+  int64 error = 1;
+  string errmsg = 2;
+  bool data = 3;
+}
+
+message UpdateRequest {}
+message UpdateResponse {
+  int64 error = 1;
+  string errmsg = 2;
+  bool data = 3;
+}
+
+message GetEbookRequest {
+  string id  = 1;
+  string book_name  = 2;
+  string english_name  = 3;
+  string alias_name  = 4;
+  int32 category  = 5;
+  string publish_time  = 6;
+  string key_words  = 7;
+  string create_time  = 8;
+  string update_time  = 9;
+}
+message GetEbookResponse {
+  int64 error = 1;
+  string errmsg = 2;
+  BookInfo data = 3;
+}
+
+message GetEbooksRequest {
+  repeated string id  = 1;
+  repeated string book_name  = 2;
+  repeated string english_name  = 3;
+  repeated string alias_name  = 4;
+  repeated int32 category  = 5;
+  repeated string publish_time  = 6;
+  repeated string key_words  = 7;
+  repeated string create_time  = 8;
+  repeated string update_time  = 9;
+}
+message GetEbooksResponse {
+  int64 error = 1;
+  string errmsg = 2;
+  repeated BookInfo data = 3;
+}
+
+message BookInfo {
+  int64 id  = 1;
+  string book_name  = 2;
+  string english_name  = 3;
+  string alias_name  = 4;
+  int32 category  = 5;
+  string publish_time  = 6;
+  string key_words  = 7;
+  string create_time  = 8;
+  string update_time  = 9;
+}

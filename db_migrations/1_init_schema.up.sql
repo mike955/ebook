@@ -17,8 +17,8 @@ CREATE TABLE `ebook`.`account` (
 DROP TABLE IF EXISTS `ebook`.`book`;
 CREATE TABLE `ebook`.`book` (
     `id` BIGINT(32) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `c_name` VARCHAR(32) NOT NULL COMMENT '书名',
-    `e_name` VARCHAR(256) NOT NULL COMMENT '书英文名',
+    `book_name` VARCHAR(32) NOT NULL COMMENT '书名',
+    `english_name` VARCHAR(256) NOT NULL COMMENT '书英文名',
     `alias_name` VARCHAR(256) DEFAULT 2 NOT NULL COMMENT '别名',
     `category` TINYINT(4) DEFAULT 2 NOT NULL COMMENT '种类',
     `publish_time` DATE NOT NULL COMMENT '出版时间',
@@ -32,7 +32,7 @@ CREATE TABLE `ebook`.`book` (
 DROP TABLE IF EXISTS `ebook`.`book_category`;
 CREATE TABLE `ebook`.`book` (
     `id` BIGINT(32) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `category` VARCHAR(16) NOT NULL COMMENT '书名',
+    `category` VARCHAR(16) NOT NULL COMMENT '类别',
     `category_name` VARCHAR(32) NOT NULL COMMENT '类别名称',
     `is_delete` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '状态,0:正常,1:删除',
     `create_time` DATETIME NOT NULL COMMENT '创建时间',

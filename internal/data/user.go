@@ -35,6 +35,12 @@ func (data UserData) SignUp(params *pb.SignUpRequest) (response *pb.SignUpRespon
 	fmt.Println(err)
 	if err != nil {
 		log.Println("Sign up error")
+		response.Errmsg = err.Error()
+		return
+	}
+	if account != nil {
+		response.Errmsg = "account_name has exist"
+		return
 	}
 	insertData := make(map[string]interface{})
 	

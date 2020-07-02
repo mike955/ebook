@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 )
 
@@ -37,7 +38,7 @@ func (dao UserDao) Add(data map[string]interface{}) (err error) {
 
 func (dao UserDao) FindByID(id uint64) (*Account, error) {
 	var account = new(Account)
-	err := DB.Where(&Account{ID: id}).First(*account).Error
+	err := DB.Where(&Account{ID: id}).First(account).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
@@ -46,7 +47,7 @@ func (dao UserDao) FindByID(id uint64) (*Account, error) {
 
 func (dao UserDao) FindByAccountId(accountId string) (*Account, error) {
 	var account = new(Account)
-	err := DB.Where(&Account{AccountId: accountId}).First(*account).Error
+	err := DB.Where(&Account{AccountId: accountId}).First(account).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
@@ -55,7 +56,8 @@ func (dao UserDao) FindByAccountId(accountId string) (*Account, error) {
 
 func (dao UserDao) FindByAccountName(accountName string) (*Account, error) {
 	var account = new(Account)
-	err := DB.Where(&Account{AccountName: accountName}).Find(*account).Error
+	fmt.Println("============ accountName: ", accountName)
+	err := DB.Where(&Account{AccountName: accountName}).Find(account).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
@@ -64,7 +66,7 @@ func (dao UserDao) FindByAccountName(accountName string) (*Account, error) {
 
 func  (dao UserDao) FindByFields (fields map[string]interface{}) (*Account, error)  {
 	var account = new(Account)
-	err := DB.Where(fields).First(*account).Error
+	err := DB.Where(fields).First(account).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}

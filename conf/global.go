@@ -1,9 +1,11 @@
 package conf
 
+var (
+	GRPC_PORT = ":50801"
+	HTTP_PORT = ":50802"
+)
+
 const (
-	PORT = ":50801"
-	
-	
 	MYSQL_TYPE = "mysql"
 	MYSQL_HOST = "192.168.56.101"
 	MYSQL_PORT = 3306
