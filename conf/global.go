@@ -6,6 +6,7 @@ var (
 )
 
 const (
+	/************ MySQL ****************/
 	MYSQL_TYPE = "mysql"
 	MYSQL_HOST = "192.168.56.101"
 	MYSQL_PORT = 3306
@@ -14,7 +15,12 @@ const (
 	MYSQL_DATABASE = "ebook"
 	
 	
+	/************ Redis ****************/
 	REDIS_HOST = ""
 	REDIS_PORT = 33060
 	REDIS_PASSWORD = ""
+
+
+	/************ Static ****************/
+	EBook_DIR = "/Users/superbear/study/go/src/ebook"
 )

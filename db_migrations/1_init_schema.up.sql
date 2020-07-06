@@ -14,14 +14,14 @@ CREATE TABLE `ebook`.`account` (
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='帐号信息表';
 
-DROP TABLE IF EXISTS `ebook`.`book`;
-CREATE TABLE `ebook`.`book` (
+DROP TABLE IF EXISTS `ebook`.`ebook`;
+CREATE TABLE `ebook`.`ebook` (
     `id` BIGINT(32) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `book_name` VARCHAR(32) NOT NULL COMMENT '书名',
+    `ebook_name` VARCHAR(32) NOT NULL COMMENT '书名',
     `english_name` VARCHAR(256) NOT NULL COMMENT '书英文名',
     `alias_name` VARCHAR(256) DEFAULT 2 NOT NULL COMMENT '别名',
     `category` TINYINT(4) DEFAULT 2 NOT NULL COMMENT '种类',
-    `publish_time` DATE NOT NULL COMMENT '出版时间',
+    `publish_date` DATE NOT NULL COMMENT '出版时间',
     `key_words` VARCHAR(256) NOT NULL DEFAULT '' COMMENT '关键字',
     `is_delete` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '状态,0:正常,1:删除',
     `create_time` DATETIME NOT NULL COMMENT '创建时间',
@@ -29,8 +29,8 @@ CREATE TABLE `ebook`.`book` (
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='电子书信息表';
 
-DROP TABLE IF EXISTS `ebook`.`book_category`;
-CREATE TABLE `ebook`.`book` (
+DROP TABLE IF EXISTS `ebook`.`ebook_category`;
+CREATE TABLE `ebook`.`ebook_category` (
     `id` BIGINT(32) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
     `category` VARCHAR(16) NOT NULL COMMENT '类别',
     `category_name` VARCHAR(32) NOT NULL COMMENT '类别名称',
@@ -41,7 +41,7 @@ CREATE TABLE `ebook`.`book` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='书籍类别信息表';
 
 BEGIN;
-INSERT INTO `ebook`.`book_category`(`category`, `category_name`, `create_time`, `update_time`) VALUES 
+INSERT INTO `ebook`.`ebook_category`(`category`, `category_name`, `create_time`, `update_time`) VALUES 
   ('M', '专著（含古籍中的史、志论著）', Now(), Now()), 
   ('C', '论文集', Now(), Now()), 
   ('N', '报纸文章', Now(), Now()), 
@@ -66,7 +66,7 @@ CREATE TABLE ebook.pri_user (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户角色关系表';
 
 DROP TABLE if exists `ebook`.`role`;
-CREATE TABLE `ebook`.`pri_user` (
+CREATE TABLE `ebook`.`role` (
   `id` BIGINT(32) UNSIGNED NOT NULL AUTO_INCREMENT comment '主键id',
   `role_id` CHAR(16) UNSIGNED NOT NULL comment '角色id',
   `role_name` VARCHAR(128) UNSIGNED NOT NULL comment '角色id',
@@ -77,7 +77,7 @@ CREATE TABLE `ebook`.`pri_user` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 DROP TABLE if exists `ebook`.`role_privilege`;
-CREATE TABLE ebook.pri_user (
+CREATE TABLE `ebook`.`role_privilege` (
   `id` BIGINT(32) UNSIGNED NOT NULL AUTO_INCREMENT comment '主键id',
   `role_id` CHAR(16) UNSIGNED NOT NULL comment '角色id',
   `privilege_id` CHAR(16) UNSIGNED NOT NULL comment '权限id',

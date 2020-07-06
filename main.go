@@ -2,16 +2,19 @@ package main
 
 import (
 	"context"
-	pb "ebook/api/user"
+	pb_user "ebook/api/user"
+	pb_ebook "ebook/api/ebook"
 	"ebook/conf"
 	"ebook/internal/dao"
 	"ebook/internal/service"
 	"fmt"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
+	"io"
 	"log"
 	"net"
 	"net/http"
+	"strings"
 )
 
 func init()  {
@@ -28,7 +31,8 @@ func main()  {
 		fmt.Printf("failed to listen: %v", err)
 	}
 	grpcServer := grpc.NewServer()
-	pb.RegisterUserServer(grpcServer, service.UserService)
+	pb_user.RegisterUserServer(grpcServer, service.UserService)
+	pb_ebook.RegisterEbookServer(grpcServer, service.EbookService)
 	go func() {
 		// start gRPC server
 		log.Println("starting gRPC server: ", conf.GRPC_PORT)
@@ -42,11 +46,18 @@ func run() error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 	
+	// // handle upload file
+	// mx := http.NewServeMux()
+	// mx.HandleFunc("/ebook/add", func(w http.ResponseWriter, req *http.Request) {
+	// 	return service.EbookService.Add(req)
+	// })
+	
 	// Register gRPC server endpoint
 	// Note: Make sure the gRPC server is running properly and accessible
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := pb.RegisterUserHandlerFromEndpoint(ctx, mux,  *grpcServerEndpoint, opts)
+	err := pb_user.RegisterUserHandlerFromEndpoint(ctx, mux,  *grpcServerEndpoint, opts)
+	err = pb_ebook.RegisterEbookHandlerFromEndpoint(ctx, mux,  *grpcServerEndpoint, opts)
 	if err != nil {
 		return err
 	}
