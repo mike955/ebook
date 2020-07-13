@@ -1,0 +1,35 @@
+{
+  "name": "ebook-category",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/koa": "^2.11.3",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-morgan": "^1.0.4",
+    "@types/lodash": "^4.14.157",
+    "@types/node": "^14.0.22",
+    "@types/sequelize": "^4.28.9",
+    "@types/validator": "^13.1.0",
+    "@types/winston": "^2.4.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.6",
+    "winston": "^3.3.3"
+  },
+  "dependencies": {
+    "koa": "^2.12.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-morgan": "^1.0.1",
+    "lodash": "^4.17.19",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.3",
+    "tslib": "^2.0.0",
+    "uuid": "^8.2.0"
+  }
+}

@@ -1,0 +1,156 @@
+openapi: 3.0.0
+info:
+  description: "This is ebook_category api"
+  version: "1.0.0"
+  title: "Ebook category api"
+  contact:
+    email: "mike955@163.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+paths:
+  /ebook/category/add:
+    post:
+      summary: "add category"
+      requestBody: 
+        description: ""
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                category:
+                  type: "string"
+                category_name:
+                  type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "number"
+                  errmsg:
+                    type: "string"
+                  data:
+                    type: "boolean"
+  /ebook/category/get:
+    post:
+      summary: "get a category"
+      requestBody: 
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                id:
+                  type: "number"
+                category:
+                  type: "string"
+                category_name:
+                  type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "number"
+                  errmsg:
+                    type: "string"
+                  data:
+                    $ref: "#/components/schemas/Category"
+  /ebook/category/getList:
+    post:
+      summary: "get category list"
+      requestBody: 
+        description: ""
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                page:
+                  type: "number"
+                count:
+                  type: "number"
+                ids:
+                  type: "array"
+                  items:
+                    type: "number"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "number"
+                  errmsg:
+                    type: "string"
+                  data:
+                    type: "object"
+                    properties:
+                      count: 
+                        type: "number"
+                      categories:
+                        type: "array"
+                        items:
+                          $ref: "#/components/schemas/Category"
+  /ebook/category/delete:
+    post:
+      summary: "delete category"
+      requestBody: 
+        description: ""
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                id:
+                  type: "number"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "number"
+                  errmsg:
+                    type: "string"
+                  data:
+                    type: "boolean"
+
+components:
+  schemas:
+    Category:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+        category:
+          type: "string"
+        category_name:
+          type: "string"
+        is_delete:
+          type: "number"
+        create_time:
+          type: "string"
+        update_time:
+          type: "string"
