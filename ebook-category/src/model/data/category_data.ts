@@ -1,5 +1,6 @@
 import Base from '../../library/base';
 import CategorytDao from '../dao/category_dao';
+import * as sequelize from 'sequelize';
 
 export default class CategoryData extends Base {
   public map:any;
@@ -13,13 +14,29 @@ export default class CategoryData extends Base {
     let res = await this.categoryDao.add({category, category_name});
     return res;
   }
-  async get(params: any) {
-    console.log(params)
+
+  async get(conditions: { id: number; category: string; category_name:string}) {
+    let where = {};
+    if (conditions.id != undefined) where['id'] = conditions.id;
+    if (conditions.category != undefined) where['category'] = conditions.category;
+    if (conditions.category_name != undefined) {
+      where['category_name'] = { [sequelize.Op.like]: `%${conditions.category_name}%` }
+    }
+    let res = await this.categoryDao.getByConds({where});
+    return res;
   }
-  async getList(params: any) {
-    console.log(params)
+
+  async getList(conditions: { page: number; count: string; ids:string}) {
+    let getParams = { page: conditions.page, count: conditions.count };
+    if (conditions.ids != undefined) {
+      getParams['id'] = { where: { $in: conditions.ids }}
+    }
+    let res = await this.categoryDao.getListByConds(getParams);
+    return res;
   }
-  async delete(params: any) {
-    console.log(params)
+
+  async delete(id: number) {
+    let res = await this.categoryDao.delById(id);
+    return res;
   }
 }

@@ -25,13 +25,34 @@ export default class CategoryPage extends Base {
     const { category, category_name } = params;
     return await this.categoryData.add(category, category_name);
   }
-  async get(params: any) {
-    console.log(params)
+
+  async get(params: { id: number; category: string; category_name:string}) {
+    this.validate_params(params, {
+      id: v => _.isNumber(v) || _.isUndefined(v),
+      category: v => ['M', 'C', 'N', 'J', 'D', 'R', 'S', 'P', 'A', 'Z'].indexOf(v) > -1  || _.isUndefined(v),
+      category_name: v => _.isString(v) || _.isUndefined(v),
+    });
+    if (params.id == undefined && params.category == undefined && params.category_name == undefined) {
+      this.throw_sys_error('PARAMS_ERR', `error params.id`);
+    }
+    let conditions = _.pick(params, ['id', 'category', 'category_name']);
+    return await this.categoryData.get(conditions);
   }
-  async getList(params: any) {
-    console.log(params)
+
+  async getList(params: { page: number; count: string; ids:string}) {
+    this.validate_params(params, {
+      page: v => _.isNumber(v) && v >= 1,
+      count: v => _.isNumber(v) && v >= 0,
+      ids: v => _.isArray(v)|| _.isUndefined(v),
+    });
+    let conditions = _.pick(params, ['page', 'count', 'ids']);
+    return await this.categoryData.getList(conditions);
   }
+
   async delete(params: any) {
-    console.log(params)
+    this.validate_params(params, {
+      id: v => _.isNumber(v) && v >= 0,
+    });
+    return await this.categoryData.delete(params.id);
   }
 }

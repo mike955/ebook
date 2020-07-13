@@ -1,10 +1,11 @@
 import * as _ from 'lodash';
 import logger, { Logger } from './logger';
 // import logger from './logger';
+const ErrCode = require('../config/error_code')
 
 export default class Base {
   public _logger: Logger;
-  constructor() { 
+  constructor() {
     // this._logger = logger('ebook-category');
   }
 
@@ -22,12 +23,31 @@ export default class Base {
     throw this.new_sys_error('PARAMS_ERR', `error params`);
   }
 
+  throw_sys_error(e: string, err_msg?: string): never {
+    if (typeof e == 'string') {
+      let err = ErrCode[e];
+      if (!err) {
+        throw new Error('Invalid Error Code');
+      }
+      if (err_msg) {
+        if (_.isString(err_msg)) {
+          err.errmsg = err_msg;
+        } else {
+          err.errmsg = JSON.stringify(err_msg);
+        }
+      }
+      throw err;
+    } else {
+      console.error(e);
+      this.throw_sys_error('FORMAT_ERR', 'Invalid Error Format');
+    }
+  }
+
   new_sys_error(
     e: string | { errno: number; errmsg: string; errcode: string },
     err_msg?: string,
   ) {
     if (typeof e === 'string') {
-      const ErrCode = require('../config/error_code')
       let err = ErrCode[e];
       if (!err) {
         throw new Error('Invalid Error Code');
@@ -46,8 +66,8 @@ export default class Base {
     }
   }
 
-  get logger(){
+  get logger() {
     return this._logger = logger('ebook-category')
   }
-  
+
 }
