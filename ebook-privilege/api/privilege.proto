@@ -1,0 +1,198 @@
+syntax = "proto3";
+
+package pririvlege.api;
+option go_package = "privilege";
+
+// ----------- 约定 ---------- //
+//    数据库字段       proto字段
+// 1.BIGINT(32) ----> uint32
+// 2.TINYINT(4) ----> uint32
+
+service Privilege {
+  rpc AddUser (AddUserRequest) returns (AddUserResponse) {}     // 添加用户
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse) {}     // 删除用户
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {}     // 更新用户角色
+  rpc GetUser (GetUserRequest) returns (GetUserResponse) {}     // 获取用户权限信息
+
+  rpc AddRole (AddRoleRequest) returns (AddRoleResponse) {}     // 添加角色
+  rpc DeleteRole (DeleteRoleRequest) returns (DeleteRoleResponse) {}     // 添加角色
+  rpc UpdateRole (UpdateRoleRequest) returns (UpdateRoleResponse) {}     // 更新角色信息
+  rpc GetRole (GetRoleRequest) returns (GetRoleResponse) {}     // 获取角色详情
+
+  rpc AddPrivilege (AddPrivilegeRequest) returns (AddPrivilegeResponse) {}     // 添加权限
+  rpc AddPrivileges (AddPrivilegesRequest) returns (AddPrivilegesResponse) {}     // 批量添加权限
+  rpc DeletePrivilege (DeletePrivilegeRequest) returns (DeletePrivilegeResponse) {}     // 删除权限
+  rpc DeletePrivileges (DeletePrivilegesRequest) returns (DeletePrivilegesResponse) {}     // 批量删除权限
+  rpc UpdatePrivilege (UpdatePrivilegeRequest) returns (UpdatePrivilegeResponse) {}     // 更新权限
+  rpc GetPrivilege (GetPrivilegeRequest) returns (GetPrivilegeResponse) {}     // 获取权限详情
+}
+
+message AddUserRequest {
+  string user_id  = 1;
+  uint32 role_id  = 2;
+}
+message AddUserResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  bool data = 3; 
+}
+
+message DeleteUserRequest {
+  string user_id  = 1;
+  uint32 role_id  = 2; 
+}
+message DeleteUserResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  bool data = 3; 
+}
+
+message UpdateUserRequest {
+  string user_id  = 1;    // 选择条件
+  uint32 role_id  = 2;    // 更新字段
+}
+message UpdateUserResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  bool data = 3; 
+}
+
+message GetUserRequest {
+  string user_id  = 1;
+}
+message GetUserResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  message data {
+    string user_id = 1;
+    RoleInfo role_info = 2;
+    repeated PrivilegeInfo privileges = 3;
+  }
+}
+
+
+message AddRoleRequest {
+  string role_name  = 1;
+  string role_desc  = 2;
+}
+message AddRoleResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  bool data = 3; 
+}
+
+message DeleteRoleRequest {
+  uint32 role_id  = 1;
+}
+message DeleteRoleResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  bool data = 3; 
+}
+
+message UpdateRoleRequest {
+  uint32 id  = 1;           // 选择条件
+  string role_name  = 2;    // 更新字段
+  string role_desc  = 3;    // 更新字段
+}
+message UpdateRoleResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  bool data = 3; 
+}
+
+message GetRoleRequest {
+  uint32 id  = 1;
+  string role_name  = 2;
+  string role_desc  = 3;
+}
+message GetRoleResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  message data {
+    RoleInfo role_info = 1;
+    repeated PrivilegeInfo privileges = 2;
+  }
+}
+
+
+message AddPrivilegeRequest {
+  string privilege_name  = 1;
+  string uri  = 2;
+  string sn  = 3;
+  string privilege_desc  = 4;
+}
+message AddPrivilegeResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  bool data = 3; 
+}
+
+message AddPrivilegesRequest {
+
+}
+message AddPrivilegesResponse {
+
+}
+
+message DeletePrivilegeRequest {
+  uint32 privilege_id  = 1;
+}
+message DeletePrivilegeResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  bool data = 3; 
+}
+
+message UpdatePrivilegeRequest {
+  uint32 privilege_id  = 1;   // 选择条件
+  string privilege_name  = 2; // 更新字段
+  string uri  = 3;            // 更新字段
+  string sn  = 4;             // 更新字段
+  string privilege_desc  = 5; // 更新字段
+}
+message UpdatePrivilegeResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  bool data = 3; 
+}
+
+message DeletePrivilegesRequest {
+  repeated uint32 privilege_ids  = 1;
+}
+message DeletePrivilegesResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  message data {
+    repeated uint32 privilege_ids = 1;  // 删除失败权限 id
+  }
+}
+
+message GetPrivilegeRequest {
+  uint32 privilege_id  = 1;
+}
+message GetPrivilegeResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  PrivilegeInfo data = 3; 
+}
+
+message RoleInfo {
+  uint32 id  = 1;
+  string role_name  = 2;
+  string role_desc  = 3;
+  uint32 is_delete  = 4;
+  string create_time  = 5;
+  string update_time  = 6;
+}
+
+message PrivilegeInfo {
+  uint32 id  = 1;
+  string privilege_name  = 2;
+  string uri  = 3;
+  string sn  = 4;
+  string privilege_desc  = 5;
+  uint32 is_delete  = 6;
+  string create_time  = 7;
+  string update_time  = 8;
+}
