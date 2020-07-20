@@ -16,7 +16,9 @@ message AddRequest {
   string username  = 1;
   string email  = 2;
   string password  = 3;
-  string role  = 4;
+  uint64 role_id  = 4;
+  uint64 status  = 5;
+  uint64 is_delete  = 6;
 }
 message AddResponse {
   int64 errno = 1;
@@ -38,9 +40,9 @@ message UpdateRequest {
   string username = 2;        // 更细字段
   string email = 3;           // 更细字段        
   string password = 4;        // 更细字段
-  string role = 5;            // 更细字段
-  string status = 6;          // 更细字段
-  string is_delete = 10;      // 更细字段
+  uint64 role_id = 5;            // 更细字段
+  uint64 status = 6;          // 更细字段
+  uint64 is_delete = 10;      // 更细字段
 }
 message UpdateResponse {
   int64 errno = 1;
@@ -52,25 +54,25 @@ message GetRequest {
   string user_id = 1;
   string username = 2;
   string email = 3;
-  string role = 4;
-  string status = 5;
-  string is_delete = 6;
+  uint64 role_id = 4;
+  uint64 status = 5;
+  uint64 is_delete = 6;
   string create_time = 7;
   string update_time = 8;
 }
 message GetResponse {
   int64 errno = 1;
   string errmsg = 2;
-  UserResponseInfo data = 3; 
+  repeated UserResponseInfo data = 3; 
 }
 
 message GetsRequest {
-  repeated string user_id = 1;
+  repeated string user_ids = 1;
   string username = 2;
   string email = 3;
-  string role = 4;
-  string status = 5;
-  string is_delete = 6;
+  uint64 role_id = 4;
+  uint64 status = 5;
+  uint64 is_delete = 6;
   string create_time = 7;
   string update_time = 8;
 }
@@ -93,13 +95,13 @@ message VerifyPasswordResponse {
 
 
 message UserResponseInfo {
-  string id = 1;
+  uint64 id = 1;
   string user_id = 2;
   string username = 3;
   string email = 4;
-  string role = 5;
-  string status = 6;
-  string is_delete = 7;
+  uint64 role_id = 5;
+  uint64 status = 6;
+  uint64 is_delete = 7;
   string create_time = 8;
   string update_time = 9;
 }
