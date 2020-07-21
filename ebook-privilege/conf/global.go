@@ -23,4 +23,9 @@ const (
 
 	/************ Static ****************/
 	EBook_DIR = "/Users/superbear/study/go/src/ebook"
+	
+	
+	
+	/************ ERROR_CODE ****************/
+	EBook_DIR  = 9000
 )

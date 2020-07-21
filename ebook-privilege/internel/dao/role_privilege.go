@@ -31,11 +31,11 @@ func (dao RolePrivilegeDao) delete(id uint64) (err error) {
 }
 
 
-func  (dao RolePrivilegeDao) FindByFields (fields map[string]interface{}) (*RolePrivilegeMap, error)  {
-	var rolePrivilege = new(RolePrivilegeMap)
-	err := DB.Where(fields).First(rolePrivilege).Error
+func  (dao RolePrivilegeDao) FindByFields (fields map[string]interface{}) ([] *RolePrivilegeMap, error)  {
+	var rolePrivileges []*RolePrivilegeMap
+	err := DB.Where(fields).First(&rolePrivileges).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
-	return rolePrivilege, nil
+	return rolePrivileges, nil
 }

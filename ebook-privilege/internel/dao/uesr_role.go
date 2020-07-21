@@ -39,3 +39,8 @@ func  (dao UserRoleDao) FindByFields (fields map[string]interface{}) ([] *UserRo
 	}
 	return userRoles, nil
 }
+
+func (dao UserRoleDao) UpdateFields(where map[string]interface{}, updateFileds map[string]interface{}) (err error) {
+	err = DB.Where(&where).Update(updateFileds).Error
+	return
+}

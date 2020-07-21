@@ -9,6 +9,7 @@ type Privilege struct {
 	Uri string	`json:"uri"`
 	Sn string	`json:"sn"`
 	PrivilegeDesc string	`json:"privilege_desc"`
+	IsDelete  uint32 `gorm:"default:0" json:"is_delete"`
 }
 
 type PrivilegeDao struct {
@@ -36,11 +37,16 @@ func (dao PrivilegeDao) delete(id uint64) (err error) {
 }
 
 
-func  (dao PrivilegeDao) FindByFields (fields map[string]interface{}) (*Privilege, error)  {
-	var account = new(Privilege)
-	err := DB.Where(fields).First(account).Error
+func  (dao PrivilegeDao) FindByFields (fields map[string]interface{}) ([] *Privilege, error)  {
+	var privileges []*Privilege
+	err := DB.Where(fields).First(&privileges).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
-	return account, nil
+	return privileges, nil
+}
+
+func (dao PrivilegeDao) UpdateFields(where map[string]interface{}, updateFields map[string]interface{}) (err error) {
+	err = DB.Where(&where).Update(updateFields).Error
+	return
 }

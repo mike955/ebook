@@ -7,7 +7,7 @@ type Role struct {
 	ID        uint32	`json:"id" gorm"index"`
 	RoleName string	`json:"role_name"`
 	RoleDesc string	`json:"role_desc"`
-	IsDelete  uint `gorm:"default:0" json:"is_delete"`
+	IsDelete  uint32 `gorm:"default:0" json:"is_delete"`
 }
 
 type RoleDao struct {
@@ -41,11 +41,16 @@ func (dao RoleDao) GetById(id uint32) ([]*Role, error) {
 }
 
 
-func  (dao RoleDao) FindByFields (fields map[string]interface{}) (*Role, error)  {
-	var role = new(Role)
-	err := DB.Where(fields).First(role).Error
+func  (dao RoleDao) FindByFields (fields map[string]interface{}) ([]*Role, error)  {
+	var roles []*Role
+	err := DB.Where(fields).First(&roles).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
-	return role, nil
+	return roles, nil
+}
+
+func (dao RoleDao) UpdateFields(where map[string]interface{}, updateFields map[string]interface{}) (err error) {
+	err = DB.Where(&where).Update(updateFields).Error
+	return
 }

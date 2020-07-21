@@ -61,13 +61,13 @@ message GetUserRequest {
   string user_id  = 1;
 }
 message GetUserResponse {
-  int64 errno = 1;
-  string errmsg = 2;
-  message data {
-    string user_id = 1;
+  message Data {
     RoleInfo role_info = 2;
     repeated PrivilegeInfo privileges = 3;
   }
+  int64 errno = 1;
+  string errmsg = 2;
+  Data data = 3;
 }
 
 
@@ -107,12 +107,13 @@ message GetRoleRequest {
   string role_desc  = 3;
 }
 message GetRoleResponse {
-  int64 errno = 1;
-  string errmsg = 2;
-  message data {
+  message Data {
     RoleInfo role_info = 1;
     repeated PrivilegeInfo privileges = 2;
   }
+  int64 errno = 1;
+  string errmsg = 2;
+  Data data = 3;
 }
 
 
@@ -161,11 +162,12 @@ message DeletePrivilegesRequest {
   repeated uint32 privilege_ids  = 1;
 }
 message DeletePrivilegesResponse {
-  int64 errno = 1;
-  string errmsg = 2;
-  message data {
+  message Data {
     repeated uint32 privilege_ids = 1;  // 删除失败权限 id
   }
+  int64 errno = 1;
+  string errmsg = 2;
+  Data data = 3;
 }
 
 message GetPrivilegeRequest {
@@ -187,7 +189,7 @@ message RoleInfo {
 }
 
 message PrivilegeInfo {
-  uint32 id  = 1;
+  uint64 id  = 1;
   string privilege_name  = 2;
   string uri  = 3;
   string sn  = 4;
