@@ -6,6 +6,7 @@ import (
 	"ebook/ebook-user/internel/dao"
 	"ebook/ebook-user/pkg/err_code"
 	"ebook/ebook-user/pkg/utils"
+	"fmt"
 	"log"
 )
 
@@ -19,21 +20,23 @@ var UserService = &userService{
 
 func (service *userService) Add(ctx context.Context, req *pb.AddRequest) (response *pb.AddResponse, err error){
 	response = new(pb.AddResponse)
-	condition := make(map[string]interface{})
 	// 判断用户是否存在
-	checkUsernameRes, err := service.userDao.FindByFields(map[string]interface{}{"username": condition["username"]})
+	checkUsernameRes, err := service.userDao.FindByFields(map[string]interface{}{"username": req.Username})
+	fmt.Println("------- checkUsernameRes: ", checkUsernameRes)
 	if err != nil {
 		log.Println("")
 		response.Errno, response.Errmsg = err_code.Code("ADD_USER_ERROR")
 		return
 	}
+	fmt.Println("------- len(checkUsernameRes): ", len(checkUsernameRes))
 	if len(checkUsernameRes) != 0 {
 		response.Errno, response.Errmsg = err_code.Code("USERNAME_IS_EXIST_ERROR")
 		return
 	}
 	
 	// 判断邮箱是否存在
-	checkEmailRes, err := service.userDao.FindByFields(map[string]interface{}{"email": condition["email"]})
+	checkEmailRes, err := service.userDao.FindByFields(map[string]interface{}{"email": req.Email})
+	fmt.Println("------- checkEmailRes: ", checkEmailRes)
 	if err != nil {
 		response.Errno, response.Errmsg = err_code.Code("ADD_USER_ERROR")
 		return
@@ -44,7 +47,9 @@ func (service *userService) Add(ctx context.Context, req *pb.AddRequest) (respon
 	}
 	
 	// add salt and hash(salt+password)
-	condition["userId"] = utils.GenerateRandom(16)
+	condition := make(map[string]interface{})
+	condition["userId"] = utils.GenerateRandomString(16)
+	fmt.Println("------- condition[userId]: ", condition["userId"])
 	condition["username"] = req.Username
 	condition["email"] = req.Email
 	condition["roleId"] = req.RoleId
@@ -56,7 +61,7 @@ func (service *userService) Add(ctx context.Context, req *pb.AddRequest) (respon
 		condition["is_delete"] = isDelete
 	}
 	
-	salt := utils.GenerateRandom(32)
+	salt := utils.GenerateRandomHex(32)
 	condition["salt"] = salt
 	condition["password"] = utils.GeneratePassword(req.Password, salt)
 	err = service.userDao.Add(condition)

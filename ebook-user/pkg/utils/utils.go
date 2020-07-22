@@ -21,7 +21,15 @@ func GeneratePassword(password string, salt string) string {
 	return string(data[:])
 }
 
-func GenerateRandom(n int) string {
+func GenerateRandomHex(n int) string {
+	bytes := make([]byte, n)
+	if _, err := rand.Read(bytes); err != nil {
+		return "6b0d767330ea1b312e65a4965db85ae1"		// n = 16
+	}
+	return string(bytes[:])
+}
+
+func GenerateRandomString(n int) string {
 	bytes := make([]byte, n)
 	if _, err := rand.Read(bytes); err != nil {
 		return "6b0d767330ea1b312e65a4965db85ae1"		// n = 16

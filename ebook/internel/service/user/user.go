@@ -5,6 +5,8 @@ import (
 	"ebook/ebook/api/privilege"
 	"ebook/ebook/api/user"
 	"ebook/ebook/internel/utils/response"
+	"math/rand"
+	"strconv"
 	
 	"ebook/ebook/internel/utils/rpc"
 	"fmt"
@@ -30,18 +32,24 @@ func SignUp(ctx *gin.Context)  {
 	roleInfo, err := rpc.PrivilegeRpc().GetRole(context.Background(), getRoleParams)
 	if roleInfo.Errno != 0 {
 		response.Error(ctx, roleInfo.Errmsg)
+		return
 	}
 	signUpParams := &user.AddRequest{
-		Username: requestBody.Username,
-		Email:    requestBody.Email,
+		Username: requestBody.Username + strconv.Itoa(rand.Int()),
+		Email:    requestBody.Email + strconv.Itoa(rand.Int()),
 		Password: requestBody.Password,
 		RoleId:   requestBody.RoleId,
 	}
 	signUpRes, err := rpc.UserRpc().Add(context.Background(), signUpParams)
 	if err != nil {
+		fmt.Println(err)
 		response.Error(ctx, signUpRes.Errmsg)
+		return
 	}
-	
+	if signUpRes.Errno != 0 {
+		response.Error(ctx, signUpRes.Errmsg)
+		return
+	}
 	// 生成 token and set into redis
 	response.OK(ctx, signUpRes.Data)
 	return
