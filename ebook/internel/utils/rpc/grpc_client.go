@@ -3,63 +3,48 @@ package rpc
 import (
 	"context"
 	privilege_pb "ebook/ebook/api/privilege"
+	user_pb "ebook/ebook/api/user"
 	"ebook/ebook/conf"
 	"google.golang.org/grpc"
 	"log"
-	"time"
 )
 
-var _map map[]string]interface{}
+var _gRPCClientMap = map[string]interface{}{}
 
-func createPrivilegeGRPCClient() privilege_pb.PrivilegeClient  {
-	conn, err := grpc.Dial(conf.GRPC_ADDR_MAP["key"], grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
-	client := privilege_pb.NewPrivilegeClient(conn)
-	return client
+type Rpc struct {
+	UserRpc *grpc.ClientConn
+	PrivilegeRpc *privilege_pb.PrivilegeClient
 }
 
-func createUserGRPCClient(key string) privilege_pb.PrivilegeClient  {
-	conn, err := grpc.Dial(conf.GRPC_ADDR_MAP["key"], grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
-	//if (key == "privilege") {
-	client := privilege_pb.NewPrivilegeClient(conn)
-	//}
-	return client
+type userRpc struct {
+
 }
 
-func createGRPCClient(key string) privilege_pb.PrivilegeClient  {
-	conn, err := grpc.Dial(conf.GRPC_ADDR_MAP["key"], grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
-	//if (key == "privilege") {
-	client := privilege_pb.NewPrivilegeClient(conn)
-	//}
-	return client
+type privilegeRpc struct {
+
 }
 
-func Rpc(key string, fname string, params interface{})  {
-	if(_map[key] == nil) {
-		client := createGRPCClient(key)
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-		defer cancel()
-		r, err := client.AddUser()
+func UserRpc() user_pb.UserClient  {
+	if _gRPCClientMap["user"] == nil{
+		var ctx = context.Background()
+		conn, err := grpc.DialContext(ctx, conf.GRPC_ADDR_MAP["user"], grpc.WithInsecure()); if err != nil {
+			log.Fatalf("user grpc client did not connect: %v", err)
+		}
+		client := user_pb.NewUserClient(conn)
+		_gRPCClientMap["user"] = client
 	}
+	return _gRPCClientMap["user"].(user_pb.UserClient)
 }
 
 func PrivilegeRpc() privilege_pb.PrivilegeClient {
-	var client privilege_pb.PrivilegeClient
-	if _map["privilege"] == nil {
-		client = createPrivilegeGRPCClient()
-		_map["privilege"] = client
+	if _gRPCClientMap["privilege"] == nil{
+		var ctx = context.Background()
+		conn, err := grpc.DialContext(ctx, conf.GRPC_ADDR_MAP["privilege"], grpc.WithInsecure());	if err != nil {
+			log.Fatalf("privilege grpc client did not connect: %v", err)
+		}
+		client := privilege_pb.NewPrivilegeClient(conn)
+		_gRPCClientMap["privilege"] = client
 	}
-	return client
+	return _gRPCClientMap["privilege"].(privilege_pb.PrivilegeClient)
 }
 
-func UserRpc(){
-
-}

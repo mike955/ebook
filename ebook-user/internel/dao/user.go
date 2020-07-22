@@ -1,6 +1,8 @@
 package dao
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+)
 
 type User struct {
 	CommonModel
@@ -25,7 +27,7 @@ func (dao UserDao) Add(data map[string]interface{}) (err error) {
 		Email:    data["email"].(string),
 		Password: data["password"].(string),
 		Salt:            data["salt"].(string),
-		RoleId:     data["role"].(uint64),
+		RoleId:     data["roleId"].(uint64),
 		Status:          data["status"].(uint64),
 	}
 	if err := DB.Create(&account).Error; err !=nil {

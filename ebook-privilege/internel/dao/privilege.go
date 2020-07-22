@@ -4,12 +4,12 @@ import "github.com/jinzhu/gorm"
 
 type Privilege struct {
 	CommonModel
-	ID        uint64	`json:"id" gorm"index"`
+	ID        uint64	`gorm:"primary_key" json:"id"`
 	PrivilegeName string	`json:"privilege_name"`
 	Uri string	`json:"uri"`
 	Sn string	`json:"sn"`
 	PrivilegeDesc string	`json:"privilege_desc"`
-	IsDelete  uint32 `gorm:"default:0" json:"is_delete"`
+	IsDelete  uint64 `gorm:"default:0" json:"is_delete"`
 }
 
 type PrivilegeDao struct {
@@ -39,7 +39,7 @@ func (dao PrivilegeDao) delete(id uint64) (err error) {
 
 func  (dao PrivilegeDao) FindByFields (fields map[string]interface{}) ([] *Privilege, error)  {
 	var privileges []*Privilege
-	err := DB.Where(fields).First(&privileges).Error
+	err := DB.Where(fields).Find(&privileges).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}

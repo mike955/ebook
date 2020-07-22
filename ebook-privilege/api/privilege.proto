@@ -29,7 +29,7 @@ service Privilege {
 
 message AddUserRequest {
   string user_id  = 1;
-  uint32 role_id  = 2;
+  uint64 role_id  = 2;
 }
 message AddUserResponse {
   int64 errno = 1;
@@ -39,7 +39,7 @@ message AddUserResponse {
 
 message DeleteUserRequest {
   string user_id  = 1;
-  uint32 role_id  = 2; 
+  uint64 role_id  = 2; 
 }
 message DeleteUserResponse {
   int64 errno = 1;
@@ -49,7 +49,7 @@ message DeleteUserResponse {
 
 message UpdateUserRequest {
   string user_id  = 1;    // 选择条件
-  uint32 role_id  = 2;    // 更新字段
+  uint64 role_id  = 2;    // 更新字段
 }
 message UpdateUserResponse {
   int64 errno = 1;
@@ -82,7 +82,7 @@ message AddRoleResponse {
 }
 
 message DeleteRoleRequest {
-  uint32 role_id  = 1;
+  uint64 role_id  = 1;
 }
 message DeleteRoleResponse {
   int64 errno = 1;
@@ -91,7 +91,7 @@ message DeleteRoleResponse {
 }
 
 message UpdateRoleRequest {
-  uint32 id  = 1;           // 选择条件
+  uint64 id  = 1;           // 选择条件
   string role_name  = 2;    // 更新字段
   string role_desc  = 3;    // 更新字段
 }
@@ -102,7 +102,7 @@ message UpdateRoleResponse {
 }
 
 message GetRoleRequest {
-  uint32 id  = 1;
+  uint64 id  = 1;
   string role_name  = 2;
   string role_desc  = 3;
 }
@@ -137,7 +137,7 @@ message AddPrivilegesResponse {
 }
 
 message DeletePrivilegeRequest {
-  uint32 privilege_id  = 1;
+  uint64 privilege_id  = 1;
 }
 message DeletePrivilegeResponse {
   int64 errno = 1;
@@ -146,7 +146,7 @@ message DeletePrivilegeResponse {
 }
 
 message UpdatePrivilegeRequest {
-  uint32 privilege_id  = 1;   // 选择条件
+  uint64 privilege_id  = 1;   // 选择条件
   string privilege_name  = 2; // 更新字段
   string uri  = 3;            // 更新字段
   string sn  = 4;             // 更新字段
@@ -159,11 +159,11 @@ message UpdatePrivilegeResponse {
 }
 
 message DeletePrivilegesRequest {
-  repeated uint32 privilege_ids  = 1;
+  repeated uint64 privilege_ids  = 1;
 }
 message DeletePrivilegesResponse {
   message Data {
-    repeated uint32 privilege_ids = 1;  // 删除失败权限 id
+    repeated uint64 privilege_ids = 1;  // 删除失败权限 id
   }
   int64 errno = 1;
   string errmsg = 2;
@@ -171,7 +171,7 @@ message DeletePrivilegesResponse {
 }
 
 message GetPrivilegeRequest {
-  uint32 privilege_id  = 1;
+  uint64 privilege_id  = 1;
 }
 message GetPrivilegeResponse {
   int64 errno = 1;
@@ -180,10 +180,10 @@ message GetPrivilegeResponse {
 }
 
 message RoleInfo {
-  uint32 id  = 1;
+  uint64 id  = 1;
   string role_name  = 2;
   string role_desc  = 3;
-  uint32 is_delete  = 4;
+  uint64 is_delete  = 4;
   string create_time  = 5;
   string update_time  = 6;
 }
@@ -194,7 +194,7 @@ message PrivilegeInfo {
   string uri  = 3;
   string sn  = 4;
   string privilege_desc  = 5;
-  uint32 is_delete  = 6;
+  uint64 is_delete  = 6;
   string create_time  = 7;
   string update_time  = 8;
 }

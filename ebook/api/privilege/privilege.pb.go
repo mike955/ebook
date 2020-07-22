@@ -28,7 +28,7 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type AddUserRequest struct {
 	UserId               string   `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	RoleId               uint32   `protobuf:"varint,2,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
+	RoleId               uint64   `protobuf:"varint,2,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -74,7 +74,7 @@ func (m *AddUserRequest) GetUserId() string {
 	return ""
 }
 
-func (m *AddUserRequest) GetRoleId() uint32 {
+func (m *AddUserRequest) GetRoleId() uint64 {
 	if m != nil {
 		return m.RoleId
 	}
@@ -146,7 +146,7 @@ func (m *AddUserResponse) GetData() bool {
 
 type DeleteUserRequest struct {
 	UserId               string   `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	RoleId               uint32   `protobuf:"varint,2,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
+	RoleId               uint64   `protobuf:"varint,2,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -192,7 +192,7 @@ func (m *DeleteUserRequest) GetUserId() string {
 	return ""
 }
 
-func (m *DeleteUserRequest) GetRoleId() uint32 {
+func (m *DeleteUserRequest) GetRoleId() uint64 {
 	if m != nil {
 		return m.RoleId
 	}
@@ -264,7 +264,7 @@ func (m *DeleteUserResponse) GetData() bool {
 
 type UpdateUserRequest struct {
 	UserId               string   `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	RoleId               uint32   `protobuf:"varint,2,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
+	RoleId               uint64   `protobuf:"varint,2,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -310,7 +310,7 @@ func (m *UpdateUserRequest) GetUserId() string {
 	return ""
 }
 
-func (m *UpdateUserRequest) GetRoleId() uint32 {
+func (m *UpdateUserRequest) GetRoleId() uint64 {
 	if m != nil {
 		return m.RoleId
 	}
@@ -428,11 +428,12 @@ func (m *GetUserRequest) GetUserId() string {
 }
 
 type GetUserResponse struct {
-	Errno                int64    `protobuf:"varint,1,opt,name=errno,proto3" json:"errno,omitempty"`
-	Errmsg               string   `protobuf:"bytes,2,opt,name=errmsg,proto3" json:"errmsg,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Errno                int64                 `protobuf:"varint,1,opt,name=errno,proto3" json:"errno,omitempty"`
+	Errmsg               string                `protobuf:"bytes,2,opt,name=errmsg,proto3" json:"errmsg,omitempty"`
+	Data                 *GetUserResponse_Data `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
 }
 
 func (m *GetUserResponse) Reset()         { *m = GetUserResponse{} }
@@ -482,8 +483,14 @@ func (m *GetUserResponse) GetErrmsg() string {
 	return ""
 }
 
-type GetUserResponseData struct {
-	UserId               string           `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+func (m *GetUserResponse) GetData() *GetUserResponse_Data {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+type GetUserResponse_Data struct {
 	RoleInfo             *RoleInfo        `protobuf:"bytes,2,opt,name=role_info,json=roleInfo,proto3" json:"role_info,omitempty"`
 	Privileges           []*PrivilegeInfo `protobuf:"bytes,3,rep,name=privileges,proto3" json:"privileges,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
@@ -491,18 +498,18 @@ type GetUserResponseData struct {
 	XXX_sizecache        int32            `json:"-"`
 }
 
-func (m *GetUserResponseData) Reset()         { *m = GetUserResponseData{} }
-func (m *GetUserResponseData) String() string { return proto.CompactTextString(m) }
-func (*GetUserResponseData) ProtoMessage()    {}
-func (*GetUserResponseData) Descriptor() ([]byte, []int) {
+func (m *GetUserResponse_Data) Reset()         { *m = GetUserResponse_Data{} }
+func (m *GetUserResponse_Data) String() string { return proto.CompactTextString(m) }
+func (*GetUserResponse_Data) ProtoMessage()    {}
+func (*GetUserResponse_Data) Descriptor() ([]byte, []int) {
 	return fileDescriptor_9e900001d546c195, []int{7, 0}
 }
-func (m *GetUserResponseData) XXX_Unmarshal(b []byte) error {
+func (m *GetUserResponse_Data) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetUserResponseData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetUserResponse_Data) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetUserResponseData.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetUserResponse_Data.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -512,33 +519,26 @@ func (m *GetUserResponseData) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-func (m *GetUserResponseData) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetUserResponseData.Merge(m, src)
+func (m *GetUserResponse_Data) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetUserResponse_Data.Merge(m, src)
 }
-func (m *GetUserResponseData) XXX_Size() int {
+func (m *GetUserResponse_Data) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetUserResponseData) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetUserResponseData.DiscardUnknown(m)
+func (m *GetUserResponse_Data) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetUserResponse_Data.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetUserResponseData proto.InternalMessageInfo
+var xxx_messageInfo_GetUserResponse_Data proto.InternalMessageInfo
 
-func (m *GetUserResponseData) GetUserId() string {
-	if m != nil {
-		return m.UserId
-	}
-	return ""
-}
-
-func (m *GetUserResponseData) GetRoleInfo() *RoleInfo {
+func (m *GetUserResponse_Data) GetRoleInfo() *RoleInfo {
 	if m != nil {
 		return m.RoleInfo
 	}
 	return nil
 }
 
-func (m *GetUserResponseData) GetPrivileges() []*PrivilegeInfo {
+func (m *GetUserResponse_Data) GetPrivileges() []*PrivilegeInfo {
 	if m != nil {
 		return m.Privileges
 	}
@@ -664,7 +664,7 @@ func (m *AddRoleResponse) GetData() bool {
 }
 
 type DeleteRoleRequest struct {
-	RoleId               uint32   `protobuf:"varint,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
+	RoleId               uint64   `protobuf:"varint,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -703,7 +703,7 @@ func (m *DeleteRoleRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_DeleteRoleRequest proto.InternalMessageInfo
 
-func (m *DeleteRoleRequest) GetRoleId() uint32 {
+func (m *DeleteRoleRequest) GetRoleId() uint64 {
 	if m != nil {
 		return m.RoleId
 	}
@@ -774,7 +774,7 @@ func (m *DeleteRoleResponse) GetData() bool {
 }
 
 type UpdateRoleRequest struct {
-	Id                   uint32   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id                   uint64   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	RoleName             string   `protobuf:"bytes,2,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"`
 	RoleDesc             string   `protobuf:"bytes,3,opt,name=role_desc,json=roleDesc,proto3" json:"role_desc,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -815,7 +815,7 @@ func (m *UpdateRoleRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_UpdateRoleRequest proto.InternalMessageInfo
 
-func (m *UpdateRoleRequest) GetId() uint32 {
+func (m *UpdateRoleRequest) GetId() uint64 {
 	if m != nil {
 		return m.Id
 	}
@@ -900,7 +900,7 @@ func (m *UpdateRoleResponse) GetData() bool {
 }
 
 type GetRoleRequest struct {
-	Id                   uint32   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id                   uint64   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	RoleName             string   `protobuf:"bytes,2,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"`
 	RoleDesc             string   `protobuf:"bytes,3,opt,name=role_desc,json=roleDesc,proto3" json:"role_desc,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -941,7 +941,7 @@ func (m *GetRoleRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetRoleRequest proto.InternalMessageInfo
 
-func (m *GetRoleRequest) GetId() uint32 {
+func (m *GetRoleRequest) GetId() uint64 {
 	if m != nil {
 		return m.Id
 	}
@@ -963,11 +963,12 @@ func (m *GetRoleRequest) GetRoleDesc() string {
 }
 
 type GetRoleResponse struct {
-	Errno                int64    `protobuf:"varint,1,opt,name=errno,proto3" json:"errno,omitempty"`
-	Errmsg               string   `protobuf:"bytes,2,opt,name=errmsg,proto3" json:"errmsg,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Errno                int64                 `protobuf:"varint,1,opt,name=errno,proto3" json:"errno,omitempty"`
+	Errmsg               string                `protobuf:"bytes,2,opt,name=errmsg,proto3" json:"errmsg,omitempty"`
+	Data                 *GetRoleResponse_Data `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
 }
 
 func (m *GetRoleResponse) Reset()         { *m = GetRoleResponse{} }
@@ -1017,7 +1018,14 @@ func (m *GetRoleResponse) GetErrmsg() string {
 	return ""
 }
 
-type GetRoleResponseData struct {
+func (m *GetRoleResponse) GetData() *GetRoleResponse_Data {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+type GetRoleResponse_Data struct {
 	RoleInfo             *RoleInfo        `protobuf:"bytes,1,opt,name=role_info,json=roleInfo,proto3" json:"role_info,omitempty"`
 	Privileges           []*PrivilegeInfo `protobuf:"bytes,2,rep,name=privileges,proto3" json:"privileges,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
@@ -1025,18 +1033,18 @@ type GetRoleResponseData struct {
 	XXX_sizecache        int32            `json:"-"`
 }
 
-func (m *GetRoleResponseData) Reset()         { *m = GetRoleResponseData{} }
-func (m *GetRoleResponseData) String() string { return proto.CompactTextString(m) }
-func (*GetRoleResponseData) ProtoMessage()    {}
-func (*GetRoleResponseData) Descriptor() ([]byte, []int) {
+func (m *GetRoleResponse_Data) Reset()         { *m = GetRoleResponse_Data{} }
+func (m *GetRoleResponse_Data) String() string { return proto.CompactTextString(m) }
+func (*GetRoleResponse_Data) ProtoMessage()    {}
+func (*GetRoleResponse_Data) Descriptor() ([]byte, []int) {
 	return fileDescriptor_9e900001d546c195, []int{15, 0}
 }
-func (m *GetRoleResponseData) XXX_Unmarshal(b []byte) error {
+func (m *GetRoleResponse_Data) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetRoleResponseData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetRoleResponse_Data) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetRoleResponseData.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetRoleResponse_Data.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -1046,26 +1054,26 @@ func (m *GetRoleResponseData) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-func (m *GetRoleResponseData) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetRoleResponseData.Merge(m, src)
+func (m *GetRoleResponse_Data) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetRoleResponse_Data.Merge(m, src)
 }
-func (m *GetRoleResponseData) XXX_Size() int {
+func (m *GetRoleResponse_Data) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetRoleResponseData) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetRoleResponseData.DiscardUnknown(m)
+func (m *GetRoleResponse_Data) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetRoleResponse_Data.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetRoleResponseData proto.InternalMessageInfo
+var xxx_messageInfo_GetRoleResponse_Data proto.InternalMessageInfo
 
-func (m *GetRoleResponseData) GetRoleInfo() *RoleInfo {
+func (m *GetRoleResponse_Data) GetRoleInfo() *RoleInfo {
 	if m != nil {
 		return m.RoleInfo
 	}
 	return nil
 }
 
-func (m *GetRoleResponseData) GetPrivileges() []*PrivilegeInfo {
+func (m *GetRoleResponse_Data) GetPrivileges() []*PrivilegeInfo {
 	if m != nil {
 		return m.Privileges
 	}
@@ -1285,7 +1293,7 @@ func (m *AddPrivilegesResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_AddPrivilegesResponse proto.InternalMessageInfo
 
 type DeletePrivilegeRequest struct {
-	PrivilegeId          uint32   `protobuf:"varint,1,opt,name=privilege_id,json=privilegeId,proto3" json:"privilege_id,omitempty"`
+	PrivilegeId          uint64   `protobuf:"varint,1,opt,name=privilege_id,json=privilegeId,proto3" json:"privilege_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -1324,7 +1332,7 @@ func (m *DeletePrivilegeRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_DeletePrivilegeRequest proto.InternalMessageInfo
 
-func (m *DeletePrivilegeRequest) GetPrivilegeId() uint32 {
+func (m *DeletePrivilegeRequest) GetPrivilegeId() uint64 {
 	if m != nil {
 		return m.PrivilegeId
 	}
@@ -1395,7 +1403,7 @@ func (m *DeletePrivilegeResponse) GetData() bool {
 }
 
 type UpdatePrivilegeRequest struct {
-	PrivilegeId          uint32   `protobuf:"varint,1,opt,name=privilege_id,json=privilegeId,proto3" json:"privilege_id,omitempty"`
+	PrivilegeId          uint64   `protobuf:"varint,1,opt,name=privilege_id,json=privilegeId,proto3" json:"privilege_id,omitempty"`
 	PrivilegeName        string   `protobuf:"bytes,2,opt,name=privilege_name,json=privilegeName,proto3" json:"privilege_name,omitempty"`
 	Uri                  string   `protobuf:"bytes,3,opt,name=uri,proto3" json:"uri,omitempty"`
 	Sn                   string   `protobuf:"bytes,4,opt,name=sn,proto3" json:"sn,omitempty"`
@@ -1438,7 +1446,7 @@ func (m *UpdatePrivilegeRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_UpdatePrivilegeRequest proto.InternalMessageInfo
 
-func (m *UpdatePrivilegeRequest) GetPrivilegeId() uint32 {
+func (m *UpdatePrivilegeRequest) GetPrivilegeId() uint64 {
 	if m != nil {
 		return m.PrivilegeId
 	}
@@ -1537,7 +1545,7 @@ func (m *UpdatePrivilegeResponse) GetData() bool {
 }
 
 type DeletePrivilegesRequest struct {
-	PrivilegeIds         []uint32 `protobuf:"varint,1,rep,packed,name=privilege_ids,json=privilegeIds,proto3" json:"privilege_ids,omitempty"`
+	PrivilegeIds         []uint64 `protobuf:"varint,1,rep,packed,name=privilege_ids,json=privilegeIds,proto3" json:"privilege_ids,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -1576,7 +1584,7 @@ func (m *DeletePrivilegesRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_DeletePrivilegesRequest proto.InternalMessageInfo
 
-func (m *DeletePrivilegesRequest) GetPrivilegeIds() []uint32 {
+func (m *DeletePrivilegesRequest) GetPrivilegeIds() []uint64 {
 	if m != nil {
 		return m.PrivilegeIds
 	}
@@ -1584,11 +1592,12 @@ func (m *DeletePrivilegesRequest) GetPrivilegeIds() []uint32 {
 }
 
 type DeletePrivilegesResponse struct {
-	Errno                int64    `protobuf:"varint,1,opt,name=errno,proto3" json:"errno,omitempty"`
-	Errmsg               string   `protobuf:"bytes,2,opt,name=errmsg,proto3" json:"errmsg,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Errno                int64                          `protobuf:"varint,1,opt,name=errno,proto3" json:"errno,omitempty"`
+	Errmsg               string                         `protobuf:"bytes,2,opt,name=errmsg,proto3" json:"errmsg,omitempty"`
+	Data                 *DeletePrivilegesResponse_Data `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                       `json:"-"`
+	XXX_unrecognized     []byte                         `json:"-"`
+	XXX_sizecache        int32                          `json:"-"`
 }
 
 func (m *DeletePrivilegesResponse) Reset()         { *m = DeletePrivilegesResponse{} }
@@ -1638,25 +1647,32 @@ func (m *DeletePrivilegesResponse) GetErrmsg() string {
 	return ""
 }
 
-type DeletePrivilegesResponseData struct {
-	PrivilegeIds         []uint32 `protobuf:"varint,1,rep,packed,name=privilege_ids,json=privilegeIds,proto3" json:"privilege_ids,omitempty"`
+func (m *DeletePrivilegesResponse) GetData() *DeletePrivilegesResponse_Data {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+type DeletePrivilegesResponse_Data struct {
+	PrivilegeIds         []uint64 `protobuf:"varint,1,rep,packed,name=privilege_ids,json=privilegeIds,proto3" json:"privilege_ids,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *DeletePrivilegesResponseData) Reset()         { *m = DeletePrivilegesResponseData{} }
-func (m *DeletePrivilegesResponseData) String() string { return proto.CompactTextString(m) }
-func (*DeletePrivilegesResponseData) ProtoMessage()    {}
-func (*DeletePrivilegesResponseData) Descriptor() ([]byte, []int) {
+func (m *DeletePrivilegesResponse_Data) Reset()         { *m = DeletePrivilegesResponse_Data{} }
+func (m *DeletePrivilegesResponse_Data) String() string { return proto.CompactTextString(m) }
+func (*DeletePrivilegesResponse_Data) ProtoMessage()    {}
+func (*DeletePrivilegesResponse_Data) Descriptor() ([]byte, []int) {
 	return fileDescriptor_9e900001d546c195, []int{25, 0}
 }
-func (m *DeletePrivilegesResponseData) XXX_Unmarshal(b []byte) error {
+func (m *DeletePrivilegesResponse_Data) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *DeletePrivilegesResponseData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *DeletePrivilegesResponse_Data) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_DeletePrivilegesResponseData.Marshal(b, m, deterministic)
+		return xxx_messageInfo_DeletePrivilegesResponse_Data.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -1666,19 +1682,19 @@ func (m *DeletePrivilegesResponseData) XXX_Marshal(b []byte, deterministic bool)
 		return b[:n], nil
 	}
 }
-func (m *DeletePrivilegesResponseData) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeletePrivilegesResponseData.Merge(m, src)
+func (m *DeletePrivilegesResponse_Data) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeletePrivilegesResponse_Data.Merge(m, src)
 }
-func (m *DeletePrivilegesResponseData) XXX_Size() int {
+func (m *DeletePrivilegesResponse_Data) XXX_Size() int {
 	return m.Size()
 }
-func (m *DeletePrivilegesResponseData) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeletePrivilegesResponseData.DiscardUnknown(m)
+func (m *DeletePrivilegesResponse_Data) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeletePrivilegesResponse_Data.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DeletePrivilegesResponseData proto.InternalMessageInfo
+var xxx_messageInfo_DeletePrivilegesResponse_Data proto.InternalMessageInfo
 
-func (m *DeletePrivilegesResponseData) GetPrivilegeIds() []uint32 {
+func (m *DeletePrivilegesResponse_Data) GetPrivilegeIds() []uint64 {
 	if m != nil {
 		return m.PrivilegeIds
 	}
@@ -1686,7 +1702,7 @@ func (m *DeletePrivilegesResponseData) GetPrivilegeIds() []uint32 {
 }
 
 type GetPrivilegeRequest struct {
-	PrivilegeId          uint32   `protobuf:"varint,1,opt,name=privilege_id,json=privilegeId,proto3" json:"privilege_id,omitempty"`
+	PrivilegeId          uint64   `protobuf:"varint,1,opt,name=privilege_id,json=privilegeId,proto3" json:"privilege_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -1725,7 +1741,7 @@ func (m *GetPrivilegeRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetPrivilegeRequest proto.InternalMessageInfo
 
-func (m *GetPrivilegeRequest) GetPrivilegeId() uint32 {
+func (m *GetPrivilegeRequest) GetPrivilegeId() uint64 {
 	if m != nil {
 		return m.PrivilegeId
 	}
@@ -1796,10 +1812,10 @@ func (m *GetPrivilegeResponse) GetData() *PrivilegeInfo {
 }
 
 type RoleInfo struct {
-	Id                   uint32   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id                   uint64   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	RoleName             string   `protobuf:"bytes,2,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"`
 	RoleDesc             string   `protobuf:"bytes,3,opt,name=role_desc,json=roleDesc,proto3" json:"role_desc,omitempty"`
-	IsDelete             uint32   `protobuf:"varint,4,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`
+	IsDelete             uint64   `protobuf:"varint,4,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`
 	CreateTime           string   `protobuf:"bytes,5,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	UpdateTime           string   `protobuf:"bytes,6,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -1840,7 +1856,7 @@ func (m *RoleInfo) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RoleInfo proto.InternalMessageInfo
 
-func (m *RoleInfo) GetId() uint32 {
+func (m *RoleInfo) GetId() uint64 {
 	if m != nil {
 		return m.Id
 	}
@@ -1861,7 +1877,7 @@ func (m *RoleInfo) GetRoleDesc() string {
 	return ""
 }
 
-func (m *RoleInfo) GetIsDelete() uint32 {
+func (m *RoleInfo) GetIsDelete() uint64 {
 	if m != nil {
 		return m.IsDelete
 	}
@@ -1883,12 +1899,12 @@ func (m *RoleInfo) GetUpdateTime() string {
 }
 
 type PrivilegeInfo struct {
-	Id                   uint32   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id                   uint64   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	PrivilegeName        string   `protobuf:"bytes,2,opt,name=privilege_name,json=privilegeName,proto3" json:"privilege_name,omitempty"`
 	Uri                  string   `protobuf:"bytes,3,opt,name=uri,proto3" json:"uri,omitempty"`
 	Sn                   string   `protobuf:"bytes,4,opt,name=sn,proto3" json:"sn,omitempty"`
 	PrivilegeDesc        string   `protobuf:"bytes,5,opt,name=privilege_desc,json=privilegeDesc,proto3" json:"privilege_desc,omitempty"`
-	IsDelete             uint32   `protobuf:"varint,6,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`
+	IsDelete             uint64   `protobuf:"varint,6,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`
 	CreateTime           string   `protobuf:"bytes,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	UpdateTime           string   `protobuf:"bytes,8,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -1929,7 +1945,7 @@ func (m *PrivilegeInfo) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_PrivilegeInfo proto.InternalMessageInfo
 
-func (m *PrivilegeInfo) GetId() uint32 {
+func (m *PrivilegeInfo) GetId() uint64 {
 	if m != nil {
 		return m.Id
 	}
@@ -1964,7 +1980,7 @@ func (m *PrivilegeInfo) GetPrivilegeDesc() string {
 	return ""
 }
 
-func (m *PrivilegeInfo) GetIsDelete() uint32 {
+func (m *PrivilegeInfo) GetIsDelete() uint64 {
 	if m != nil {
 		return m.IsDelete
 	}
@@ -1994,7 +2010,7 @@ func init() {
 	proto.RegisterType((*UpdateUserResponse)(nil), "pririvlege.api.UpdateUserResponse")
 	proto.RegisterType((*GetUserRequest)(nil), "pririvlege.api.GetUserRequest")
 	proto.RegisterType((*GetUserResponse)(nil), "pririvlege.api.GetUserResponse")
-	proto.RegisterType((*GetUserResponseData)(nil), "pririvlege.api.GetUserResponse.data")
+	proto.RegisterType((*GetUserResponse_Data)(nil), "pririvlege.api.GetUserResponse.Data")
 	proto.RegisterType((*AddRoleRequest)(nil), "pririvlege.api.AddRoleRequest")
 	proto.RegisterType((*AddRoleResponse)(nil), "pririvlege.api.AddRoleResponse")
 	proto.RegisterType((*DeleteRoleRequest)(nil), "pririvlege.api.DeleteRoleRequest")
@@ -2003,7 +2019,7 @@ func init() {
 	proto.RegisterType((*UpdateRoleResponse)(nil), "pririvlege.api.UpdateRoleResponse")
 	proto.RegisterType((*GetRoleRequest)(nil), "pririvlege.api.GetRoleRequest")
 	proto.RegisterType((*GetRoleResponse)(nil), "pririvlege.api.GetRoleResponse")
-	proto.RegisterType((*GetRoleResponseData)(nil), "pririvlege.api.GetRoleResponse.data")
+	proto.RegisterType((*GetRoleResponse_Data)(nil), "pririvlege.api.GetRoleResponse.Data")
 	proto.RegisterType((*AddPrivilegeRequest)(nil), "pririvlege.api.AddPrivilegeRequest")
 	proto.RegisterType((*AddPrivilegeResponse)(nil), "pririvlege.api.AddPrivilegeResponse")
 	proto.RegisterType((*AddPrivilegesRequest)(nil), "pririvlege.api.AddPrivilegesRequest")
@@ -2014,7 +2030,7 @@ func init() {
 	proto.RegisterType((*UpdatePrivilegeResponse)(nil), "pririvlege.api.UpdatePrivilegeResponse")
 	proto.RegisterType((*DeletePrivilegesRequest)(nil), "pririvlege.api.DeletePrivilegesRequest")
 	proto.RegisterType((*DeletePrivilegesResponse)(nil), "pririvlege.api.DeletePrivilegesResponse")
-	proto.RegisterType((*DeletePrivilegesResponseData)(nil), "pririvlege.api.DeletePrivilegesResponse.data")
+	proto.RegisterType((*DeletePrivilegesResponse_Data)(nil), "pririvlege.api.DeletePrivilegesResponse.Data")
 	proto.RegisterType((*GetPrivilegeRequest)(nil), "pririvlege.api.GetPrivilegeRequest")
 	proto.RegisterType((*GetPrivilegeResponse)(nil), "pririvlege.api.GetPrivilegeResponse")
 	proto.RegisterType((*RoleInfo)(nil), "pririvlege.api.RoleInfo")
@@ -2024,65 +2040,67 @@ func init() {
 func init() { proto.RegisterFile("privilege.proto", fileDescriptor_9e900001d546c195) }
 
 var fileDescriptor_9e900001d546c195 = []byte{
-	// 915 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x58, 0x4d, 0x6f, 0xd3, 0x4a,
-	0x14, 0xcd, 0xc4, 0x6d, 0x9a, 0xdc, 0x34, 0x49, 0xdf, 0xb4, 0x2f, 0x89, 0x52, 0xbd, 0x34, 0x75,
-	0x5f, 0xdf, 0x0b, 0x02, 0x55, 0xa2, 0x08, 0x09, 0x09, 0x81, 0xd4, 0xaa, 0xa8, 0x2a, 0x42, 0x08,
-	0x19, 0x8a, 0x50, 0x2b, 0xa8, 0x42, 0x3d, 0xad, 0x2c, 0x35, 0x1f, 0x78, 0x9c, 0xb2, 0x61, 0xcb,
-	0x4f, 0x40, 0xe2, 0x3f, 0xb0, 0x64, 0xcd, 0x9e, 0x25, 0x3b, 0xb6, 0xa8, 0xec, 0xfb, 0x1b, 0x90,
-	0x67, 0xc6, 0xd3, 0xb1, 0xc7, 0x71, 0x4a, 0x30, 0xec, 0x62, 0xcf, 0x9d, 0xe3, 0x73, 0xce, 0xbd,
-	0x33, 0xf7, 0x2a, 0x50, 0x19, 0xb8, 0xce, 0xa9, 0x73, 0x42, 0x8e, 0xc9, 0xda, 0xc0, 0xed, 0x7b,
-	0x7d, 0x5c, 0x1e, 0xb8, 0x8e, 0xeb, 0x9c, 0xb2, 0x37, 0x9d, 0x81, 0x63, 0x6e, 0x42, 0x79, 0xc3,
-	0xb6, 0x77, 0x29, 0x71, 0x2d, 0xf2, 0x6a, 0x48, 0xa8, 0x87, 0x6b, 0x30, 0x33, 0xa4, 0xc4, 0x3d,
-	0x70, 0xec, 0x3a, 0x6a, 0xa1, 0x76, 0xc1, 0xca, 0xf9, 0x8f, 0x3b, 0xb6, 0xbf, 0xe0, 0xf6, 0x4f,
-	0x88, 0xbf, 0x90, 0x6d, 0xa1, 0x76, 0xc9, 0xca, 0xf9, 0x8f, 0x3b, 0xb6, 0xf9, 0x18, 0x2a, 0x12,
-	0x83, 0x0e, 0xfa, 0x3d, 0x4a, 0xf0, 0x02, 0x4c, 0x13, 0xd7, 0xed, 0xf5, 0x19, 0x84, 0x61, 0xf1,
-	0x07, 0x5c, 0x85, 0x1c, 0x71, 0xdd, 0x2e, 0x3d, 0x66, 0x00, 0x05, 0x4b, 0x3c, 0x61, 0x0c, 0x53,
-	0x76, 0xc7, 0xeb, 0xd4, 0x8d, 0x16, 0x6a, 0xe7, 0x2d, 0xf6, 0xdb, 0xbc, 0x07, 0x7f, 0x6d, 0x91,
-	0x13, 0xe2, 0x91, 0x5f, 0xe3, 0xf6, 0x14, 0xb0, 0x0a, 0x93, 0x26, 0xbd, 0xdd, 0x81, 0xdd, 0x49,
-	0x81, 0x9e, 0x0a, 0x93, 0x1a, 0xbd, 0x2b, 0x50, 0xde, 0x26, 0xde, 0x65, 0xb8, 0x99, 0x5f, 0x11,
-	0x54, 0x64, 0xec, 0x24, 0x04, 0x1a, 0xef, 0x10, 0x67, 0x30, 0x5a, 0xff, 0x4d, 0x28, 0x70, 0xfd,
-	0xbd, 0xa3, 0x3e, 0xdb, 0x5c, 0x5c, 0xaf, 0xaf, 0x85, 0x2b, 0x71, 0xcd, 0xf2, 0x1d, 0xe9, 0x1d,
-	0xf5, 0xad, 0xbc, 0x2b, 0x7e, 0xe1, 0x3b, 0x00, 0xb2, 0x7e, 0x69, 0xdd, 0x68, 0x19, 0xed, 0xe2,
-	0xfa, 0x3f, 0xd1, 0x7d, 0x8f, 0x82, 0x08, 0xb6, 0x59, 0xd9, 0x60, 0xde, 0x67, 0xb5, 0xed, 0xe3,
-	0x06, 0x26, 0x2c, 0x0a, 0x1e, 0xbd, 0x4e, 0x97, 0x08, 0x8a, 0xec, 0x6b, 0x0f, 0x3b, 0x5d, 0x22,
-	0x17, 0x6d, 0x42, 0x0f, 0x85, 0x42, 0xb6, 0xb8, 0x45, 0xe8, 0xa1, 0xa8, 0x71, 0x8e, 0x95, 0x5a,
-	0x96, 0xae, 0x05, 0x35, 0xae, 0x72, 0x54, 0x6a, 0x05, 0xc5, 0x97, 0x72, 0xca, 0x2c, 0x9e, 0x07,
-	0xa5, 0xac, 0xb2, 0x28, 0x43, 0x56, 0x12, 0xc8, 0x3a, 0x76, 0xd8, 0xb9, 0x6c, 0x92, 0x73, 0x46,
-	0xc4, 0x39, 0x59, 0xe2, 0x29, 0xd3, 0xde, 0x63, 0x25, 0xfe, 0x7b, 0x38, 0x7f, 0xe2, 0x67, 0x62,
-	0x72, 0xc6, 0x8d, 0x37, 0xe2, 0x48, 0x84, 0x2a, 0x1f, 0x4d, 0x58, 0xf9, 0xd9, 0x9f, 0xad, 0xfc,
-	0xb7, 0x08, 0xe6, 0x37, 0x6c, 0x5b, 0x06, 0x04, 0x0e, 0xad, 0x42, 0x59, 0x46, 0xa9, 0x87, 0xa0,
-	0x24, 0xdf, 0x32, 0x6f, 0xe6, 0xc0, 0x18, 0xba, 0x8e, 0x50, 0xe4, 0xff, 0xf4, 0xad, 0xa5, 0x3d,
-	0x61, 0x53, 0x96, 0xf6, 0xc2, 0x40, 0xcc, 0xc2, 0xa9, 0x08, 0x10, 0xf3, 0xf1, 0x19, 0x2c, 0x84,
-	0x69, 0xa4, 0x96, 0xfd, 0x6a, 0x18, 0x99, 0x0a, 0x85, 0x66, 0x0d, 0xfe, 0x8e, 0xbc, 0xe7, 0x9f,
-	0x34, 0x6f, 0x43, 0x95, 0x9f, 0x1e, 0xcd, 0x94, 0x65, 0x98, 0xbd, 0xd0, 0x22, 0x0b, 0xa8, 0x28,
-	0xdf, 0xed, 0xd8, 0xe6, 0x3e, 0xd4, 0xb4, 0xcd, 0xa9, 0x49, 0xf9, 0x80, 0xa0, 0xca, 0x4f, 0xc8,
-	0x04, 0xd4, 0x62, 0x52, 0x9a, 0x4d, 0x48, 0xa9, 0x11, 0x4d, 0xe9, 0x54, 0x42, 0x4a, 0xa7, 0xe3,
-	0x52, 0xba, 0x0f, 0x35, 0x8d, 0x6c, 0x6a, 0x56, 0xdc, 0xd5, 0x7c, 0x0e, 0x12, 0x8b, 0x57, 0xa0,
-	0xa4, 0x5a, 0x41, 0xeb, 0xa8, 0x65, 0xb4, 0x4b, 0xd6, 0xac, 0xe2, 0x05, 0x35, 0x87, 0x50, 0xd7,
-	0xf7, 0x4f, 0x74, 0x7e, 0xaf, 0x8a, 0xf3, 0x7b, 0xa9, 0xcf, 0xde, 0x82, 0xf9, 0x6d, 0xe2, 0x4d,
-	0x52, 0x58, 0xaf, 0x61, 0x21, 0xbc, 0x73, 0x22, 0x2b, 0xaf, 0x2b, 0x56, 0x8e, 0xbd, 0x27, 0xb8,
-	0xd3, 0x1f, 0x11, 0xe4, 0x83, 0x7b, 0x27, 0xbd, 0x8b, 0xd3, 0x5f, 0x74, 0xe8, 0x81, 0xcd, 0x72,
-	0xc0, 0x6a, 0xab, 0x64, 0xe5, 0x1d, 0xca, 0x73, 0x82, 0x97, 0xa0, 0x78, 0xe8, 0x92, 0x8e, 0x47,
-	0x0e, 0x3c, 0xa7, 0x4b, 0x44, 0x79, 0x01, 0x7f, 0xf5, 0xc4, 0xe9, 0xb2, 0x80, 0x21, 0xab, 0x2d,
-	0x1e, 0x90, 0xe3, 0x01, 0xfc, 0x95, 0x1f, 0x60, 0x9e, 0x23, 0x28, 0x85, 0xd4, 0x68, 0xd4, 0xff,
-	0xf0, 0x71, 0x08, 0x0b, 0xce, 0x25, 0x0b, 0x9e, 0x19, 0x27, 0x38, 0x1f, 0x15, 0xbc, 0x7e, 0x5e,
-	0x80, 0x82, 0x14, 0x8c, 0x1f, 0xc0, 0x8c, 0x18, 0xb4, 0x71, 0x33, 0x9a, 0xe4, 0xf0, 0x14, 0xdf,
-	0x58, 0x1a, 0xb9, 0x2e, 0xee, 0xc3, 0x0c, 0xde, 0x05, 0xb8, 0x18, 0x8d, 0xf1, 0x72, 0x74, 0x83,
-	0x36, 0x7d, 0x37, 0xcc, 0xa4, 0x10, 0x15, 0xf6, 0x62, 0xa4, 0xd5, 0x61, 0xb5, 0xa9, 0x59, 0x87,
-	0xd5, 0x27, 0x62, 0x33, 0xe3, 0x6b, 0x17, 0x53, 0xaa, 0xae, 0x3d, 0x3c, 0xea, 0xea, 0xda, 0x23,
-	0xe3, 0x2d, 0x47, 0x13, 0xe3, 0x5c, 0xac, 0x93, 0xca, 0x54, 0x11, 0xeb, 0xa4, 0x3a, 0x18, 0xa8,
-	0x4e, 0x32, 0xc0, 0x11, 0x4e, 0xaa, 0x98, 0x66, 0x52, 0x88, 0xee, 0x64, 0x3c, 0xac, 0x36, 0xb4,
-	0x8d, 0x72, 0x32, 0x02, 0xcb, 0x9d, 0x8c, 0xd7, 0x1e, 0x9e, 0xa8, 0x62, 0x9d, 0x8c, 0xa0, 0xed,
-	0xc3, 0xac, 0xda, 0x70, 0xf1, 0x4a, 0x8c, 0x5d, 0xd1, 0x9b, 0xb1, 0xf1, 0x6f, 0x72, 0x90, 0x04,
-	0x7f, 0x01, 0xa5, 0x50, 0x37, 0xc7, 0x89, 0x1b, 0x83, 0x5e, 0xd1, 0x58, 0x1d, 0x13, 0x25, 0xf1,
-	0x6d, 0xa8, 0x44, 0xfa, 0x05, 0xfe, 0x2f, 0x3e, 0x35, 0x9a, 0x84, 0xff, 0xc7, 0xc6, 0xc9, 0xaf,
-	0x1c, 0xc3, 0x5c, 0xb4, 0x2b, 0xe1, 0x71, 0xdb, 0xa5, 0x96, 0xf6, 0xf8, 0x40, 0x55, 0x4e, 0xa4,
-	0x37, 0xeb, 0x72, 0xe2, 0x27, 0x0d, 0x5d, 0xce, 0x88, 0x26, 0xcf, 0x33, 0xae, 0xf6, 0x2c, 0x3d,
-	0xe3, 0x31, 0xbd, 0x50, 0xcf, 0x78, 0x5c, 0xdb, 0x33, 0x33, 0x9b, 0x8b, 0x9f, 0xcf, 0x9a, 0xe8,
-	0xcb, 0x59, 0x13, 0x7d, 0x3b, 0x6b, 0xa2, 0xf7, 0xdf, 0x9b, 0x99, 0xbd, 0x82, 0xbc, 0x70, 0x5f,
-	0xe6, 0xd8, 0x7f, 0x18, 0x37, 0x7e, 0x04, 0x00, 0x00, 0xff, 0xff, 0x50, 0x2d, 0x50, 0x49, 0xd6,
-	0x10, 0x00, 0x00,
+	// 945 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x58, 0xcd, 0x6e, 0x2b, 0x35,
+	0x14, 0xae, 0x33, 0xb9, 0x69, 0x72, 0xd2, 0x24, 0x17, 0xdf, 0x92, 0x44, 0xb9, 0x22, 0x37, 0x77,
+	0xda, 0xd2, 0x20, 0x20, 0x12, 0x41, 0x48, 0x95, 0x10, 0x48, 0xad, 0x8a, 0xaa, 0x22, 0x84, 0xd0,
+	0x40, 0x11, 0x6a, 0x05, 0xd5, 0xd0, 0x71, 0xab, 0x91, 0x9a, 0x1f, 0xc6, 0x93, 0xb2, 0x61, 0xcb,
+	0x3b, 0xf0, 0x0e, 0x2c, 0xd9, 0xf0, 0x08, 0x2c, 0x79, 0x04, 0x54, 0xf6, 0xdd, 0xb2, 0x45, 0x63,
+	0x7b, 0x5c, 0x8f, 0x3d, 0x99, 0x29, 0xe9, 0x70, 0x77, 0x63, 0xfb, 0xf8, 0xf3, 0x77, 0xbe, 0x73,
+	0x8e, 0x7d, 0x12, 0x68, 0xcd, 0x03, 0xff, 0xc6, 0xbf, 0x26, 0x57, 0x64, 0x34, 0x0f, 0x66, 0xe1,
+	0x0c, 0x37, 0xe7, 0x81, 0x1f, 0xf8, 0x37, 0x6c, 0xc6, 0x9d, 0xfb, 0xf6, 0x01, 0x34, 0xf7, 0x3d,
+	0xef, 0x84, 0x92, 0xc0, 0x21, 0x3f, 0x2c, 0x08, 0x0d, 0x71, 0x07, 0xd6, 0x17, 0x94, 0x04, 0xe7,
+	0xbe, 0xd7, 0x45, 0x03, 0x34, 0xac, 0x39, 0x95, 0x68, 0x78, 0xec, 0x45, 0x0b, 0xc1, 0xec, 0x9a,
+	0x44, 0x0b, 0xa5, 0x01, 0x1a, 0x96, 0x9d, 0x4a, 0x34, 0x3c, 0xf6, 0xec, 0x2f, 0xa1, 0x25, 0x31,
+	0xe8, 0x7c, 0x36, 0xa5, 0x04, 0x6f, 0xc2, 0x13, 0x12, 0x04, 0xd3, 0x19, 0x83, 0xb0, 0x1c, 0x3e,
+	0xc0, 0x6d, 0xa8, 0x90, 0x20, 0x98, 0xd0, 0x2b, 0x06, 0x50, 0x73, 0xc4, 0x08, 0x63, 0x28, 0x7b,
+	0x6e, 0xe8, 0x76, 0xad, 0x01, 0x1a, 0x56, 0x1d, 0xf6, 0x6d, 0x7f, 0x02, 0xaf, 0x1d, 0x92, 0x6b,
+	0x12, 0x92, 0xc7, 0x71, 0xfb, 0x1a, 0xb0, 0x0a, 0x53, 0x24, 0xbd, 0x93, 0xb9, 0xe7, 0x16, 0x40,
+	0x4f, 0x85, 0x29, 0x8c, 0xde, 0x5b, 0xd0, 0x3c, 0x22, 0xe1, 0x43, 0xb8, 0xd9, 0xff, 0x20, 0x68,
+	0x49, 0xdb, 0x95, 0x08, 0xec, 0x29, 0x04, 0xea, 0xe3, 0xed, 0x51, 0x32, 0xc5, 0x46, 0x1a, 0xf8,
+	0xe8, 0xd0, 0x0d, 0x5d, 0x4e, 0xb3, 0xf7, 0x13, 0x94, 0xa3, 0x11, 0xfe, 0x00, 0x6a, 0x5c, 0x9f,
+	0xe9, 0xe5, 0x8c, 0x81, 0xd7, 0xc7, 0x5d, 0x1d, 0xc6, 0x89, 0x14, 0x9b, 0x5e, 0xce, 0x9c, 0x6a,
+	0x20, 0xbe, 0xf0, 0x47, 0x00, 0x32, 0xbf, 0x69, 0xd7, 0x1a, 0x58, 0xc3, 0xfa, 0xf8, 0x0d, 0x7d,
+	0xdf, 0x17, 0xb1, 0x05, 0xdb, 0xac, 0x6c, 0xb0, 0x3f, 0x65, 0xb9, 0x1f, 0xe1, 0xc6, 0x22, 0x3d,
+	0x17, 0x3c, 0xa6, 0xee, 0x84, 0x08, 0x99, 0xd8, 0x69, 0x9f, 0xbb, 0x13, 0x22, 0x17, 0x3d, 0x42,
+	0x2f, 0x84, 0x02, 0x6c, 0xf1, 0x90, 0xd0, 0x0b, 0x51, 0x03, 0x1c, 0xab, 0xb0, 0x28, 0xbe, 0x13,
+	0xd7, 0x80, 0xca, 0x51, 0xc9, 0x25, 0x94, 0x9e, 0xea, 0x05, 0xb3, 0xf8, 0x36, 0x4e, 0x75, 0x95,
+	0x45, 0x13, 0x4a, 0x92, 0x40, 0xc9, 0xf7, 0x92, 0xca, 0x95, 0xb2, 0x94, 0xb3, 0x34, 0xe5, 0x64,
+	0x09, 0x14, 0x4c, 0xfb, 0x94, 0x95, 0xc0, 0xff, 0xc3, 0x59, 0xd4, 0xcc, 0x23, 0x18, 0xe7, 0xd7,
+	0x8c, 0x0a, 0x9e, 0x5b, 0x33, 0x68, 0xc5, 0x9a, 0x29, 0xfd, 0xd7, 0x9a, 0xf9, 0x19, 0xc1, 0xb3,
+	0x7d, 0xcf, 0x93, 0x06, 0xb1, 0xb6, 0x3b, 0xd0, 0x94, 0x56, 0x6a, 0xf9, 0x34, 0xe4, 0x2c, 0x53,
+	0xf5, 0x29, 0x58, 0x8b, 0xc0, 0x17, 0x5a, 0x44, 0x9f, 0x51, 0x50, 0xe8, 0x54, 0x08, 0x5c, 0xa2,
+	0xd3, 0x24, 0x10, 0x13, 0xbf, 0xac, 0x01, 0xb1, 0x08, 0x7c, 0x03, 0x9b, 0x49, 0x1a, 0x85, 0xe5,
+	0x4d, 0x3b, 0x89, 0x4c, 0x85, 0x87, 0x76, 0x07, 0x5e, 0xd7, 0xe6, 0xf9, 0x91, 0xf6, 0x87, 0xd0,
+	0xe6, 0x75, 0x67, 0x88, 0xf2, 0x12, 0x36, 0xee, 0x7d, 0x91, 0xa9, 0x57, 0x97, 0x73, 0xc7, 0x9e,
+	0x7d, 0x06, 0x1d, 0x63, 0x73, 0x61, 0xae, 0xfc, 0x8a, 0xa0, 0xcd, 0x6b, 0x6b, 0x05, 0x6a, 0x29,
+	0x21, 0x2d, 0x65, 0x84, 0xd4, 0xd2, 0x43, 0x5a, 0xce, 0x08, 0xe9, 0x93, 0xb4, 0x90, 0x9e, 0x41,
+	0xc7, 0x20, 0x5b, 0x98, 0x14, 0x1f, 0x1b, 0x3a, 0xc7, 0x81, 0xc5, 0x5b, 0xd0, 0x50, 0xa5, 0xa0,
+	0x5d, 0x34, 0xb0, 0x86, 0x65, 0x67, 0x43, 0xd1, 0x82, 0xda, 0xbf, 0x23, 0xe8, 0x9a, 0x00, 0x2b,
+	0xd1, 0xdb, 0x4f, 0x94, 0xfe, 0xbb, 0x7a, 0xed, 0x2d, 0x3b, 0x45, 0xbd, 0x03, 0xde, 0x16, 0x77,
+	0xc0, 0x83, 0xa8, 0xef, 0xc1, 0xb3, 0x23, 0x12, 0xae, 0x92, 0x9c, 0x3f, 0xc2, 0x66, 0x72, 0xe7,
+	0x4a, 0xfe, 0xbe, 0x97, 0xf0, 0x37, 0xe7, 0xae, 0xe1, 0xd1, 0xfa, 0x0d, 0x41, 0x35, 0xbe, 0xbb,
+	0x8a, 0xbb, 0xb6, 0xa3, 0x45, 0x9f, 0x9e, 0x7b, 0x4c, 0x60, 0x96, 0x9f, 0x65, 0xa7, 0xea, 0x53,
+	0x2e, 0x38, 0x7e, 0x01, 0xf5, 0x8b, 0x80, 0xb8, 0x21, 0x39, 0x0f, 0xfd, 0x09, 0x11, 0x29, 0x0a,
+	0x7c, 0xea, 0x2b, 0x7f, 0xc2, 0x0c, 0x16, 0x2c, 0x3f, 0xb9, 0x41, 0x85, 0x1b, 0xf0, 0xa9, 0xc8,
+	0xc0, 0xbe, 0x43, 0xd0, 0x48, 0x78, 0x63, 0x50, 0x7f, 0xc5, 0x25, 0x95, 0x74, 0xb8, 0x92, 0xed,
+	0xf0, 0x7a, 0x9e, 0xc3, 0x55, 0xdd, 0xe1, 0xf1, 0x5d, 0x0d, 0x6a, 0xd2, 0x61, 0xfc, 0x19, 0xac,
+	0x8b, 0x9f, 0x01, 0xb8, 0xaf, 0x07, 0x39, 0xf9, 0x1b, 0xa3, 0xf7, 0x62, 0xe9, 0xba, 0xb8, 0x53,
+	0xd7, 0xf0, 0x09, 0xc0, 0x7d, 0xe3, 0x8e, 0x5f, 0xa6, 0x57, 0x89, 0x8a, 0x69, 0x67, 0x99, 0xa8,
+	0xb0, 0xf7, 0x0d, 0xb7, 0x09, 0x6b, 0xf4, 0xf4, 0x26, 0xac, 0xd9, 0xaf, 0xdb, 0x6b, 0x91, 0xef,
+	0xa2, 0xcd, 0x35, 0x7d, 0x4f, 0x36, 0xe2, 0xa6, 0xef, 0x5a, 0x7f, 0xcc, 0xd1, 0x44, 0x33, 0x99,
+	0xaa, 0xa4, 0xd2, 0xd3, 0xa4, 0x2a, 0xa9, 0x76, 0x0e, 0xaa, 0x92, 0x0c, 0x70, 0x89, 0x92, 0x2a,
+	0xa6, 0x9d, 0x65, 0x62, 0x2a, 0x99, 0x0e, 0x6b, 0xb4, 0x8c, 0xcb, 0x94, 0xd4, 0x60, 0xb9, 0x92,
+	0xe9, 0xbe, 0x27, 0xfb, 0xb9, 0x54, 0x25, 0x35, 0xb4, 0x33, 0xd8, 0x50, 0x1f, 0x6d, 0xbc, 0x95,
+	0x22, 0x97, 0x7e, 0x33, 0xf6, 0xb6, 0xb3, 0x8d, 0x24, 0xf8, 0x77, 0xd0, 0x48, 0x74, 0x04, 0x38,
+	0x73, 0x63, 0xfc, 0xde, 0xf4, 0x76, 0x72, 0xac, 0x24, 0xbe, 0x07, 0x2d, 0xed, 0x31, 0xc0, 0x6f,
+	0xe6, 0xbc, 0x16, 0xf1, 0x19, 0xbb, 0xb9, 0x76, 0xf2, 0x94, 0x2b, 0x78, 0xaa, 0x3f, 0x39, 0x78,
+	0x37, 0xff, 0x51, 0xe2, 0xe7, 0x0c, 0x1f, 0xfa, 0x7a, 0x71, 0x77, 0xb4, 0xf7, 0xdd, 0x74, 0x27,
+	0xbd, 0x5b, 0x31, 0xdd, 0x59, 0xd2, 0x28, 0xf0, 0x88, 0xab, 0x6f, 0x96, 0x19, 0xf1, 0x94, 0xb7,
+	0xb0, 0xb7, 0x9d, 0x6d, 0x14, 0x83, 0x1f, 0x3c, 0xff, 0xe3, 0xb6, 0x8f, 0xfe, 0xbc, 0xed, 0xa3,
+	0xbf, 0x6e, 0xfb, 0xe8, 0x97, 0xbf, 0xfb, 0x6b, 0xa7, 0x35, 0x79, 0xe1, 0x7e, 0x5f, 0x61, 0xff,
+	0xb0, 0xbc, 0xff, 0x6f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xdf, 0x29, 0x6c, 0x48, 0x74, 0x11, 0x00,
+	0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -2955,6 +2973,18 @@ func (m *GetUserResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if m.Data != nil {
+		{
+			size, err := m.Data.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintPrivilege(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
 	if len(m.Errmsg) > 0 {
 		i -= len(m.Errmsg)
 		copy(dAtA[i:], m.Errmsg)
@@ -2970,7 +3000,7 @@ func (m *GetUserResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *GetUserResponseData) Marshal() (dAtA []byte, err error) {
+func (m *GetUserResponse_Data) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -2980,12 +3010,12 @@ func (m *GetUserResponseData) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetUserResponseData) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetUserResponse_Data) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetUserResponseData) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetUserResponse_Data) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -3019,13 +3049,6 @@ func (m *GetUserResponseData) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		}
 		i--
 		dAtA[i] = 0x12
-	}
-	if len(m.UserId) > 0 {
-		i -= len(m.UserId)
-		copy(dAtA[i:], m.UserId)
-		i = encodeVarintPrivilege(dAtA, i, uint64(len(m.UserId)))
-		i--
-		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
@@ -3366,6 +3389,18 @@ func (m *GetRoleResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if m.Data != nil {
+		{
+			size, err := m.Data.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintPrivilege(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
 	if len(m.Errmsg) > 0 {
 		i -= len(m.Errmsg)
 		copy(dAtA[i:], m.Errmsg)
@@ -3381,7 +3416,7 @@ func (m *GetRoleResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *GetRoleResponseData) Marshal() (dAtA []byte, err error) {
+func (m *GetRoleResponse_Data) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -3391,12 +3426,12 @@ func (m *GetRoleResponseData) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetRoleResponseData) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetRoleResponse_Data) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetRoleResponseData) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetRoleResponse_Data) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -3807,20 +3842,20 @@ func (m *DeletePrivilegesRequest) MarshalToSizedBuffer(dAtA []byte) (int, error)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if len(m.PrivilegeIds) > 0 {
-		dAtA4 := make([]byte, len(m.PrivilegeIds)*10)
-		var j3 int
+		dAtA6 := make([]byte, len(m.PrivilegeIds)*10)
+		var j5 int
 		for _, num := range m.PrivilegeIds {
 			for num >= 1<<7 {
-				dAtA4[j3] = uint8(uint64(num)&0x7f | 0x80)
+				dAtA6[j5] = uint8(uint64(num)&0x7f | 0x80)
 				num >>= 7
-				j3++
+				j5++
 			}
-			dAtA4[j3] = uint8(num)
-			j3++
+			dAtA6[j5] = uint8(num)
+			j5++
 		}
-		i -= j3
-		copy(dAtA[i:], dAtA4[:j3])
-		i = encodeVarintPrivilege(dAtA, i, uint64(j3))
+		i -= j5
+		copy(dAtA[i:], dAtA6[:j5])
+		i = encodeVarintPrivilege(dAtA, i, uint64(j5))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -3851,6 +3886,18 @@ func (m *DeletePrivilegesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if m.Data != nil {
+		{
+			size, err := m.Data.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintPrivilege(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
 	if len(m.Errmsg) > 0 {
 		i -= len(m.Errmsg)
 		copy(dAtA[i:], m.Errmsg)
@@ -3866,7 +3913,7 @@ func (m *DeletePrivilegesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error
 	return len(dAtA) - i, nil
 }
 
-func (m *DeletePrivilegesResponseData) Marshal() (dAtA []byte, err error) {
+func (m *DeletePrivilegesResponse_Data) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -3876,12 +3923,12 @@ func (m *DeletePrivilegesResponseData) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *DeletePrivilegesResponseData) MarshalTo(dAtA []byte) (int, error) {
+func (m *DeletePrivilegesResponse_Data) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *DeletePrivilegesResponseData) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *DeletePrivilegesResponse_Data) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -3891,20 +3938,20 @@ func (m *DeletePrivilegesResponseData) MarshalToSizedBuffer(dAtA []byte) (int, e
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if len(m.PrivilegeIds) > 0 {
-		dAtA6 := make([]byte, len(m.PrivilegeIds)*10)
-		var j5 int
+		dAtA9 := make([]byte, len(m.PrivilegeIds)*10)
+		var j8 int
 		for _, num := range m.PrivilegeIds {
 			for num >= 1<<7 {
-				dAtA6[j5] = uint8(uint64(num)&0x7f | 0x80)
+				dAtA9[j8] = uint8(uint64(num)&0x7f | 0x80)
 				num >>= 7
-				j5++
+				j8++
 			}
-			dAtA6[j5] = uint8(num)
-			j5++
+			dAtA9[j8] = uint8(num)
+			j8++
 		}
-		i -= j5
-		copy(dAtA[i:], dAtA6[:j5])
-		i = encodeVarintPrivilege(dAtA, i, uint64(j5))
+		i -= j8
+		copy(dAtA[i:], dAtA9[:j8])
+		i = encodeVarintPrivilege(dAtA, i, uint64(j8))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -4301,22 +4348,22 @@ func (m *GetUserResponse) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovPrivilege(uint64(l))
 	}
+	if m.Data != nil {
+		l = m.Data.Size()
+		n += 1 + l + sovPrivilege(uint64(l))
+	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
 
-func (m *GetUserResponseData) Size() (n int) {
+func (m *GetUserResponse_Data) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	l = len(m.UserId)
-	if l > 0 {
-		n += 1 + l + sovPrivilege(uint64(l))
-	}
 	if m.RoleInfo != nil {
 		l = m.RoleInfo.Size()
 		n += 1 + l + sovPrivilege(uint64(l))
@@ -4493,13 +4540,17 @@ func (m *GetRoleResponse) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovPrivilege(uint64(l))
 	}
+	if m.Data != nil {
+		l = m.Data.Size()
+		n += 1 + l + sovPrivilege(uint64(l))
+	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
 
-func (m *GetRoleResponseData) Size() (n int) {
+func (m *GetRoleResponse_Data) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -4717,13 +4768,17 @@ func (m *DeletePrivilegesResponse) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovPrivilege(uint64(l))
 	}
+	if m.Data != nil {
+		l = m.Data.Size()
+		n += 1 + l + sovPrivilege(uint64(l))
+	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
 
-func (m *DeletePrivilegesResponseData) Size() (n int) {
+func (m *DeletePrivilegesResponse_Data) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -4937,7 +4992,7 @@ func (m *AddUserRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.RoleId |= uint32(b&0x7F) << shift
+				m.RoleId |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -5167,7 +5222,7 @@ func (m *DeleteUserRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.RoleId |= uint32(b&0x7F) << shift
+				m.RoleId |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -5397,7 +5452,7 @@ func (m *UpdateUserRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.RoleId |= uint32(b&0x7F) << shift
+				m.RoleId |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -5718,6 +5773,42 @@ func (m *GetUserResponse) Unmarshal(dAtA []byte) error {
 			}
 			m.Errmsg = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Data", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPrivilege
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPrivilege
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPrivilege
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Data == nil {
+				m.Data = &GetUserResponse_Data{}
+			}
+			if err := m.Data.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipPrivilege(dAtA[iNdEx:])
@@ -5743,7 +5834,7 @@ func (m *GetUserResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetUserResponseData) Unmarshal(dAtA []byte) error {
+func (m *GetUserResponse_Data) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -5766,44 +5857,12 @@ func (m *GetUserResponseData) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: data: wiretype end group for non-group")
+			return fmt.Errorf("proto: Data: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: data: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Data: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field UserId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowPrivilege
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthPrivilege
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthPrivilege
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.UserId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RoleInfo", wireType)
@@ -6185,7 +6244,7 @@ func (m *DeleteRoleRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.RoleId |= uint32(b&0x7F) << shift
+				m.RoleId |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -6383,7 +6442,7 @@ func (m *UpdateRoleRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Id |= uint32(b&0x7F) << shift
+				m.Id |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -6645,7 +6704,7 @@ func (m *GetRoleRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Id |= uint32(b&0x7F) << shift
+				m.Id |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -6819,6 +6878,42 @@ func (m *GetRoleResponse) Unmarshal(dAtA []byte) error {
 			}
 			m.Errmsg = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Data", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPrivilege
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPrivilege
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPrivilege
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Data == nil {
+				m.Data = &GetRoleResponse_Data{}
+			}
+			if err := m.Data.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipPrivilege(dAtA[iNdEx:])
@@ -6844,7 +6939,7 @@ func (m *GetRoleResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetRoleResponseData) Unmarshal(dAtA []byte) error {
+func (m *GetRoleResponse_Data) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -6867,10 +6962,10 @@ func (m *GetRoleResponseData) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: data: wiretype end group for non-group")
+			return fmt.Errorf("proto: Data: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: data: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Data: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -7426,7 +7521,7 @@ func (m *DeletePrivilegeRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.PrivilegeId |= uint32(b&0x7F) << shift
+				m.PrivilegeId |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -7624,7 +7719,7 @@ func (m *UpdatePrivilegeRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.PrivilegeId |= uint32(b&0x7F) << shift
+				m.PrivilegeId |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -7938,7 +8033,7 @@ func (m *DeletePrivilegesRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType == 0 {
-				var v uint32
+				var v uint64
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return ErrIntOverflowPrivilege
@@ -7948,7 +8043,7 @@ func (m *DeletePrivilegesRequest) Unmarshal(dAtA []byte) error {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					v |= uint32(b&0x7F) << shift
+					v |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
@@ -7989,10 +8084,10 @@ func (m *DeletePrivilegesRequest) Unmarshal(dAtA []byte) error {
 				}
 				elementCount = count
 				if elementCount != 0 && len(m.PrivilegeIds) == 0 {
-					m.PrivilegeIds = make([]uint32, 0, elementCount)
+					m.PrivilegeIds = make([]uint64, 0, elementCount)
 				}
 				for iNdEx < postIndex {
-					var v uint32
+					var v uint64
 					for shift := uint(0); ; shift += 7 {
 						if shift >= 64 {
 							return ErrIntOverflowPrivilege
@@ -8002,7 +8097,7 @@ func (m *DeletePrivilegesRequest) Unmarshal(dAtA []byte) error {
 						}
 						b := dAtA[iNdEx]
 						iNdEx++
-						v |= uint32(b&0x7F) << shift
+						v |= uint64(b&0x7F) << shift
 						if b < 0x80 {
 							break
 						}
@@ -8117,6 +8212,42 @@ func (m *DeletePrivilegesResponse) Unmarshal(dAtA []byte) error {
 			}
 			m.Errmsg = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Data", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPrivilege
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPrivilege
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPrivilege
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Data == nil {
+				m.Data = &DeletePrivilegesResponse_Data{}
+			}
+			if err := m.Data.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipPrivilege(dAtA[iNdEx:])
@@ -8142,7 +8273,7 @@ func (m *DeletePrivilegesResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *DeletePrivilegesResponseData) Unmarshal(dAtA []byte) error {
+func (m *DeletePrivilegesResponse_Data) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -8165,15 +8296,15 @@ func (m *DeletePrivilegesResponseData) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: data: wiretype end group for non-group")
+			return fmt.Errorf("proto: Data: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: data: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Data: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType == 0 {
-				var v uint32
+				var v uint64
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return ErrIntOverflowPrivilege
@@ -8183,7 +8314,7 @@ func (m *DeletePrivilegesResponseData) Unmarshal(dAtA []byte) error {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					v |= uint32(b&0x7F) << shift
+					v |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
@@ -8224,10 +8355,10 @@ func (m *DeletePrivilegesResponseData) Unmarshal(dAtA []byte) error {
 				}
 				elementCount = count
 				if elementCount != 0 && len(m.PrivilegeIds) == 0 {
-					m.PrivilegeIds = make([]uint32, 0, elementCount)
+					m.PrivilegeIds = make([]uint64, 0, elementCount)
 				}
 				for iNdEx < postIndex {
-					var v uint32
+					var v uint64
 					for shift := uint(0); ; shift += 7 {
 						if shift >= 64 {
 							return ErrIntOverflowPrivilege
@@ -8237,7 +8368,7 @@ func (m *DeletePrivilegesResponseData) Unmarshal(dAtA []byte) error {
 						}
 						b := dAtA[iNdEx]
 						iNdEx++
-						v |= uint32(b&0x7F) << shift
+						v |= uint64(b&0x7F) << shift
 						if b < 0x80 {
 							break
 						}
@@ -8315,7 +8446,7 @@ func (m *GetPrivilegeRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.PrivilegeId |= uint32(b&0x7F) << shift
+				m.PrivilegeId |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -8529,7 +8660,7 @@ func (m *RoleInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Id |= uint32(b&0x7F) << shift
+				m.Id |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -8612,7 +8743,7 @@ func (m *RoleInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.IsDelete |= uint32(b&0x7F) << shift
+				m.IsDelete |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -8749,7 +8880,7 @@ func (m *PrivilegeInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Id |= uint32(b&0x7F) << shift
+				m.Id |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -8896,7 +9027,7 @@ func (m *PrivilegeInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.IsDelete |= uint32(b&0x7F) << shift
+				m.IsDelete |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}

@@ -1,0 +1,129 @@
+openapi: 3.0.0
+info:
+  description: "This is ebook_category api"
+  version: "1.0.0"
+  title: "Ebook category api"
+  contact:
+    email: "mike955@163.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+paths:
+  /ebook/user/signup:
+    post:
+      summary: "注册"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                username:
+                  type: "string"
+                email:
+                  type: "string"
+                password:
+                  type: "string"
+                roleId:
+                  type: "number"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BooleanResponse"
+  /ebook/user/signin:
+    post:
+      summary: "登陆"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                username:
+                  type: "string"
+                password:
+                  type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "number"
+                  errmsg:
+                    type: "string"
+                  data:
+                    $ref: "#/components/schemas/UserInfo"
+  /ebook/user/signout:
+    post:
+      summary: "登出"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                auth_id:
+                  type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BooleanResponse"
+  # /ebook/ebook/add:
+  #   post:
+  #     summary: "添加电子书"
+  #     requestBody: 
+  #     responses:
+  # /ebook/ebook/get:
+  #   post:
+  #     summary: "查看电子书详情"
+  #     requestBody: 
+  #     responses:
+  # /ebook/ebook/getList:
+  #   post:
+  #     summary: "获取电子书列表"
+  #     requestBody: 
+  #     responses:
+
+components:
+  schemas:
+    UserInfo:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+        user_id:
+          type: "string"
+        username:
+          type: "string"
+        email:
+          type: "string"
+        role:
+          type: "number"
+        status:
+          type: "number"
+        create_time:
+          type: "string"
+        update_time:
+          type: "string"
+    BooleanResponse:
+      type: "object"
+      properties:
+        error:
+          type: "number"
+        errmsg:
+          type: "string"
+        data:
+          type: "boolean"

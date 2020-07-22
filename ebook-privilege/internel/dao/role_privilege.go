@@ -4,7 +4,7 @@ import "github.com/jinzhu/gorm"
 
 type RolePrivilegeMap struct {
 	CommonModel
-	ID        uint64	`json:"id" gorm"index"`
+	ID        uint64	`gorm:"primary_key" json:"id"`
 	RoleId uint64	`json:"role_id"`
 	PrivilegeId uint64	`json:"privilege_id"`
 }

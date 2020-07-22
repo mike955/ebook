@@ -21,7 +21,7 @@ func main()  {
 	}
 	server := grpc.NewServer()
 	pb.RegisterUserServer(server, service.UserService)
-	fmt.Println("starting gRPC server: ", conf.GRPC_USER_PORT)
+	fmt.Println("starting ebook-user gRPC server: ", conf.GRPC_USER_PORT)
 	if err := server.Serve(listen); err != nil {
 		fmt.Printf("failed to serve: %v", err)
 	}

@@ -44,10 +44,11 @@ func (service *userService) Add(ctx context.Context, req *pb.AddRequest) (respon
 	}
 	
 	// add salt and hash(salt+password)
-	condition["user_id"] = utils.GenerateRandom(16)
+	condition["userId"] = utils.GenerateRandom(16)
 	condition["username"] = req.Username
 	condition["email"] = req.Email
-	condition["role_id"] = req.RoleId
+	condition["roleId"] = req.RoleId
+	condition["status"] = uint64(0)
 	if status := req.Status; err != nil {
 		condition["status"] = status
 	}
@@ -63,7 +64,7 @@ func (service *userService) Add(ctx context.Context, req *pb.AddRequest) (respon
 		response.Errno, response.Errmsg = err_code.Code("ADD_USER_ERROR")
 		return
 	}
-	user, err := service.userDao.FindByUserId(condition["user_id"].(string))
+	user, err := service.userDao.FindByUserId(condition["userId"].(string))
 	if err != nil {
 		response.Errno, response.Errmsg = err_code.Code("ADD_USER_ERROR")
 		return

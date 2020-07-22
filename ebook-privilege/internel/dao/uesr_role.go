@@ -4,7 +4,7 @@ import "github.com/jinzhu/gorm"
 
 type UserRoleMap struct {
 	CommonModel
-	ID        uint64	`json:"id" gorm"index"`
+	ID        uint64	`gorm:"primary_key" json:"id"`
 	UserId string	`json:"user_id"`
 	RoleId uint64	`json:"role_id"`
 	IsDelete  uint `gorm:"default:0" json:"is_delete"`

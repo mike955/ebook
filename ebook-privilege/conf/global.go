@@ -1,7 +1,8 @@
 package conf
 
 var (
-	GRPC_PORT = ":50802"
+	GRPC_USER_PORT = ":50801"
+	GRPC_PRIVILEGE_PORT = ":50802"
 )
 
 const (
@@ -22,10 +23,10 @@ const (
 
 
 	/************ Static ****************/
-	EBook_DIR = "/Users/superbear/study/go/src/ebook"
+	// EBook_DIR = "/Users/superbear/study/go/src/ebook"
 	
 	
 	
 	/************ ERROR_CODE ****************/
-	EBook_DIR  = 9000
+	// EBook_DIR  = 9000
 )

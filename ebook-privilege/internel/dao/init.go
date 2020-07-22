@@ -14,7 +14,6 @@ import (
 var DB *gorm.DB
 
 type CommonModel struct {
-	ID         int `gorm:"primary_key" json:"id"`
 	CreateTime  string `json:"create_time"`
 	UpdateTime string `json:"update_time"`
 }

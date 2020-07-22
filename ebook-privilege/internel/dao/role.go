@@ -1,13 +1,15 @@
 package dao
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+)
 
 type Role struct {
 	CommonModel
-	ID        uint32	`json:"id" gorm"index"`
+	ID        uint64	`gorm:"primary_key" json:"id"`
 	RoleName string	`json:"role_name"`
 	RoleDesc string	`json:"role_desc"`
-	IsDelete  uint32 `gorm:"default:0" json:"is_delete"`
+	IsDelete  uint64 `gorm:"default:0" json:"is_delete"`
 }
 
 type RoleDao struct {
@@ -31,7 +33,7 @@ func (dao RoleDao) delete(id uint64) (err error) {
 	return nil
 }
 
-func (dao RoleDao) GetById(id uint32) ([]*Role, error) {
+func (dao RoleDao) GetById(id uint64) ([]*Role, error) {
 	var roles  []*Role
 	err := DB.Where(&Role{ID:id}).Find(&roles).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
@@ -43,7 +45,7 @@ func (dao RoleDao) GetById(id uint32) ([]*Role, error) {
 
 func  (dao RoleDao) FindByFields (fields map[string]interface{}) ([]*Role, error)  {
 	var roles []*Role
-	err := DB.Where(fields).First(&roles).Error
+	err := DB.Where(fields).Find(&roles).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}

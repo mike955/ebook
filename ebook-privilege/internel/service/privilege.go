@@ -5,6 +5,7 @@ import (
 	pb "ebook/ebook-privilege/api/privilege"
 	"ebook/ebook-privilege/internel/dao"
 	"ebook/ebook-privilege/pkg/err_code"
+	"fmt"
 )
 
 type privilegeService struct {
@@ -245,8 +246,9 @@ func (service *privilegeService) UpdateRole(ctx context.Context, req *pb.UpdateR
 }
 
 func (service *privilegeService) GetRole(ctx context.Context, req *pb.GetRoleRequest) (response *pb.GetRoleResponse, err error){
+	fmt.Println(req)
 	response = new(pb.GetRoleResponse)
-	conditions := map[string]interface{}{}
+	conditions := map[string]interface{}{ "is_delete": 0}
 	if roleId := req.Id; roleId != 0 {
 		conditions["id"] = roleId
 	}
@@ -265,28 +267,14 @@ func (service *privilegeService) GetRole(ctx context.Context, req *pb.GetRoleReq
 		response.Errno, response.Errmsg = err_code.Code("ROLE_IS_NOT_EXIST_ERROR")
 		return
 	}
-	roleId := roles[0]
+	roleId := roles[0].ID
 	// get role privilege
-	privileges, err := service.privilegeDao.FindByFields(map[string]interface{}{"id": roleId, "is_delete": 1})
+	rolePrivileges, err := service.rolePrivilegeDao.FindByFields(map[string]interface{}{"role_id": roleId, "is_delete": 0})
 	if err != nil {
-		response.Errno, response.Errmsg = err_code.Code("GET_PRIVILEGE_ERROR")
+		response.Errno, response.Errmsg = err_code.Code("GET_ROLE_PRIVILEGE_ERROR")
 		return
 	}
-	
-	var privilegesInfo = make([]*pb.PrivilegeInfo, len(privileges))
-	for _, privilege := range privileges {
-		privilegeInfo := &pb.PrivilegeInfo{
-			Id:                   privilege.ID,
-			PrivilegeName:        privilege.PrivilegeName,
-			Uri:                  privilege.Uri,
-			Sn:                   privilege.Sn,
-			PrivilegeDesc:        privilege.PrivilegeDesc,
-			IsDelete:             privilege.IsDelete,
-			CreateTime:           privilege.CreateTime,
-			UpdateTime:           privilege.UpdateTime,
-		}
-		privilegesInfo = append(privilegesInfo, privilegeInfo)
-	}
+	privilegesInfo := make([]*pb.PrivilegeInfo, 0)
 	response.Data = &pb.GetRoleResponse_Data{
 		RoleInfo:             &pb.RoleInfo{
 			Id:                   roles[0].ID,
@@ -297,6 +285,34 @@ func (service *privilegeService) GetRole(ctx context.Context, req *pb.GetRoleReq
 			UpdateTime:           roles[0].UpdateTime,
 		},
 		Privileges:           privilegesInfo,
+	}
+	fmt.Println(rolePrivileges)
+	if len(rolePrivileges) != 0 {
+		privilegeIds := make([]uint64, len(rolePrivileges))
+		for _, rolePrivilege := range rolePrivileges {
+			privilegeIds = append(privilegeIds, rolePrivilege.PrivilegeId)
+		}
+		privileges, err := service.privilegeDao.FindByFields(map[string]interface{}{"id": privilegeIds});
+		if err != nil {
+			response.Errno, response.Errmsg = err_code.Code("GET_PRIVILEGE_ERROR")
+			return response, nil
+		}
+		if len(privileges) > 0 {
+			for _, privilege := range privileges {
+				privilegeInfo := &pb.PrivilegeInfo{
+					Id:                   privilege.ID,
+					PrivilegeName:        privilege.PrivilegeName,
+					Uri:                  privilege.Uri,
+					Sn:                   privilege.Sn,
+					PrivilegeDesc:        privilege.PrivilegeDesc,
+					IsDelete:             privilege.IsDelete,
+					CreateTime:           privilege.CreateTime,
+					UpdateTime:           privilege.UpdateTime,
+				}
+				privilegesInfo = append(privilegesInfo, privilegeInfo)
+			}
+			response.Data.Privileges = privilegesInfo
+		}
 	}
 	return
 }
