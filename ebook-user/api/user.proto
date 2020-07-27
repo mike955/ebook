@@ -90,7 +90,7 @@ message VerifyPasswordRequest {
 message VerifyPasswordResponse {
   int64 errno = 1;
   string errmsg = 2;
-  bool data = 3; 
+  UserResponseInfo data = 3;
 }
 
 

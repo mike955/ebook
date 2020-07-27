@@ -16,7 +16,7 @@ func GenerateSalt() string {
 }
 
 func GeneratePassword(password string, salt string) string {
-	combination := string(salt) + string(password)
+	combination := salt + password
 	data := sha512.Sum512([]byte(combination))
 	return string(data[:])
 }

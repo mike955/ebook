@@ -1,4 +1,4 @@
-package response
+package err_code
 
 type codeMsg struct {
 	Errno	int64
@@ -6,11 +6,7 @@ type codeMsg struct {
 }
 
 var codeMap = map[string]codeMsg{
-	// common error 	11000~ 11099
-	"UNKNOWN_ERROR": {int64(11000), "UNKNOWN_ERROR" },
-	"PARAMS_ERROR": {int64(11001), "PARAMS_ERROR" },
-	"RPC_ERROR": {int64(11002), "RPC_ERROR" },
-	"TOKEN_ERROR": {int64(11002), "TOKEN_ERROR" },
+	"UNKNOWN_ERROR": {int64(11100), "UNKNOWN_ERROR" },
 
 	// ebook-user error 	11101 ~ 11199
 	"GET_USER_ERROR": {int64(11101), "GET_USER_ERROR" },
@@ -49,15 +45,17 @@ var codeMap = map[string]codeMsg{
 	"GET_ROLE_PRIVILEGE_ERROR": {int64(11350), "GET_ROLE_PRIVILEGE_ERROR" },
 	"ROLE_PRIVILEGE_IS_NOT_EXIST_ERROR": {int64(11351), "ROLE_PRIVILEGE_IS_NOT_EXIST_ERROR" },
 	
-	// ebook-ebook error	11400 ~ 11499
+	// ebook error	11400 ~ 11499
 	"SIGNIN_ERROR": {int64(11400), "SIGNIN_ERROR" },
-
+	
+	
 	// ebook-ebook error	11500 ~ 11599
 	"ADD_EBOOK_ERROR": {int64(11500), "ADD_EBOOK_ERROR" },
 	"GET_EBOOK_ERROR": {int64(11501), "GET_EBOOK_ERROR" },
 	"EBOOK_IS_NOT_EXIST_ERROR": {int64(11502), "EBOOK_IS_NOT_EXIST_ERROR" },
 	"DELETE_EBOOK_ERROR": {int64(11503), "DELETE_EBOOK_ERROR" },
 	"UPDATE_EBOOK_ERROR": {int64(11504), "UPDATE_EBOOK_ERROR" },
+	
 }
 
 func Code(key string) (Errno int64, Errmsg string) {

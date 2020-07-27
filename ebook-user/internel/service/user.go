@@ -6,7 +6,6 @@ import (
 	"ebook/ebook-user/internel/dao"
 	"ebook/ebook-user/pkg/err_code"
 	"ebook/ebook-user/pkg/utils"
-	"fmt"
 	"log"
 )
 
@@ -22,13 +21,11 @@ func (service *userService) Add(ctx context.Context, req *pb.AddRequest) (respon
 	response = new(pb.AddResponse)
 	// 判断用户是否存在
 	checkUsernameRes, err := service.userDao.FindByFields(map[string]interface{}{"username": req.Username})
-	fmt.Println("------- checkUsernameRes: ", checkUsernameRes)
 	if err != nil {
 		log.Println("")
 		response.Errno, response.Errmsg = err_code.Code("ADD_USER_ERROR")
 		return
 	}
-	fmt.Println("------- len(checkUsernameRes): ", len(checkUsernameRes))
 	if len(checkUsernameRes) != 0 {
 		response.Errno, response.Errmsg = err_code.Code("USERNAME_IS_EXIST_ERROR")
 		return
@@ -36,7 +33,6 @@ func (service *userService) Add(ctx context.Context, req *pb.AddRequest) (respon
 	
 	// 判断邮箱是否存在
 	checkEmailRes, err := service.userDao.FindByFields(map[string]interface{}{"email": req.Email})
-	fmt.Println("------- checkEmailRes: ", checkEmailRes)
 	if err != nil {
 		response.Errno, response.Errmsg = err_code.Code("ADD_USER_ERROR")
 		return
@@ -49,7 +45,6 @@ func (service *userService) Add(ctx context.Context, req *pb.AddRequest) (respon
 	// add salt and hash(salt+password)
 	condition := make(map[string]interface{})
 	condition["userId"] = utils.GenerateRandomString(16)
-	fmt.Println("------- condition[userId]: ", condition["userId"])
 	condition["username"] = req.Username
 	condition["email"] = req.Email
 	condition["roleId"] = req.RoleId
@@ -61,7 +56,7 @@ func (service *userService) Add(ctx context.Context, req *pb.AddRequest) (respon
 		condition["is_delete"] = isDelete
 	}
 	
-	salt := utils.GenerateRandomHex(32)
+	salt := utils.GenerateRandomHex(64)
 	condition["salt"] = salt
 	condition["password"] = utils.GeneratePassword(req.Password, salt)
 	err = service.userDao.Add(condition)
@@ -244,7 +239,7 @@ func (service *userService) Gets(ctx context.Context, req *pb.GetsRequest) (resp
 
 func (service *userService) VerifyPassword(ctx context.Context, req *pb.VerifyPasswordRequest) (response *pb.VerifyPasswordResponse, err error){
 	response = new(pb.VerifyPasswordResponse)
-	users, err := service.userDao.FindByFields(map[string]interface{}{"username": req.Username})
+	users, err := service.userDao.FindByFields(map[string]interface{}{"username": req.Username, "is_delete": 0, "status": 0})
 	if err != nil {
 		response.Errno, response.Errmsg = err_code.Code("GET_USER_ERROR")
 		return
@@ -260,6 +255,16 @@ func (service *userService) VerifyPassword(ctx context.Context, req *pb.VerifyPa
 		response.Errno, response.Errmsg = err_code.Code("PASSWORD_ERROR")
 		return
 	}
-	response.Data = true
+	response.Data = &pb.UserResponseInfo{
+		Id:                   user.ID,
+		UserId:               user.UserId,
+		Username:             user.Username,
+		Email:                user.Email,
+		RoleId:               user.RoleId,
+		Status:               user.Status,
+		IsDelete:             user.IsDelete,
+		CreateTime:           user.CreateTime,
+		UpdateTime:           user.UpdateTime,
+	}
 	return
 }

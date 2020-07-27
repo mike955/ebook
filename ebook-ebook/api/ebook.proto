@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package ebook.api;
+option go_package = "ebook";
+
+service Ebook {
+  rpc Add (AddRequest) returns (AddResponse) {};    // 添加电子书
+  rpc Delete (DeleteRequest) returns (DeleteResponse) {};   // 删除电子书
+  rpc Update (UpdateRequest) returns (UpdateResponse) {};   // 修改电子书
+  rpc Get (GetRequest) returns (GetResponse) {};    // 获取电子书详情
+  rpc Gets (GetsRequest) returns (GetsResponse) {}; // 获取电子书列表
+}
+
+message AddRequest {
+  string user_id  = 1;
+  string ebook_name  = 2;
+  string english_name  = 3;
+  string alias_name  = 4;
+  uint64 category  = 5;
+  string type  = 6;
+  string publish_date  = 7;
+  string key_words  = 8;
+  string hash_value  = 9;
+  string ebook_dir  = 10;
+  string preview_dir  = 11;
+}
+message AddResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  EbookResponseInfo data = 3; 
+}
+
+message DeleteRequest {
+  uint64 id = 1;
+}
+message DeleteResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  bool data = 3; 
+}
+
+message UpdateRequest {
+  uint64 id = 1;         // 选择条件
+  string user_id  = 2;   // 选择条件
+  string ebook_name  = 3;     // 更新字段
+  string english_name  = 4;   // 更新字段
+  string alias_name  = 5;     // 更新字段
+  string type  = 6;           // 更新字段
+  uint64 category  = 7;       // 更新字段
+  string publish_date = 8;    // 更新字段
+  string key_words  = 9;      // 更新字段
+  string hash_value  = 10; // 更新字段
+  string ebook_dir  = 11;// 更新字段
+  string preview_dir  = 12;// 更新字段
+  uint64 is_delete = 13;      // 更新字段
+}
+message UpdateResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  bool data = 3; 
+}
+
+message GetRequest {
+  uint64 id = 1;
+  uint64 user_id  = 2;
+}
+message GetResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  EbookResponseInfo data = 3; 
+}
+
+message GetsRequest {
+  repeated uint64 ids = 1;
+  string user_id  = 2;
+  string ebook_name  = 3;
+  string english_name  = 4;
+  string alias_name  = 5;
+  string type  = 6;
+  uint64 category  = 7;
+  string publish_date = 8;
+  string key_words  = 9;
+  string hash_value  = 10;
+  string ebook_dir  = 11;
+  string preview_dir  = 12;
+  uint64 is_delete = 13;
+  string create_time = 14;
+  string update_time = 15;
+}
+message GetsResponse {
+  int64 errno = 1;
+  string errmsg = 2;
+  repeated EbookResponseInfo data = 3; 
+}
+
+message EbookResponseInfo {
+  uint64 id = 1;
+  string user_id = 2;
+  string ebook_name  = 3;
+  string english_name  = 4;
+  string alias_name  = 5;
+  uint64 category  = 6;
+  string type  = 7;
+  string publish_date  = 8;
+  string key_words  = 9;
+  string hash_value  = 10;
+  string ebook_dir  = 11;
+  string preview_dir  = 12;
+  uint64 is_delete = 13;
+  string create_time = 14;
+  string update_time = 15;
+}
