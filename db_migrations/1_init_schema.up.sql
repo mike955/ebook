@@ -4,8 +4,8 @@ CREATE TABLE `ebook`.`ebook_user` (
     `user_id` BINARY(32) NOT NULL COMMENT '账户id',
     `username` VARCHAR(256) NOT NULL COMMENT '账户名称',
     `email` VARCHAR(256) NOT NULL COMMENT '账户邮箱',
-    `password` BINARY(64) NOT NULL COMMENT '账户名称',
-    `salt` BINARY(64) NOT NULL COMMENT '盐',
+    `password` BINARY(32) NOT NULL COMMENT '账户名称',
+    `salt` BINARY(32) NOT NULL COMMENT '盐',
     `role_id` TINYINT(4) DEFAULT 2 NOT NULL COMMENT '账户角色,1:管理员,2:普通用户',
     `status` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '账户状态,0:正常,1:关闭',
     `is_delete` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '账户状态,0:正常,1:删除',
@@ -14,20 +14,45 @@ CREATE TABLE `ebook`.`ebook_user` (
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='帐号信息表';
 
-DROP TABLE IF EXISTS `ebook`.`ebook`;
-CREATE TABLE `ebook`.`ebook` (
+DROP TABLE IF EXISTS `ebook`.`ebook_ebook`;
+CREATE TABLE `ebook`.`ebook_ebook` (
     `id` BIGINT(32) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `ebook_name` VARCHAR(32) NOT NULL COMMENT '书名',
-    `english_name` VARCHAR(256) NOT NULL COMMENT '书英文名',
-    `alias_name` VARCHAR(256) DEFAULT 2 NOT NULL COMMENT '别名',
-    `category` INT(32) DEFAULT 2 NOT NULL COMMENT '种类',
+    `user_id` CHAR(32) NOT NULL COMMENT '用户id',
+    `ebook_name` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '书名',
+    `english_name` VARCHAR(256) NOT NULL DEFAULT '' COMMENT '书英文名',
+    `alias_name` VARCHAR(256) NOT NULL DEFAULT '' COMMENT '别名',
+    `category` INT(32) NOT NULL DEFAULT 0 COMMENT '种类',
     `publish_date` DATE NOT NULL COMMENT '出版时间',
     `key_words` VARCHAR(256) NOT NULL DEFAULT '' COMMENT '关键字',
+
+
+    `preview_type` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '文件预览图类别',
+    `preview_size` BIGINT(32) NOT NULL DEFAULT 0 COMMENT '预览图大小',
+    `preview_dir` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '预览图路径',
+    `preview_upload_name` VARCHAR(256) NOT NULL DEFAULT '' COMMENT '文件上传名称',
+    `preview_hash_value` CHAR(32) NOT NULL DEFAULT '' COMMENT '文件hash值',
+
+    `ebook_type` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '类别',
+    `ebook_size` BIGINT(64) NOT NULL DEFAULT 0 COMMENT '文件大小',
+    `ebook_dir` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '文件保存路径',
+    `ebook_upload_name` VARCHAR(256) NOT NULL DEFAULT '' COMMENT '文件上传名称',
+    `ebook_hash_value` CHAR(32) NOT NULL DEFAULT '' COMMENT '文件hash值',
+
     `is_delete` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '状态,0:正常,1:删除',
     `create_time` DATETIME NOT NULL COMMENT '创建时间',
     `update_time` DATETIME NOT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='电子书信息表';
+
+DROP TABLE IF EXISTS `ebook`.`ebook_type`;
+CREATE TABLE `ebook`.`ebook_type` (
+    `id` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `type` VARCHAR(16) NOT NULL COMMENT '类别',
+    `is_delete` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '删除标志,0:正常,1:删除',
+    `create_time` DATETIME NOT NULL COMMENT '创建时间',
+    `update_time` DATETIME NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='电子书类型';
 
 DROP TABLE IF EXISTS `ebook`.`ebook_category`;
 CREATE TABLE `ebook`.`ebook_category` (
