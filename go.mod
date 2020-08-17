@@ -7,6 +7,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.14.6
 	github.com/jinzhu/gorm v1.9.14
 	github.com/onsi/ginkgo v1.14.0 // indirect
+	golang.org/x/sys v0.0.0-20200808120158-1030fc2bf1d9 // indirect
 	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013
 	google.golang.org/grpc v1.30.0
 	google.golang.org/protobuf v1.25.0 // indirect
