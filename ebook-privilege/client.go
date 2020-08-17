@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	address     = "127.0.0.1:50802"
+	address = "127.0.0.1:50802"
 )
 
 func main() {
@@ -20,10 +20,10 @@ func main() {
 	}
 	defer conn.Close()
 	c := pb.NewPrivilegeClient(conn)
-	
+
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.AddUser(ctx, &pb.AddUserRequest{UserId: "mike" , RoleId: uint32(122)})
+	r, err := c.AddUser(ctx, &pb.AddUserRequest{UserId: "mike", RoleId: uint32(122)})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}

@@ -6,6 +6,8 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
+	"os"
+	"strconv"
 	"time"
 )
 
@@ -13,23 +15,43 @@ var DB *gorm.DB
 
 type CommonModel struct {
 	ID         uint64 `gorm:"primary_key" json:"id"`
-	CreateTime  string `json:"create_time"`
+	CreateTime string `json:"create_time"`
 	UpdateTime string `json:"update_time"`
 }
 
-func SetUp()  {
+func SetUp() {
 	var err error
+	MYSQL_USER := conf.MYSQL_USER
+	MYSQL_PASSWORD := conf.MYSQL_PASSWORD
+	MYSQL_HOST := conf.MYSQL_HOST
+	MYSQL_PORT := conf.MYSQL_PORT
+	MYSQL_DATABASE := conf.MYSQL_DATABASE
+	if os.Getenv("MYSQL_USER") != "" {
+		MYSQL_USER = os.Getenv("MYSQL_USER")
+	}
+	if os.Getenv("MYSQL_PASSWORD") != "" {
+		MYSQL_PASSWORD = os.Getenv("MYSQL_PASSWORD")
+	}
+	if os.Getenv("MYSQL_PORT") != "" {
+		MYSQL_PORT, _ = strconv.Atoi(os.Getenv("MYSQL_PORT"))
+	}
+	if os.Getenv("MYSQL_HOST") != "" {
+		MYSQL_USER = os.Getenv("MYSQL_HOST")
+	}
+	if os.Getenv("MYSQL_DATABASE") != "" {
+		MYSQL_DATABASE = os.Getenv("MYSQL_DATABASE")
+	}
 	DB, err = gorm.Open(conf.MYSQL_TYPE, fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
-		conf.MYSQL_USER,
-		conf.MYSQL_PASSWORD,
-		conf.MYSQL_HOST,
-		conf.MYSQL_PORT,
-		conf.MYSQL_DATABASE,
+		MYSQL_USER,
+		MYSQL_PASSWORD,
+		MYSQL_HOST,
+		MYSQL_PORT,
+		MYSQL_DATABASE,
 	))
 	if err != nil {
 		log.Fatalf("dao.init.Setup err: %v", err)
 	}
-	
+
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
 		return conf.MYSQL_TABLE_Prefix + defaultTableName
 	}
@@ -56,7 +78,7 @@ func updateTimeStampForCreateCallback(scope *gorm.Scope) {
 				createTimeField.Set(nowTime)
 			}
 		}
-		
+
 		if modifyTimeField, ok := scope.FieldByName("UpdateTime"); ok {
 			if modifyTimeField.IsBlank {
 				modifyTimeField.Set(nowTime)

@@ -9,20 +9,20 @@ import (
 )
 
 type privilegeService struct {
-	roleDao dao.RoleDao
-	privilegeDao dao.PrivilegeDao
-	userRoleDao dao.UserRoleDao
+	roleDao          dao.RoleDao
+	privilegeDao     dao.PrivilegeDao
+	userRoleDao      dao.UserRoleDao
 	rolePrivilegeDao dao.RolePrivilegeDao
 }
 
 var PrivilegeService = &privilegeService{}
 
-func (service *privilegeService) AddUser(ctx context.Context, req *pb.AddUserRequest) (response *pb.AddUserResponse, err error){
+func (service *privilegeService) AddUser(ctx context.Context, req *pb.AddUserRequest) (response *pb.AddUserResponse, err error) {
 	response = new(pb.AddUserResponse)
 	userId := req.GetUserId()
 	roleId := req.GetRoleId()
 	// 验证 grpc 是否会校验参数类型
-	
+
 	// 判断角色 id 是否存在
 	roles, err := service.roleDao.FindByFields(map[string]interface{}{"id": roleId, "is_delete": 0})
 	if err != nil {
@@ -33,7 +33,7 @@ func (service *privilegeService) AddUser(ctx context.Context, req *pb.AddUserReq
 		response.Errno, response.Errmsg = err_code.Code("ROLE_IS_NOT_EXIST_ERROR")
 		return
 	}
-	
+
 	// 判断用户是否存在
 	users, err := service.userRoleDao.FindByFields(map[string]interface{}{"user_id": userId, "role_id": roleId})
 	if err != nil {
@@ -53,7 +53,7 @@ func (service *privilegeService) AddUser(ctx context.Context, req *pb.AddUserReq
 	return
 }
 
-func (service *privilegeService) DeleteUser(ctx context.Context, req *pb.DeleteUserRequest) (response *pb.DeleteUserResponse, err error){
+func (service *privilegeService) DeleteUser(ctx context.Context, req *pb.DeleteUserRequest) (response *pb.DeleteUserResponse, err error) {
 	response = new(pb.DeleteUserResponse)
 	userId := req.GetUserId()
 	// 判断角色 id 是否存在
@@ -74,7 +74,7 @@ func (service *privilegeService) DeleteUser(ctx context.Context, req *pb.DeleteU
 	return
 }
 
-func (service *privilegeService) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (response *pb.UpdateUserResponse, err error){
+func (service *privilegeService) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (response *pb.UpdateUserResponse, err error) {
 	response = new(pb.UpdateUserResponse)
 	userId := req.UserId
 	roleId := req.RoleId
@@ -98,7 +98,7 @@ func (service *privilegeService) UpdateUser(ctx context.Context, req *pb.UpdateU
 		response.Errno, response.Errmsg = err_code.Code("ROLE_IS_NOT_EXIST_ERROR")
 		return
 	}
-	
+
 	if err = service.userRoleDao.UpdateFields(map[string]interface{}{"user_id": userId}, map[string]interface{}{"role_id": roleId}); err != nil {
 		response.Errno, response.Errmsg = err_code.Code("UPDATE_USER_ROLE_ERROR")
 		return
@@ -107,7 +107,7 @@ func (service *privilegeService) UpdateUser(ctx context.Context, req *pb.UpdateU
 	return
 }
 
-func (service *privilegeService) GetUser(ctx context.Context, req *pb.GetUserRequest) (response *pb.GetUserResponse, err error){
+func (service *privilegeService) GetUser(ctx context.Context, req *pb.GetUserRequest) (response *pb.GetUserResponse, err error) {
 	// 判断用户是否存在
 	userId := req.UserId
 	users, err := service.userRoleDao.FindByFields(map[string]interface{}{"user_id": userId, "is_delete": 0})
@@ -120,7 +120,7 @@ func (service *privilegeService) GetUser(ctx context.Context, req *pb.GetUserReq
 		return
 	}
 	roleId := users[0].RoleId
-	roles, err := service.roleDao.FindByFields(map[string]interface{}{"id": roleId, "is_delete": 0 })
+	roles, err := service.roleDao.FindByFields(map[string]interface{}{"id": roleId, "is_delete": 0})
 	if err != nil {
 		response.Errno, response.Errmsg = err_code.Code("GET_ROLE_ERROR")
 		return
@@ -151,18 +151,18 @@ func (service *privilegeService) GetUser(ctx context.Context, req *pb.GetUserReq
 		response.Errno, response.Errmsg = err_code.Code("ROLE_PRIVILEGE_IS_NOT_EXIST_ERROR")
 		return
 	}
-	
+
 	privilegesInfo := make([]*pb.PrivilegeInfo, len(privileges))
 	for _, privilege := range privileges {
 		privilegeInfo := &pb.PrivilegeInfo{
-			Id:                   privilege.ID,
-			PrivilegeName:        privilege.PrivilegeName,
-			Uri:                  privilege.Uri,
-			Sn:                   privilege.Sn,
-			PrivilegeDesc:        privilege.PrivilegeDesc,
-			IsDelete:             privilege.IsDelete,
-			CreateTime:           privilege.CreateTime,
-			UpdateTime:           privilege.UpdateTime,
+			Id:            privilege.ID,
+			PrivilegeName: privilege.PrivilegeName,
+			Uri:           privilege.Uri,
+			Sn:            privilege.Sn,
+			PrivilegeDesc: privilege.PrivilegeDesc,
+			IsDelete:      privilege.IsDelete,
+			CreateTime:    privilege.CreateTime,
+			UpdateTime:    privilege.UpdateTime,
 		}
 		privilegesInfo = append(privilegesInfo, privilegeInfo)
 	}
@@ -181,7 +181,7 @@ func (service *privilegeService) GetUser(ctx context.Context, req *pb.GetUserReq
 	return
 }
 
-func (service *privilegeService) AddRole(ctx context.Context, req *pb.AddRoleRequest) (response *pb.AddRoleResponse, err error){
+func (service *privilegeService) AddRole(ctx context.Context, req *pb.AddRoleRequest) (response *pb.AddRoleResponse, err error) {
 	response = new(pb.AddRoleResponse)
 	roleName := req.RoleName
 	roleDesc := req.RoleDesc
@@ -203,7 +203,7 @@ func (service *privilegeService) AddRole(ctx context.Context, req *pb.AddRoleReq
 	return
 }
 
-func (service *privilegeService) DeleteRole(ctx context.Context, req *pb.DeleteRoleRequest) (response *pb.DeleteRoleResponse, err error){
+func (service *privilegeService) DeleteRole(ctx context.Context, req *pb.DeleteRoleRequest) (response *pb.DeleteRoleResponse, err error) {
 	response = new(pb.DeleteRoleResponse)
 	roleId := req.RoleId
 	// 判断角色 id 是否存在
@@ -224,7 +224,7 @@ func (service *privilegeService) DeleteRole(ctx context.Context, req *pb.DeleteR
 	return
 }
 
-func (service *privilegeService) UpdateRole(ctx context.Context, req *pb.UpdateRoleRequest) (response *pb.UpdateRoleResponse, err error){
+func (service *privilegeService) UpdateRole(ctx context.Context, req *pb.UpdateRoleRequest) (response *pb.UpdateRoleResponse, err error) {
 	response = new(pb.UpdateRoleResponse)
 	roleId := req.Id
 	// 判断角色 id 是否存在
@@ -245,18 +245,18 @@ func (service *privilegeService) UpdateRole(ctx context.Context, req *pb.UpdateR
 	return
 }
 
-func (service *privilegeService) GetRole(ctx context.Context, req *pb.GetRoleRequest) (response *pb.GetRoleResponse, err error){
+func (service *privilegeService) GetRole(ctx context.Context, req *pb.GetRoleRequest) (response *pb.GetRoleResponse, err error) {
 	fmt.Println(req)
 	response = new(pb.GetRoleResponse)
-	conditions := map[string]interface{}{ "is_delete": 0}
+	conditions := map[string]interface{}{"is_delete": 0}
 	if roleId := req.Id; roleId != 0 {
 		conditions["id"] = roleId
 	}
 	if roleName := req.RoleName; roleName != "" {
-		conditions["role_name"] = roleName			// todo like
+		conditions["role_name"] = roleName // todo like
 	}
 	if roleDesc := req.RoleDesc; roleDesc != "" {
-		conditions["role_desc"] = roleDesc			// todo like
+		conditions["role_desc"] = roleDesc // todo like
 	}
 	roles, err := service.roleDao.FindByFields(conditions)
 	if err != nil {
@@ -276,15 +276,15 @@ func (service *privilegeService) GetRole(ctx context.Context, req *pb.GetRoleReq
 	}
 	privilegesInfo := make([]*pb.PrivilegeInfo, 0)
 	response.Data = &pb.GetRoleResponse_Data{
-		RoleInfo:             &pb.RoleInfo{
-			Id:                   roles[0].ID,
-			RoleName:             roles[0].RoleName,
-			RoleDesc:             roles[0].RoleDesc,
-			IsDelete:             roles[0].IsDelete,
-			CreateTime:           roles[0].CreateTime,
-			UpdateTime:           roles[0].UpdateTime,
+		RoleInfo: &pb.RoleInfo{
+			Id:         roles[0].ID,
+			RoleName:   roles[0].RoleName,
+			RoleDesc:   roles[0].RoleDesc,
+			IsDelete:   roles[0].IsDelete,
+			CreateTime: roles[0].CreateTime,
+			UpdateTime: roles[0].UpdateTime,
 		},
-		Privileges:           privilegesInfo,
+		Privileges: privilegesInfo,
 	}
 	fmt.Println(rolePrivileges)
 	if len(rolePrivileges) != 0 {
@@ -292,7 +292,7 @@ func (service *privilegeService) GetRole(ctx context.Context, req *pb.GetRoleReq
 		for _, rolePrivilege := range rolePrivileges {
 			privilegeIds = append(privilegeIds, rolePrivilege.PrivilegeId)
 		}
-		privileges, err := service.privilegeDao.FindByFields(map[string]interface{}{"id": privilegeIds});
+		privileges, err := service.privilegeDao.FindByFields(map[string]interface{}{"id": privilegeIds})
 		if err != nil {
 			response.Errno, response.Errmsg = err_code.Code("GET_PRIVILEGE_ERROR")
 			return response, nil
@@ -300,14 +300,14 @@ func (service *privilegeService) GetRole(ctx context.Context, req *pb.GetRoleReq
 		if len(privileges) > 0 {
 			for _, privilege := range privileges {
 				privilegeInfo := &pb.PrivilegeInfo{
-					Id:                   privilege.ID,
-					PrivilegeName:        privilege.PrivilegeName,
-					Uri:                  privilege.Uri,
-					Sn:                   privilege.Sn,
-					PrivilegeDesc:        privilege.PrivilegeDesc,
-					IsDelete:             privilege.IsDelete,
-					CreateTime:           privilege.CreateTime,
-					UpdateTime:           privilege.UpdateTime,
+					Id:            privilege.ID,
+					PrivilegeName: privilege.PrivilegeName,
+					Uri:           privilege.Uri,
+					Sn:            privilege.Sn,
+					PrivilegeDesc: privilege.PrivilegeDesc,
+					IsDelete:      privilege.IsDelete,
+					CreateTime:    privilege.CreateTime,
+					UpdateTime:    privilege.UpdateTime,
 				}
 				privilegesInfo = append(privilegesInfo, privilegeInfo)
 			}
@@ -317,7 +317,7 @@ func (service *privilegeService) GetRole(ctx context.Context, req *pb.GetRoleReq
 	return
 }
 
-func (service *privilegeService) AddPrivilege(ctx context.Context, req *pb.AddPrivilegeRequest) (response *pb.AddPrivilegeResponse, err error){
+func (service *privilegeService) AddPrivilege(ctx context.Context, req *pb.AddPrivilegeRequest) (response *pb.AddPrivilegeResponse, err error) {
 	response = new(pb.AddPrivilegeResponse)
 	privileges, err := service.privilegeDao.FindByFields(map[string]interface{}{"uri": req.Uri})
 	if err != nil {
@@ -330,8 +330,8 @@ func (service *privilegeService) AddPrivilege(ctx context.Context, req *pb.AddPr
 	}
 	newPrivilege := map[string]interface{}{
 		"privilege_name": req.PrivilegeName,
-		"uri": req.Uri,
-		"sn": req.Sn,
+		"uri":            req.Uri,
+		"sn":             req.Sn,
 		"privilege_desc": req.PrivilegeDesc,
 	}
 	err = service.privilegeDao.Add(newPrivilege)
@@ -342,11 +342,11 @@ func (service *privilegeService) AddPrivilege(ctx context.Context, req *pb.AddPr
 	return
 }
 
-func (service *privilegeService) AddPrivileges(ctx context.Context, req *pb.AddPrivilegesRequest) (response *pb.AddPrivilegesResponse, err error){
+func (service *privilegeService) AddPrivileges(ctx context.Context, req *pb.AddPrivilegesRequest) (response *pb.AddPrivilegesResponse, err error) {
 	return
 }
 
-func (service *privilegeService) DeletePrivilege(ctx context.Context, req *pb.DeletePrivilegeRequest) (response *pb.DeletePrivilegeResponse, err error){
+func (service *privilegeService) DeletePrivilege(ctx context.Context, req *pb.DeletePrivilegeRequest) (response *pb.DeletePrivilegeResponse, err error) {
 	response = new(pb.DeletePrivilegeResponse)
 	privilegeId := req.PrivilegeId
 	privileges, err := service.privilegeDao.FindByFields(map[string]interface{}{"id": privilegeId, "is_delete": 0})
@@ -366,7 +366,7 @@ func (service *privilegeService) DeletePrivilege(ctx context.Context, req *pb.De
 	return
 }
 
-func (service *privilegeService) DeletePrivileges(ctx context.Context, req *pb.DeletePrivilegesRequest) (response *pb.DeletePrivilegesResponse, err error){
+func (service *privilegeService) DeletePrivileges(ctx context.Context, req *pb.DeletePrivilegesRequest) (response *pb.DeletePrivilegesResponse, err error) {
 	response = new(pb.DeletePrivilegesResponse)
 	privilegeIds := req.PrivilegeIds
 	privileges, err := service.privilegeDao.FindByFields(map[string]interface{}{"id": privilegeIds, "is_delete": 0})
@@ -386,7 +386,7 @@ func (service *privilegeService) DeletePrivileges(ctx context.Context, req *pb.D
 	return
 }
 
-func (service *privilegeService) UpdatePrivilege(ctx context.Context, req *pb.UpdatePrivilegeRequest) (response *pb.UpdatePrivilegeResponse, err error){
+func (service *privilegeService) UpdatePrivilege(ctx context.Context, req *pb.UpdatePrivilegeRequest) (response *pb.UpdatePrivilegeResponse, err error) {
 	response = new(pb.UpdatePrivilegeResponse)
 	privilegeId := req.PrivilegeId
 	privileges, err := service.privilegeDao.FindByFields(map[string]interface{}{"id": privilegeId})
@@ -419,7 +419,7 @@ func (service *privilegeService) UpdatePrivilege(ctx context.Context, req *pb.Up
 	return
 }
 
-func (service *privilegeService) GetPrivilege(ctx context.Context, req *pb.GetPrivilegeRequest) (response *pb.GetPrivilegeResponse, err error){
+func (service *privilegeService) GetPrivilege(ctx context.Context, req *pb.GetPrivilegeRequest) (response *pb.GetPrivilegeResponse, err error) {
 	response = new(pb.GetPrivilegeResponse)
 	privilegeId := req.PrivilegeId
 	privileges, err := service.privilegeDao.FindByFields(map[string]interface{}{"id": privilegeId, "is_delete": 0})
@@ -433,15 +433,14 @@ func (service *privilegeService) GetPrivilege(ctx context.Context, req *pb.GetPr
 	}
 	privilege := privileges[0]
 	response.Data = &pb.PrivilegeInfo{
-		Id:                   privilege.ID,
-		PrivilegeName:        privilege.PrivilegeName,
-		Uri:                  privilege.Uri,
-		Sn:                   privilege.Sn,
-		PrivilegeDesc:        privilege.PrivilegeDesc,
-		IsDelete:             privilege.IsDelete,
-		CreateTime:           privilege.CreateTime,
-		UpdateTime:           privilege.UpdateTime,
+		Id:            privilege.ID,
+		PrivilegeName: privilege.PrivilegeName,
+		Uri:           privilege.Uri,
+		Sn:            privilege.Sn,
+		PrivilegeDesc: privilege.PrivilegeDesc,
+		IsDelete:      privilege.IsDelete,
+		CreateTime:    privilege.CreateTime,
+		UpdateTime:    privilege.UpdateTime,
 	}
 	return
 }
-

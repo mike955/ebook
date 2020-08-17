@@ -10,11 +10,11 @@ import (
 	"net"
 )
 
-func init()  {
+func init() {
 	dao.SetUp()
 }
 
-func main()  {
+func main() {
 	port := conf.GRPC_PRIVILEGE_PORT
 	if os.Getenv("port") != "" {
 		port = fmt.Sprintf(":%s", os.Getenv("port"))
