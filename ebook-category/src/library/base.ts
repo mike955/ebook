@@ -20,7 +20,7 @@ export default class Base {
   private throw_params_error(prop_name) {
     console.log(`error params.${prop_name}`);
     this.logger.error(`error params.${prop_name}`);
-    throw this.new_sys_error('PARAMS_ERR', `error params`);
+    throw this.new_sys_error('PARAMS_ERR', `error params.${prop_name}`);
   }
 
   throw_sys_error(e: string, err_msg?: string): never {

@@ -35,9 +35,12 @@ export default class Router {
           errmsg: '',
           data: result,
         }
+      } else {
+        koaCtx.body = result
       }
     } catch (error) {
-      console.log('execute fname error: ' + error);
+      console.log('execute fname error: ' + JSON.stringify(error));
+      koaCtx.body = error;
     }
   }
 }

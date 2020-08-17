@@ -29,14 +29,14 @@ export default class CategoryData extends Base {
   async getList(conditions: { page: number; count: string; ids:string}) {
     let getParams = { page: conditions.page, count: conditions.count };
     if (conditions.ids != undefined) {
-      getParams['id'] = { where: { $in: conditions.ids }}
+      getParams['where'] = { id: { [sequelize.Op.in]: conditions.ids }}
     }
-    let res = await this.categoryDao.getListByConds(getParams);
+    let res = await this.categoryDao.getPageListByConds(getParams);
     return res;
   }
 
   async delete(id: number) {
-    let res = await this.categoryDao.delById(id);
-    return res;
+    let res = await this.categoryDao.updateById(id, {is_delete: 1});
+    return res.length;
   }
 }

@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/app.ts"
+    "dev": "ts-node src/app.ts",
+    "build": "npx tsc",
+    "test": "ts-node src/app.ts",
+    "start": "node bin/www"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +17,7 @@
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-morgan": "^1.0.4",
     "@types/lodash": "^4.14.157",
+    "@types/mocha": "^8.0.1",
     "@types/node": "^14.0.22",
     "@types/sequelize": "^4.28.9",
     "@types/validator": "^13.1.0",

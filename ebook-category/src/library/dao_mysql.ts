@@ -184,6 +184,7 @@ export default class DaoMySQL<TAttributes> extends Base {
 
   async updateById(id, arrFields) {
     try {
+      console.log("======== arrFields: ", arrFields)
       return await this.model.update(arrFields, { where: { id: id } });
     } catch (err) {
       this.logger.error(err);
@@ -223,6 +224,7 @@ export default class DaoMySQL<TAttributes> extends Base {
       var conds = {};
       opt = opt || {};
       var where = opt.where;
+      console.log(JSON.stringify(opt.where))
       if (where) {
         conds['where'] = this.getWhere(where);
       }
@@ -243,6 +245,8 @@ export default class DaoMySQL<TAttributes> extends Base {
       var include_fields = opt.include_fields;
       if (include_fields) conds['attributes'] = include_fields;
       conds['raw'] = true;
+      console.log("=========")
+      console.log(JSON.stringify(conds))
       return await this.model.findAndCountAll(conds);
     } catch (err) {
       this.logger.error(err);

@@ -45,7 +45,7 @@ app.use(async function (ctx: Koa.Context) {
   ctx.body = 'Not Found';
 });
 
-console.log("server start at 3000");
-app.listen("3000")
+// console.log("server start at 3000");
+// app.listen("3000")
 
 export = app;
