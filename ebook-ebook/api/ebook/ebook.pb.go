@@ -31,13 +31,19 @@ type AddRequest struct {
 	EbookName            string   `protobuf:"bytes,2,opt,name=ebook_name,json=ebookName,proto3" json:"ebook_name,omitempty"`
 	EnglishName          string   `protobuf:"bytes,3,opt,name=english_name,json=englishName,proto3" json:"english_name,omitempty"`
 	AliasName            string   `protobuf:"bytes,4,opt,name=alias_name,json=aliasName,proto3" json:"alias_name,omitempty"`
-	Category             uint64   `protobuf:"varint,5,opt,name=category,proto3" json:"category,omitempty"`
-	Type                 string   `protobuf:"bytes,6,opt,name=type,proto3" json:"type,omitempty"`
-	PublishDate          string   `protobuf:"bytes,7,opt,name=publish_date,json=publishDate,proto3" json:"publish_date,omitempty"`
-	KeyWords             string   `protobuf:"bytes,8,opt,name=key_words,json=keyWords,proto3" json:"key_words,omitempty"`
-	HashValue            string   `protobuf:"bytes,9,opt,name=hash_value,json=hashValue,proto3" json:"hash_value,omitempty"`
-	EbookDir             string   `protobuf:"bytes,10,opt,name=ebook_dir,json=ebookDir,proto3" json:"ebook_dir,omitempty"`
-	PreviewDir           string   `protobuf:"bytes,11,opt,name=preview_dir,json=previewDir,proto3" json:"preview_dir,omitempty"`
+	Category             string   `protobuf:"bytes,5,opt,name=category,proto3" json:"category,omitempty"`
+	PublishDate          string   `protobuf:"bytes,6,opt,name=publish_date,json=publishDate,proto3" json:"publish_date,omitempty"`
+	KeyWords             string   `protobuf:"bytes,7,opt,name=key_words,json=keyWords,proto3" json:"key_words,omitempty"`
+	PreviewType          string   `protobuf:"bytes,8,opt,name=preview_type,json=previewType,proto3" json:"preview_type,omitempty"`
+	PreviewSize          int64    `protobuf:"varint,9,opt,name=preview_size,json=previewSize,proto3" json:"preview_size,omitempty"`
+	PreviewDir           string   `protobuf:"bytes,10,opt,name=preview_dir,json=previewDir,proto3" json:"preview_dir,omitempty"`
+	PreviewUploadName    string   `protobuf:"bytes,11,opt,name=preview_upload_name,json=previewUploadName,proto3" json:"preview_upload_name,omitempty"`
+	PreviewHashValue     string   `protobuf:"bytes,12,opt,name=preview_hash_value,json=previewHashValue,proto3" json:"preview_hash_value,omitempty"`
+	EbookType            string   `protobuf:"bytes,13,opt,name=ebook_type,json=ebookType,proto3" json:"ebook_type,omitempty"`
+	EbookSize            int64    `protobuf:"varint,14,opt,name=ebook_size,json=ebookSize,proto3" json:"ebook_size,omitempty"`
+	EbookDir             string   `protobuf:"bytes,15,opt,name=ebook_dir,json=ebookDir,proto3" json:"ebook_dir,omitempty"`
+	EbookUploadName      string   `protobuf:"bytes,16,opt,name=ebook_upload_name,json=ebookUploadName,proto3" json:"ebook_upload_name,omitempty"`
+	EbookHashValue       string   `protobuf:"bytes,17,opt,name=ebook_hash_value,json=ebookHashValue,proto3" json:"ebook_hash_value,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -104,16 +110,9 @@ func (m *AddRequest) GetAliasName() string {
 	return ""
 }
 
-func (m *AddRequest) GetCategory() uint64 {
+func (m *AddRequest) GetCategory() string {
 	if m != nil {
 		return m.Category
-	}
-	return 0
-}
-
-func (m *AddRequest) GetType() string {
-	if m != nil {
-		return m.Type
 	}
 	return ""
 }
@@ -132,11 +131,53 @@ func (m *AddRequest) GetKeyWords() string {
 	return ""
 }
 
-func (m *AddRequest) GetHashValue() string {
+func (m *AddRequest) GetPreviewType() string {
 	if m != nil {
-		return m.HashValue
+		return m.PreviewType
 	}
 	return ""
+}
+
+func (m *AddRequest) GetPreviewSize() int64 {
+	if m != nil {
+		return m.PreviewSize
+	}
+	return 0
+}
+
+func (m *AddRequest) GetPreviewDir() string {
+	if m != nil {
+		return m.PreviewDir
+	}
+	return ""
+}
+
+func (m *AddRequest) GetPreviewUploadName() string {
+	if m != nil {
+		return m.PreviewUploadName
+	}
+	return ""
+}
+
+func (m *AddRequest) GetPreviewHashValue() string {
+	if m != nil {
+		return m.PreviewHashValue
+	}
+	return ""
+}
+
+func (m *AddRequest) GetEbookType() string {
+	if m != nil {
+		return m.EbookType
+	}
+	return ""
+}
+
+func (m *AddRequest) GetEbookSize() int64 {
+	if m != nil {
+		return m.EbookSize
+	}
+	return 0
 }
 
 func (m *AddRequest) GetEbookDir() string {
@@ -146,9 +187,16 @@ func (m *AddRequest) GetEbookDir() string {
 	return ""
 }
 
-func (m *AddRequest) GetPreviewDir() string {
+func (m *AddRequest) GetEbookUploadName() string {
 	if m != nil {
-		return m.PreviewDir
+		return m.EbookUploadName
+	}
+	return ""
+}
+
+func (m *AddRequest) GetEbookHashValue() string {
+	if m != nil {
+		return m.EbookHashValue
 	}
 	return ""
 }
@@ -332,14 +380,19 @@ type UpdateRequest struct {
 	EbookName            string   `protobuf:"bytes,3,opt,name=ebook_name,json=ebookName,proto3" json:"ebook_name,omitempty"`
 	EnglishName          string   `protobuf:"bytes,4,opt,name=english_name,json=englishName,proto3" json:"english_name,omitempty"`
 	AliasName            string   `protobuf:"bytes,5,opt,name=alias_name,json=aliasName,proto3" json:"alias_name,omitempty"`
-	Type                 string   `protobuf:"bytes,6,opt,name=type,proto3" json:"type,omitempty"`
-	Category             uint64   `protobuf:"varint,7,opt,name=category,proto3" json:"category,omitempty"`
-	PublishDate          string   `protobuf:"bytes,8,opt,name=publish_date,json=publishDate,proto3" json:"publish_date,omitempty"`
-	KeyWords             string   `protobuf:"bytes,9,opt,name=key_words,json=keyWords,proto3" json:"key_words,omitempty"`
-	HashValue            string   `protobuf:"bytes,10,opt,name=hash_value,json=hashValue,proto3" json:"hash_value,omitempty"`
-	EbookDir             string   `protobuf:"bytes,11,opt,name=ebook_dir,json=ebookDir,proto3" json:"ebook_dir,omitempty"`
-	PreviewDir           string   `protobuf:"bytes,12,opt,name=preview_dir,json=previewDir,proto3" json:"preview_dir,omitempty"`
-	IsDelete             uint64   `protobuf:"varint,13,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`
+	Category             string   `protobuf:"bytes,6,opt,name=category,proto3" json:"category,omitempty"`
+	PublishDate          string   `protobuf:"bytes,7,opt,name=publish_date,json=publishDate,proto3" json:"publish_date,omitempty"`
+	KeyWords             string   `protobuf:"bytes,8,opt,name=key_words,json=keyWords,proto3" json:"key_words,omitempty"`
+	PreviewType          string   `protobuf:"bytes,9,opt,name=preview_type,json=previewType,proto3" json:"preview_type,omitempty"`
+	PreviewSize          int64    `protobuf:"varint,10,opt,name=preview_size,json=previewSize,proto3" json:"preview_size,omitempty"`
+	PreviewDir           string   `protobuf:"bytes,11,opt,name=preview_dir,json=previewDir,proto3" json:"preview_dir,omitempty"`
+	PreviewUploadName    string   `protobuf:"bytes,12,opt,name=preview_upload_name,json=previewUploadName,proto3" json:"preview_upload_name,omitempty"`
+	PreviewHashValue     string   `protobuf:"bytes,13,opt,name=preview_hash_value,json=previewHashValue,proto3" json:"preview_hash_value,omitempty"`
+	EbookType            string   `protobuf:"bytes,14,opt,name=ebook_type,json=ebookType,proto3" json:"ebook_type,omitempty"`
+	EbookSize            int64    `protobuf:"varint,15,opt,name=ebook_size,json=ebookSize,proto3" json:"ebook_size,omitempty"`
+	EbookDir             string   `protobuf:"bytes,16,opt,name=ebook_dir,json=ebookDir,proto3" json:"ebook_dir,omitempty"`
+	EbookUploadName      string   `protobuf:"bytes,17,opt,name=ebook_upload_name,json=ebookUploadName,proto3" json:"ebook_upload_name,omitempty"`
+	EbookHashValue       string   `protobuf:"bytes,18,opt,name=ebook_hash_value,json=ebookHashValue,proto3" json:"ebook_hash_value,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -413,18 +466,11 @@ func (m *UpdateRequest) GetAliasName() string {
 	return ""
 }
 
-func (m *UpdateRequest) GetType() string {
-	if m != nil {
-		return m.Type
-	}
-	return ""
-}
-
-func (m *UpdateRequest) GetCategory() uint64 {
+func (m *UpdateRequest) GetCategory() string {
 	if m != nil {
 		return m.Category
 	}
-	return 0
+	return ""
 }
 
 func (m *UpdateRequest) GetPublishDate() string {
@@ -441,18 +487,18 @@ func (m *UpdateRequest) GetKeyWords() string {
 	return ""
 }
 
-func (m *UpdateRequest) GetHashValue() string {
+func (m *UpdateRequest) GetPreviewType() string {
 	if m != nil {
-		return m.HashValue
+		return m.PreviewType
 	}
 	return ""
 }
 
-func (m *UpdateRequest) GetEbookDir() string {
+func (m *UpdateRequest) GetPreviewSize() int64 {
 	if m != nil {
-		return m.EbookDir
+		return m.PreviewSize
 	}
-	return ""
+	return 0
 }
 
 func (m *UpdateRequest) GetPreviewDir() string {
@@ -462,11 +508,53 @@ func (m *UpdateRequest) GetPreviewDir() string {
 	return ""
 }
 
-func (m *UpdateRequest) GetIsDelete() uint64 {
+func (m *UpdateRequest) GetPreviewUploadName() string {
 	if m != nil {
-		return m.IsDelete
+		return m.PreviewUploadName
+	}
+	return ""
+}
+
+func (m *UpdateRequest) GetPreviewHashValue() string {
+	if m != nil {
+		return m.PreviewHashValue
+	}
+	return ""
+}
+
+func (m *UpdateRequest) GetEbookType() string {
+	if m != nil {
+		return m.EbookType
+	}
+	return ""
+}
+
+func (m *UpdateRequest) GetEbookSize() int64 {
+	if m != nil {
+		return m.EbookSize
 	}
 	return 0
+}
+
+func (m *UpdateRequest) GetEbookDir() string {
+	if m != nil {
+		return m.EbookDir
+	}
+	return ""
+}
+
+func (m *UpdateRequest) GetEbookUploadName() string {
+	if m != nil {
+		return m.EbookUploadName
+	}
+	return ""
+}
+
+func (m *UpdateRequest) GetEbookHashValue() string {
+	if m != nil {
+		return m.EbookHashValue
+	}
+	return ""
 }
 
 type UpdateResponse struct {
@@ -534,7 +622,7 @@ func (m *UpdateResponse) GetData() bool {
 
 type GetRequest struct {
 	Id                   uint64   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId               uint64   `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserId               string   `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -580,11 +668,11 @@ func (m *GetRequest) GetId() uint64 {
 	return 0
 }
 
-func (m *GetRequest) GetUserId() uint64 {
+func (m *GetRequest) GetUserId() string {
 	if m != nil {
 		return m.UserId
 	}
-	return 0
+	return ""
 }
 
 type GetResponse struct {
@@ -656,16 +744,18 @@ type GetsRequest struct {
 	EbookName            string   `protobuf:"bytes,3,opt,name=ebook_name,json=ebookName,proto3" json:"ebook_name,omitempty"`
 	EnglishName          string   `protobuf:"bytes,4,opt,name=english_name,json=englishName,proto3" json:"english_name,omitempty"`
 	AliasName            string   `protobuf:"bytes,5,opt,name=alias_name,json=aliasName,proto3" json:"alias_name,omitempty"`
-	Type                 string   `protobuf:"bytes,6,opt,name=type,proto3" json:"type,omitempty"`
-	Category             uint64   `protobuf:"varint,7,opt,name=category,proto3" json:"category,omitempty"`
-	PublishDate          string   `protobuf:"bytes,8,opt,name=publish_date,json=publishDate,proto3" json:"publish_date,omitempty"`
-	KeyWords             string   `protobuf:"bytes,9,opt,name=key_words,json=keyWords,proto3" json:"key_words,omitempty"`
-	HashValue            string   `protobuf:"bytes,10,opt,name=hash_value,json=hashValue,proto3" json:"hash_value,omitempty"`
-	EbookDir             string   `protobuf:"bytes,11,opt,name=ebook_dir,json=ebookDir,proto3" json:"ebook_dir,omitempty"`
-	PreviewDir           string   `protobuf:"bytes,12,opt,name=preview_dir,json=previewDir,proto3" json:"preview_dir,omitempty"`
-	IsDelete             uint64   `protobuf:"varint,13,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`
-	CreateTime           string   `protobuf:"bytes,14,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
-	UpdateTime           string   `protobuf:"bytes,15,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
+	Category             string   `protobuf:"bytes,6,opt,name=category,proto3" json:"category,omitempty"`
+	PublishDate          string   `protobuf:"bytes,7,opt,name=publish_date,json=publishDate,proto3" json:"publish_date,omitempty"`
+	KeyWords             string   `protobuf:"bytes,8,opt,name=key_words,json=keyWords,proto3" json:"key_words,omitempty"`
+	PreviewType          string   `protobuf:"bytes,9,opt,name=preview_type,json=previewType,proto3" json:"preview_type,omitempty"`
+	PreviewSize          int64    `protobuf:"varint,10,opt,name=preview_size,json=previewSize,proto3" json:"preview_size,omitempty"`
+	PreviewUploadName    string   `protobuf:"bytes,11,opt,name=preview_upload_name,json=previewUploadName,proto3" json:"preview_upload_name,omitempty"`
+	EbookType            string   `protobuf:"bytes,12,opt,name=ebook_type,json=ebookType,proto3" json:"ebook_type,omitempty"`
+	EbookSize            int64    `protobuf:"varint,13,opt,name=ebook_size,json=ebookSize,proto3" json:"ebook_size,omitempty"`
+	EbookUploadName      string   `protobuf:"bytes,14,opt,name=ebook_upload_name,json=ebookUploadName,proto3" json:"ebook_upload_name,omitempty"`
+	IsDelete             uint64   `protobuf:"varint,15,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`
+	CreateTime           string   `protobuf:"bytes,16,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	UpdateTime           string   `protobuf:"bytes,17,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -739,18 +829,11 @@ func (m *GetsRequest) GetAliasName() string {
 	return ""
 }
 
-func (m *GetsRequest) GetType() string {
-	if m != nil {
-		return m.Type
-	}
-	return ""
-}
-
-func (m *GetsRequest) GetCategory() uint64 {
+func (m *GetsRequest) GetCategory() string {
 	if m != nil {
 		return m.Category
 	}
-	return 0
+	return ""
 }
 
 func (m *GetsRequest) GetPublishDate() string {
@@ -767,23 +850,44 @@ func (m *GetsRequest) GetKeyWords() string {
 	return ""
 }
 
-func (m *GetsRequest) GetHashValue() string {
+func (m *GetsRequest) GetPreviewType() string {
 	if m != nil {
-		return m.HashValue
+		return m.PreviewType
 	}
 	return ""
 }
 
-func (m *GetsRequest) GetEbookDir() string {
+func (m *GetsRequest) GetPreviewSize() int64 {
 	if m != nil {
-		return m.EbookDir
+		return m.PreviewSize
+	}
+	return 0
+}
+
+func (m *GetsRequest) GetPreviewUploadName() string {
+	if m != nil {
+		return m.PreviewUploadName
 	}
 	return ""
 }
 
-func (m *GetsRequest) GetPreviewDir() string {
+func (m *GetsRequest) GetEbookType() string {
 	if m != nil {
-		return m.PreviewDir
+		return m.EbookType
+	}
+	return ""
+}
+
+func (m *GetsRequest) GetEbookSize() int64 {
+	if m != nil {
+		return m.EbookSize
+	}
+	return 0
+}
+
+func (m *GetsRequest) GetEbookUploadName() string {
+	if m != nil {
+		return m.EbookUploadName
 	}
 	return ""
 }
@@ -878,16 +982,22 @@ type EbookResponseInfo struct {
 	EbookName            string   `protobuf:"bytes,3,opt,name=ebook_name,json=ebookName,proto3" json:"ebook_name,omitempty"`
 	EnglishName          string   `protobuf:"bytes,4,opt,name=english_name,json=englishName,proto3" json:"english_name,omitempty"`
 	AliasName            string   `protobuf:"bytes,5,opt,name=alias_name,json=aliasName,proto3" json:"alias_name,omitempty"`
-	Category             uint64   `protobuf:"varint,6,opt,name=category,proto3" json:"category,omitempty"`
-	Type                 string   `protobuf:"bytes,7,opt,name=type,proto3" json:"type,omitempty"`
-	PublishDate          string   `protobuf:"bytes,8,opt,name=publish_date,json=publishDate,proto3" json:"publish_date,omitempty"`
-	KeyWords             string   `protobuf:"bytes,9,opt,name=key_words,json=keyWords,proto3" json:"key_words,omitempty"`
-	HashValue            string   `protobuf:"bytes,10,opt,name=hash_value,json=hashValue,proto3" json:"hash_value,omitempty"`
-	EbookDir             string   `protobuf:"bytes,11,opt,name=ebook_dir,json=ebookDir,proto3" json:"ebook_dir,omitempty"`
-	PreviewDir           string   `protobuf:"bytes,12,opt,name=preview_dir,json=previewDir,proto3" json:"preview_dir,omitempty"`
-	IsDelete             uint64   `protobuf:"varint,13,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`
-	CreateTime           string   `protobuf:"bytes,14,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
-	UpdateTime           string   `protobuf:"bytes,15,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
+	Category             string   `protobuf:"bytes,6,opt,name=category,proto3" json:"category,omitempty"`
+	PublishDate          string   `protobuf:"bytes,7,opt,name=publish_date,json=publishDate,proto3" json:"publish_date,omitempty"`
+	KeyWords             string   `protobuf:"bytes,8,opt,name=key_words,json=keyWords,proto3" json:"key_words,omitempty"`
+	PreviewType          string   `protobuf:"bytes,9,opt,name=preview_type,json=previewType,proto3" json:"preview_type,omitempty"`
+	PreviewSize          int64    `protobuf:"varint,10,opt,name=preview_size,json=previewSize,proto3" json:"preview_size,omitempty"`
+	PreviewDir           string   `protobuf:"bytes,11,opt,name=preview_dir,json=previewDir,proto3" json:"preview_dir,omitempty"`
+	PreviewUploadName    string   `protobuf:"bytes,12,opt,name=preview_upload_name,json=previewUploadName,proto3" json:"preview_upload_name,omitempty"`
+	PreviewHashValue     string   `protobuf:"bytes,13,opt,name=preview_hash_value,json=previewHashValue,proto3" json:"preview_hash_value,omitempty"`
+	EbookType            string   `protobuf:"bytes,14,opt,name=ebook_type,json=ebookType,proto3" json:"ebook_type,omitempty"`
+	EbookSize            int64    `protobuf:"varint,15,opt,name=ebook_size,json=ebookSize,proto3" json:"ebook_size,omitempty"`
+	EbookDir             string   `protobuf:"bytes,16,opt,name=ebook_dir,json=ebookDir,proto3" json:"ebook_dir,omitempty"`
+	EbookUploadName      string   `protobuf:"bytes,17,opt,name=ebook_upload_name,json=ebookUploadName,proto3" json:"ebook_upload_name,omitempty"`
+	EbookHashValue       string   `protobuf:"bytes,18,opt,name=ebook_hash_value,json=ebookHashValue,proto3" json:"ebook_hash_value,omitempty"`
+	IsDelete             uint64   `protobuf:"varint,19,opt,name=is_delete,json=isDelete,proto3" json:"is_delete,omitempty"`
+	CreateTime           string   `protobuf:"bytes,20,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	UpdateTime           string   `protobuf:"bytes,21,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -961,16 +1071,9 @@ func (m *EbookResponseInfo) GetAliasName() string {
 	return ""
 }
 
-func (m *EbookResponseInfo) GetCategory() uint64 {
+func (m *EbookResponseInfo) GetCategory() string {
 	if m != nil {
 		return m.Category
-	}
-	return 0
-}
-
-func (m *EbookResponseInfo) GetType() string {
-	if m != nil {
-		return m.Type
 	}
 	return ""
 }
@@ -989,11 +1092,53 @@ func (m *EbookResponseInfo) GetKeyWords() string {
 	return ""
 }
 
-func (m *EbookResponseInfo) GetHashValue() string {
+func (m *EbookResponseInfo) GetPreviewType() string {
 	if m != nil {
-		return m.HashValue
+		return m.PreviewType
 	}
 	return ""
+}
+
+func (m *EbookResponseInfo) GetPreviewSize() int64 {
+	if m != nil {
+		return m.PreviewSize
+	}
+	return 0
+}
+
+func (m *EbookResponseInfo) GetPreviewDir() string {
+	if m != nil {
+		return m.PreviewDir
+	}
+	return ""
+}
+
+func (m *EbookResponseInfo) GetPreviewUploadName() string {
+	if m != nil {
+		return m.PreviewUploadName
+	}
+	return ""
+}
+
+func (m *EbookResponseInfo) GetPreviewHashValue() string {
+	if m != nil {
+		return m.PreviewHashValue
+	}
+	return ""
+}
+
+func (m *EbookResponseInfo) GetEbookType() string {
+	if m != nil {
+		return m.EbookType
+	}
+	return ""
+}
+
+func (m *EbookResponseInfo) GetEbookSize() int64 {
+	if m != nil {
+		return m.EbookSize
+	}
+	return 0
 }
 
 func (m *EbookResponseInfo) GetEbookDir() string {
@@ -1003,9 +1148,16 @@ func (m *EbookResponseInfo) GetEbookDir() string {
 	return ""
 }
 
-func (m *EbookResponseInfo) GetPreviewDir() string {
+func (m *EbookResponseInfo) GetEbookUploadName() string {
 	if m != nil {
-		return m.PreviewDir
+		return m.EbookUploadName
+	}
+	return ""
+}
+
+func (m *EbookResponseInfo) GetEbookHashValue() string {
+	if m != nil {
+		return m.EbookHashValue
 	}
 	return ""
 }
@@ -1048,49 +1200,57 @@ func init() {
 func init() { proto.RegisterFile("ebook.proto", fileDescriptor_790c7c483a0ad50b) }
 
 var fileDescriptor_790c7c483a0ad50b = []byte{
-	// 670 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x96, 0xcd, 0x6e, 0xd3, 0x40,
-	0x10, 0xc7, 0xe3, 0xd8, 0xf9, 0x1a, 0xb7, 0x05, 0x56, 0xd0, 0x9a, 0x40, 0xd3, 0xe2, 0x53, 0x4f,
-	0x15, 0x2a, 0x02, 0x89, 0x13, 0x2a, 0x0a, 0xaa, 0x7a, 0xe1, 0x60, 0xf1, 0x21, 0x71, 0x89, 0xb6,
-	0xdd, 0xa1, 0x5d, 0x35, 0x89, 0xcd, 0xae, 0xd3, 0x2a, 0x67, 0x5e, 0x82, 0x07, 0xe1, 0x15, 0x90,
-	0xe0, 0x86, 0xc4, 0x0b, 0xa0, 0xf2, 0x22, 0x68, 0x67, 0xed, 0xd6, 0x4e, 0xdb, 0xa4, 0xe2, 0x4b,
-	0x48, 0x70, 0xdb, 0x9d, 0xf9, 0xcf, 0xee, 0x64, 0xff, 0xbf, 0xec, 0x1a, 0x7c, 0xdc, 0x89, 0xe3,
-	0x83, 0xf5, 0x44, 0xc5, 0x69, 0xcc, 0x5a, 0x76, 0xc2, 0x13, 0x19, 0x7e, 0xa9, 0x02, 0x6c, 0x0a,
-	0x11, 0xe1, 0x9b, 0x11, 0xea, 0x94, 0x2d, 0x41, 0x63, 0xa4, 0x51, 0xf5, 0xa4, 0x08, 0x9c, 0x55,
-	0x67, 0xad, 0x15, 0xd5, 0xcd, 0x74, 0x5b, 0xb0, 0x65, 0x00, 0x2a, 0xea, 0x0d, 0xf9, 0x00, 0x83,
-	0x2a, 0xe5, 0xec, 0x32, 0x4f, 0xf9, 0x00, 0xd9, 0x1d, 0x98, 0xc3, 0xe1, 0x5e, 0x5f, 0xea, 0x7d,
-	0x2b, 0x70, 0x49, 0xe0, 0x67, 0x31, 0x92, 0x2c, 0x03, 0xf0, 0xbe, 0xe4, 0xda, 0x0a, 0x3c, 0xbb,
-	0x02, 0x45, 0x28, 0xdd, 0x86, 0xe6, 0x2e, 0x4f, 0x71, 0x2f, 0x56, 0xe3, 0xa0, 0xb6, 0xea, 0xac,
-	0x79, 0xd1, 0xc9, 0x9c, 0x31, 0xf0, 0xd2, 0x71, 0x82, 0x41, 0x9d, 0x8a, 0x68, 0x6c, 0x76, 0x4c,
-	0x46, 0x3b, 0xb4, 0xa3, 0xe0, 0x29, 0x06, 0x0d, 0xbb, 0x63, 0x16, 0xeb, 0xf2, 0x14, 0xd9, 0x2d,
-	0x68, 0x1d, 0xe0, 0xb8, 0x77, 0x14, 0x2b, 0xa1, 0x83, 0x26, 0xe5, 0x9b, 0x07, 0x38, 0x7e, 0x69,
-	0xe6, 0xa6, 0x9d, 0x7d, 0xae, 0xf7, 0x7b, 0x87, 0xbc, 0x3f, 0xc2, 0xa0, 0x65, 0xdb, 0x31, 0x91,
-	0x17, 0x26, 0x60, 0x6a, 0xed, 0xef, 0x15, 0x52, 0x05, 0x60, 0x6b, 0x29, 0xd0, 0x95, 0x8a, 0xad,
-	0x80, 0x9f, 0x28, 0x3c, 0x94, 0x78, 0x44, 0x69, 0x9f, 0xd2, 0x90, 0x85, 0xba, 0x52, 0x85, 0x03,
-	0xf0, 0xe9, 0x50, 0x75, 0x12, 0x0f, 0x35, 0xb2, 0xeb, 0x50, 0x43, 0xa5, 0x86, 0x31, 0x9d, 0xa9,
-	0x1b, 0xd9, 0x09, 0x5b, 0x84, 0x3a, 0x2a, 0x35, 0xd0, 0x7b, 0xd9, 0x71, 0x66, 0x33, 0x76, 0x17,
-	0x3c, 0xc1, 0x53, 0x4e, 0x67, 0xe8, 0x6f, 0xdc, 0x5e, 0x3f, 0x31, 0x6b, 0xfd, 0x89, 0x19, 0xe5,
-	0xab, 0x6e, 0x0f, 0x5f, 0xc7, 0x11, 0x29, 0xc3, 0x15, 0x98, 0xef, 0x62, 0x1f, 0x53, 0xcc, 0x6d,
-	0x5c, 0x80, 0x6a, 0xe6, 0xa0, 0x17, 0x55, 0xa5, 0x08, 0x23, 0x58, 0xc8, 0x05, 0x3f, 0xd4, 0x12,
-	0x2b, 0xb4, 0xd4, 0xcc, 0x36, 0x7d, 0xeb, 0xc2, 0xfc, 0xf3, 0xc4, 0x9c, 0xfd, 0x05, 0xbb, 0x16,
-	0x61, 0xaa, 0x4e, 0x81, 0xc9, 0x9d, 0x05, 0x93, 0x37, 0x0b, 0xa6, 0xda, 0x24, 0x4c, 0xe7, 0x01,
-	0x53, 0x04, 0xac, 0x31, 0x01, 0xd8, 0x24, 0x4c, 0xcd, 0x19, 0x30, 0xb5, 0xa6, 0xc2, 0x04, 0x53,
-	0x61, 0xf2, 0xa7, 0xc3, 0x34, 0x37, 0x09, 0x93, 0xa9, 0x96, 0xba, 0x27, 0xc8, 0xbf, 0x60, 0xde,
-	0x76, 0x2e, 0xb5, 0xf5, 0xd3, 0x38, 0x9b, 0x9b, 0xf0, 0xcb, 0x9c, 0xbd, 0x0f, 0xb0, 0x85, 0xe9,
-	0x25, 0x5d, 0xf5, 0x72, 0x57, 0x0d, 0xf4, 0x54, 0xf6, 0x87, 0xa0, 0xff, 0xe0, 0xd2, 0x7e, 0x3a,
-	0xef, 0xf3, 0x2a, 0xb8, 0x52, 0xe8, 0xc0, 0x59, 0x75, 0xd7, 0xbc, 0xc8, 0x0c, 0xff, 0xf3, 0xf7,
-	0xfb, 0xf9, 0x33, 0xd5, 0xbb, 0x0a, 0x79, 0x8a, 0xbd, 0x54, 0x0e, 0x30, 0x58, 0xb0, 0xd5, 0x36,
-	0xf4, 0x4c, 0x0e, 0x48, 0x30, 0x22, 0x40, 0xad, 0xe0, 0x8a, 0x15, 0xd8, 0x90, 0x11, 0x84, 0x43,
-	0x98, 0xb3, 0x36, 0xfe, 0x24, 0x37, 0xee, 0x25, 0xb9, 0xf9, 0xe4, 0xc2, 0xb5, 0x33, 0xb9, 0xbf,
-	0xe8, 0xee, 0x2a, 0x72, 0x52, 0xbf, 0xe0, 0x21, 0x6c, 0x4c, 0x79, 0x08, 0xff, 0x21, 0x76, 0x36,
-	0xde, 0x57, 0xa1, 0x46, 0x5e, 0xb2, 0x07, 0xe0, 0x6e, 0x0a, 0xc1, 0x6e, 0x14, 0x00, 0x38, 0xfd,
-	0xac, 0x69, 0x2f, 0x4e, 0x86, 0xad, 0xf3, 0x61, 0x85, 0x3d, 0x82, 0x7a, 0xd6, 0x4d, 0x50, 0xd0,
-	0x94, 0x5e, 0xd3, 0xf6, 0xcd, 0x73, 0x32, 0xc5, 0x05, 0xec, 0x05, 0x5c, 0x5a, 0xa0, 0xf4, 0x30,
-	0x96, 0x16, 0x28, 0xdf, 0xd6, 0x61, 0xc5, 0x74, 0xbe, 0x85, 0x69, 0xa9, 0xf3, 0xd3, 0xdb, 0xb7,
-	0xd4, 0x79, 0xe1, 0x76, 0x0d, 0x2b, 0xec, 0x21, 0x78, 0xe6, 0x7f, 0xc3, 0x26, 0x14, 0xf9, 0x7d,
-	0xd8, 0x5e, 0x3a, 0x13, 0xcf, 0x4b, 0x1f, 0x2f, 0x7d, 0x3c, 0xee, 0x38, 0x9f, 0x8f, 0x3b, 0xce,
-	0xd7, 0xe3, 0x8e, 0xf3, 0xee, 0x5b, 0xa7, 0xf2, 0xaa, 0x46, 0xda, 0x9d, 0x3a, 0x7d, 0x1f, 0xde,
-	0xfb, 0x1e, 0x00, 0x00, 0xff, 0xff, 0xe2, 0xc1, 0x65, 0x5c, 0x2e, 0x0a, 0x00, 0x00,
+	// 800 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x97, 0xcd, 0x6e, 0xda, 0x5a,
+	0x10, 0xc7, 0x01, 0x1b, 0x02, 0xc3, 0x47, 0xe0, 0xe4, 0xcb, 0x97, 0xdc, 0x90, 0x5c, 0xaf, 0xd0,
+	0x55, 0x85, 0xaa, 0x54, 0xad, 0xd4, 0x55, 0x95, 0x2a, 0x55, 0x9a, 0x4d, 0x17, 0x6e, 0xd2, 0x4a,
+	0xdd, 0x58, 0x4e, 0x3c, 0x0d, 0x47, 0x01, 0xec, 0xfa, 0x98, 0x44, 0xe4, 0x49, 0xfa, 0x20, 0x79,
+	0x88, 0xae, 0xaa, 0x2e, 0xbb, 0xac, 0xd2, 0x65, 0x5f, 0xa2, 0xf2, 0x1c, 0x9b, 0xd8, 0x84, 0x62,
+	0xd2, 0xaf, 0x55, 0x76, 0xcc, 0xcc, 0xff, 0x8c, 0xc7, 0xf0, 0xff, 0x79, 0x30, 0x94, 0xf1, 0xc8,
+	0x71, 0x4e, 0x3b, 0xae, 0xe7, 0xf8, 0x0e, 0x2b, 0xc9, 0xc0, 0x72, 0xb9, 0xfe, 0x59, 0x05, 0xd8,
+	0xb1, 0x6d, 0x03, 0xdf, 0x0d, 0x51, 0xf8, 0x6c, 0x0d, 0x16, 0x86, 0x02, 0x3d, 0x93, 0xdb, 0x5a,
+	0x76, 0x2b, 0xdb, 0x2e, 0x19, 0x85, 0x20, 0xdc, 0xb7, 0xd9, 0x06, 0x00, 0x1d, 0x32, 0x07, 0x56,
+	0x1f, 0xb5, 0x1c, 0xd5, 0x64, 0x9b, 0x17, 0x56, 0x1f, 0xd9, 0x7f, 0x50, 0xc1, 0xc1, 0x49, 0x8f,
+	0x8b, 0xae, 0x14, 0x28, 0x24, 0x28, 0x87, 0x39, 0x92, 0x6c, 0x00, 0x58, 0x3d, 0x6e, 0x09, 0x29,
+	0x50, 0x65, 0x07, 0xca, 0x50, 0xb9, 0x09, 0xc5, 0x63, 0xcb, 0xc7, 0x13, 0xc7, 0x1b, 0x69, 0x79,
+	0x2a, 0x8e, 0xe3, 0xa0, 0xbb, 0x3b, 0x3c, 0xa2, 0xee, 0xb6, 0xe5, 0xa3, 0x56, 0x90, 0xdd, 0xc3,
+	0xdc, 0xae, 0xe5, 0x23, 0x5b, 0x87, 0xd2, 0x29, 0x8e, 0xcc, 0x73, 0xc7, 0xb3, 0x85, 0xb6, 0x20,
+	0xcf, 0x9f, 0xe2, 0xe8, 0x75, 0x10, 0xd3, 0x79, 0x0f, 0xcf, 0x38, 0x9e, 0x9b, 0xfe, 0xc8, 0x45,
+	0xad, 0x18, 0x9e, 0x97, 0xb9, 0x83, 0x91, 0x8b, 0x71, 0x89, 0xe0, 0x17, 0xa8, 0x95, 0xb6, 0xb2,
+	0x6d, 0x65, 0x2c, 0x79, 0xc9, 0x2f, 0x90, 0x6d, 0x42, 0x14, 0x9a, 0x36, 0xf7, 0x34, 0xa0, 0x26,
+	0x10, 0xa6, 0x76, 0xb9, 0xc7, 0x3a, 0xb0, 0x14, 0x09, 0x86, 0x6e, 0xcf, 0xb1, 0x6c, 0x79, 0xab,
+	0x65, 0x12, 0x36, 0xc2, 0xd2, 0x21, 0x55, 0xe8, 0x96, 0xef, 0x01, 0x8b, 0xf4, 0x5d, 0x4b, 0x74,
+	0xcd, 0x33, 0xab, 0x37, 0x44, 0xad, 0x42, 0xf2, 0x7a, 0x58, 0x79, 0x6e, 0x89, 0xee, 0xab, 0x20,
+	0x7f, 0xfd, 0x0b, 0xd0, 0x2d, 0x54, 0x63, 0xbf, 0x00, 0xdd, 0xc0, 0xb8, 0x4c, 0xe3, 0xd7, 0x68,
+	0x7c, 0x59, 0xa6, 0xe1, 0xd7, 0x41, 0x06, 0x34, 0xfa, 0xa2, 0xfc, 0x7e, 0x28, 0x11, 0x0c, 0xfe,
+	0x3f, 0x34, 0x64, 0x31, 0x3e, 0x76, 0x9d, 0x44, 0x8b, 0x54, 0x88, 0x0d, 0xdd, 0x86, 0xba, 0xd4,
+	0xc6, 0x46, 0x6e, 0x90, 0xb4, 0x46, 0xf9, 0xf1, 0xc0, 0x7a, 0x1f, 0xca, 0xe4, 0x2c, 0xe1, 0x3a,
+	0x03, 0x81, 0x6c, 0x19, 0xf2, 0xe8, 0x79, 0x03, 0x87, 0x8c, 0xa5, 0x18, 0x32, 0x60, 0xab, 0x50,
+	0x40, 0xcf, 0xeb, 0x8b, 0x93, 0xd0, 0x53, 0x61, 0xc4, 0xee, 0x83, 0x6a, 0x5b, 0xbe, 0x45, 0x46,
+	0x2a, 0x6f, 0xff, 0xdb, 0x19, 0x3b, 0xb6, 0xf3, 0x2c, 0xf8, 0x14, 0x75, 0xdd, 0x1f, 0xbc, 0x75,
+	0x0c, 0x52, 0xea, 0x9b, 0x50, 0xdd, 0xc5, 0x1e, 0xfa, 0x18, 0x79, 0xb9, 0x06, 0xb9, 0xd0, 0xc6,
+	0xaa, 0x91, 0xe3, 0xb6, 0x6e, 0x40, 0x2d, 0x12, 0xfc, 0xd4, 0x48, 0x2c, 0x36, 0x52, 0x31, 0xbc,
+	0xe8, 0x37, 0x15, 0xaa, 0x87, 0x6e, 0x60, 0xca, 0x1f, 0x5c, 0x35, 0x4e, 0x54, 0x6e, 0x06, 0x51,
+	0x4a, 0x1a, 0x51, 0x6a, 0x1a, 0x51, 0xf9, 0x59, 0x44, 0x15, 0x52, 0x88, 0x5a, 0x48, 0x21, 0xaa,
+	0x98, 0x42, 0x54, 0x29, 0x9d, 0x28, 0x48, 0x25, 0xaa, 0x3c, 0x2f, 0x51, 0x95, 0xdb, 0x11, 0x55,
+	0x9d, 0x8b, 0xa8, 0xda, 0x6c, 0xa2, 0x16, 0x67, 0x12, 0x55, 0x9f, 0x87, 0xa8, 0xc6, 0xfc, 0x44,
+	0xb1, 0xa9, 0x44, 0x19, 0x50, 0x8b, 0xcc, 0xf6, 0xdb, 0x1c, 0xfc, 0x10, 0x60, 0x0f, 0xfd, 0xdb,
+	0xba, 0x37, 0x80, 0x9b, 0x8e, 0xfd, 0x25, 0xb8, 0x2f, 0x55, 0xba, 0x9e, 0x88, 0xe6, 0xac, 0x83,
+	0xc2, 0x6d, 0xa1, 0x65, 0xb7, 0x94, 0xb6, 0x6a, 0x04, 0x1f, 0xef, 0x38, 0x9b, 0xc1, 0xd9, 0x6d,
+	0x17, 0x53, 0x12, 0x8c, 0xca, 0x6c, 0x30, 0xaa, 0x93, 0x60, 0x4c, 0xf5, 0x7e, 0x6d, 0xba, 0xf7,
+	0xd7, 0xa1, 0xc4, 0x85, 0x69, 0xd3, 0x63, 0x99, 0x10, 0x53, 0x8d, 0x22, 0x17, 0xf2, 0x31, 0x1d,
+	0x3c, 0x1e, 0x8e, 0x3d, 0xb4, 0x7c, 0x34, 0x7d, 0x3e, 0x5e, 0x48, 0x20, 0x53, 0x07, 0xbc, 0x4f,
+	0x82, 0x21, 0xf1, 0x20, 0x05, 0x92, 0x2f, 0x90, 0xa9, 0x40, 0xa0, 0x0f, 0xa0, 0x22, 0x5d, 0xf3,
+	0x8b, 0x36, 0x55, 0xe6, 0xb4, 0xe9, 0xc7, 0x3c, 0x34, 0x6e, 0xd4, 0xee, 0x56, 0xc2, 0xdd, 0x4a,
+	0xf8, 0x53, 0x2b, 0x21, 0x09, 0xd0, 0xd2, 0x6c, 0x80, 0x96, 0xd3, 0x00, 0x5a, 0x99, 0x04, 0x68,
+	0xfb, 0x32, 0x07, 0x79, 0x32, 0x34, 0x7b, 0x04, 0xca, 0x8e, 0x6d, 0xb3, 0x95, 0x18, 0x05, 0xd7,
+	0xef, 0x0d, 0xcd, 0xd5, 0xc9, 0xb4, 0xb4, 0xbf, 0x9e, 0x61, 0x4f, 0xa0, 0x10, 0x4e, 0xa3, 0xc5,
+	0x34, 0x89, 0x7f, 0x6a, 0xcd, 0x7f, 0xa6, 0x54, 0xe2, 0x0d, 0xe4, 0xd2, 0x4b, 0x34, 0x48, 0xfc,
+	0xe9, 0x4a, 0x34, 0x48, 0x6e, 0x48, 0x3d, 0x13, 0x4c, 0xbe, 0x87, 0x7e, 0x62, 0xf2, 0xeb, 0x8d,
+	0x97, 0x98, 0x3c, 0xb6, 0xd1, 0xf4, 0x0c, 0x7b, 0x0c, 0x6a, 0xf0, 0xf0, 0x60, 0x13, 0x8a, 0x68,
+	0x07, 0x35, 0xd7, 0x6e, 0xe4, 0xa3, 0xa3, 0x4f, 0xd7, 0x3e, 0x5c, 0xb5, 0xb2, 0x9f, 0xae, 0x5a,
+	0xd9, 0x2f, 0x57, 0xad, 0xec, 0xfb, 0xaf, 0xad, 0xcc, 0x9b, 0x3c, 0x69, 0x8f, 0x0a, 0xf4, 0x02,
+	0xf6, 0xe0, 0x7b, 0x00, 0x00, 0x00, 0xff, 0xff, 0x5f, 0xa1, 0xe2, 0xbe, 0x8f, 0x0d, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1341,52 +1501,96 @@ func (m *AddRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if len(m.PreviewDir) > 0 {
-		i -= len(m.PreviewDir)
-		copy(dAtA[i:], m.PreviewDir)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewDir)))
+	if len(m.EbookHashValue) > 0 {
+		i -= len(m.EbookHashValue)
+		copy(dAtA[i:], m.EbookHashValue)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookHashValue)))
 		i--
-		dAtA[i] = 0x5a
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x8a
+	}
+	if len(m.EbookUploadName) > 0 {
+		i -= len(m.EbookUploadName)
+		copy(dAtA[i:], m.EbookUploadName)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookUploadName)))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x82
 	}
 	if len(m.EbookDir) > 0 {
 		i -= len(m.EbookDir)
 		copy(dAtA[i:], m.EbookDir)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookDir)))
 		i--
+		dAtA[i] = 0x7a
+	}
+	if m.EbookSize != 0 {
+		i = encodeVarintEbook(dAtA, i, uint64(m.EbookSize))
+		i--
+		dAtA[i] = 0x70
+	}
+	if len(m.EbookType) > 0 {
+		i -= len(m.EbookType)
+		copy(dAtA[i:], m.EbookType)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookType)))
+		i--
+		dAtA[i] = 0x6a
+	}
+	if len(m.PreviewHashValue) > 0 {
+		i -= len(m.PreviewHashValue)
+		copy(dAtA[i:], m.PreviewHashValue)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewHashValue)))
+		i--
+		dAtA[i] = 0x62
+	}
+	if len(m.PreviewUploadName) > 0 {
+		i -= len(m.PreviewUploadName)
+		copy(dAtA[i:], m.PreviewUploadName)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewUploadName)))
+		i--
+		dAtA[i] = 0x5a
+	}
+	if len(m.PreviewDir) > 0 {
+		i -= len(m.PreviewDir)
+		copy(dAtA[i:], m.PreviewDir)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewDir)))
+		i--
 		dAtA[i] = 0x52
 	}
-	if len(m.HashValue) > 0 {
-		i -= len(m.HashValue)
-		copy(dAtA[i:], m.HashValue)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.HashValue)))
+	if m.PreviewSize != 0 {
+		i = encodeVarintEbook(dAtA, i, uint64(m.PreviewSize))
 		i--
-		dAtA[i] = 0x4a
+		dAtA[i] = 0x48
+	}
+	if len(m.PreviewType) > 0 {
+		i -= len(m.PreviewType)
+		copy(dAtA[i:], m.PreviewType)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewType)))
+		i--
+		dAtA[i] = 0x42
 	}
 	if len(m.KeyWords) > 0 {
 		i -= len(m.KeyWords)
 		copy(dAtA[i:], m.KeyWords)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.KeyWords)))
 		i--
-		dAtA[i] = 0x42
+		dAtA[i] = 0x3a
 	}
 	if len(m.PublishDate) > 0 {
 		i -= len(m.PublishDate)
 		copy(dAtA[i:], m.PublishDate)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.PublishDate)))
 		i--
-		dAtA[i] = 0x3a
-	}
-	if len(m.Type) > 0 {
-		i -= len(m.Type)
-		copy(dAtA[i:], m.Type)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.Type)))
-		i--
 		dAtA[i] = 0x32
 	}
-	if m.Category != 0 {
-		i = encodeVarintEbook(dAtA, i, uint64(m.Category))
+	if len(m.Category) > 0 {
+		i -= len(m.Category)
+		copy(dAtA[i:], m.Category)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.Category)))
 		i--
-		dAtA[i] = 0x28
+		dAtA[i] = 0x2a
 	}
 	if len(m.AliasName) > 0 {
 		i -= len(m.AliasName)
@@ -1575,55 +1779,96 @@ func (m *UpdateRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if m.IsDelete != 0 {
-		i = encodeVarintEbook(dAtA, i, uint64(m.IsDelete))
+	if len(m.EbookHashValue) > 0 {
+		i -= len(m.EbookHashValue)
+		copy(dAtA[i:], m.EbookHashValue)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookHashValue)))
 		i--
-		dAtA[i] = 0x68
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x92
 	}
-	if len(m.PreviewDir) > 0 {
-		i -= len(m.PreviewDir)
-		copy(dAtA[i:], m.PreviewDir)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewDir)))
+	if len(m.EbookUploadName) > 0 {
+		i -= len(m.EbookUploadName)
+		copy(dAtA[i:], m.EbookUploadName)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookUploadName)))
 		i--
-		dAtA[i] = 0x62
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x8a
 	}
 	if len(m.EbookDir) > 0 {
 		i -= len(m.EbookDir)
 		copy(dAtA[i:], m.EbookDir)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookDir)))
 		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x82
+	}
+	if m.EbookSize != 0 {
+		i = encodeVarintEbook(dAtA, i, uint64(m.EbookSize))
+		i--
+		dAtA[i] = 0x78
+	}
+	if len(m.EbookType) > 0 {
+		i -= len(m.EbookType)
+		copy(dAtA[i:], m.EbookType)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookType)))
+		i--
+		dAtA[i] = 0x72
+	}
+	if len(m.PreviewHashValue) > 0 {
+		i -= len(m.PreviewHashValue)
+		copy(dAtA[i:], m.PreviewHashValue)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewHashValue)))
+		i--
+		dAtA[i] = 0x6a
+	}
+	if len(m.PreviewUploadName) > 0 {
+		i -= len(m.PreviewUploadName)
+		copy(dAtA[i:], m.PreviewUploadName)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewUploadName)))
+		i--
+		dAtA[i] = 0x62
+	}
+	if len(m.PreviewDir) > 0 {
+		i -= len(m.PreviewDir)
+		copy(dAtA[i:], m.PreviewDir)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewDir)))
+		i--
 		dAtA[i] = 0x5a
 	}
-	if len(m.HashValue) > 0 {
-		i -= len(m.HashValue)
-		copy(dAtA[i:], m.HashValue)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.HashValue)))
+	if m.PreviewSize != 0 {
+		i = encodeVarintEbook(dAtA, i, uint64(m.PreviewSize))
 		i--
-		dAtA[i] = 0x52
+		dAtA[i] = 0x50
+	}
+	if len(m.PreviewType) > 0 {
+		i -= len(m.PreviewType)
+		copy(dAtA[i:], m.PreviewType)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewType)))
+		i--
+		dAtA[i] = 0x4a
 	}
 	if len(m.KeyWords) > 0 {
 		i -= len(m.KeyWords)
 		copy(dAtA[i:], m.KeyWords)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.KeyWords)))
 		i--
-		dAtA[i] = 0x4a
+		dAtA[i] = 0x42
 	}
 	if len(m.PublishDate) > 0 {
 		i -= len(m.PublishDate)
 		copy(dAtA[i:], m.PublishDate)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.PublishDate)))
 		i--
-		dAtA[i] = 0x42
+		dAtA[i] = 0x3a
 	}
-	if m.Category != 0 {
-		i = encodeVarintEbook(dAtA, i, uint64(m.Category))
-		i--
-		dAtA[i] = 0x38
-	}
-	if len(m.Type) > 0 {
-		i -= len(m.Type)
-		copy(dAtA[i:], m.Type)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.Type)))
+	if len(m.Category) > 0 {
+		i -= len(m.Category)
+		copy(dAtA[i:], m.Category)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.Category)))
 		i--
 		dAtA[i] = 0x32
 	}
@@ -1736,10 +1981,12 @@ func (m *GetRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if m.UserId != 0 {
-		i = encodeVarintEbook(dAtA, i, uint64(m.UserId))
+	if len(m.UserId) > 0 {
+		i -= len(m.UserId)
+		copy(dAtA[i:], m.UserId)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.UserId)))
 		i--
-		dAtA[i] = 0x10
+		dAtA[i] = 0x12
 	}
 	if m.Id != 0 {
 		i = encodeVarintEbook(dAtA, i, uint64(m.Id))
@@ -1829,64 +2076,80 @@ func (m *GetsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.UpdateTime)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.UpdateTime)))
 		i--
-		dAtA[i] = 0x7a
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x8a
 	}
 	if len(m.CreateTime) > 0 {
 		i -= len(m.CreateTime)
 		copy(dAtA[i:], m.CreateTime)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.CreateTime)))
 		i--
-		dAtA[i] = 0x72
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x82
 	}
 	if m.IsDelete != 0 {
 		i = encodeVarintEbook(dAtA, i, uint64(m.IsDelete))
 		i--
+		dAtA[i] = 0x78
+	}
+	if len(m.EbookUploadName) > 0 {
+		i -= len(m.EbookUploadName)
+		copy(dAtA[i:], m.EbookUploadName)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookUploadName)))
+		i--
+		dAtA[i] = 0x72
+	}
+	if m.EbookSize != 0 {
+		i = encodeVarintEbook(dAtA, i, uint64(m.EbookSize))
+		i--
 		dAtA[i] = 0x68
 	}
-	if len(m.PreviewDir) > 0 {
-		i -= len(m.PreviewDir)
-		copy(dAtA[i:], m.PreviewDir)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewDir)))
+	if len(m.EbookType) > 0 {
+		i -= len(m.EbookType)
+		copy(dAtA[i:], m.EbookType)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookType)))
 		i--
 		dAtA[i] = 0x62
 	}
-	if len(m.EbookDir) > 0 {
-		i -= len(m.EbookDir)
-		copy(dAtA[i:], m.EbookDir)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookDir)))
+	if len(m.PreviewUploadName) > 0 {
+		i -= len(m.PreviewUploadName)
+		copy(dAtA[i:], m.PreviewUploadName)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewUploadName)))
 		i--
 		dAtA[i] = 0x5a
 	}
-	if len(m.HashValue) > 0 {
-		i -= len(m.HashValue)
-		copy(dAtA[i:], m.HashValue)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.HashValue)))
+	if m.PreviewSize != 0 {
+		i = encodeVarintEbook(dAtA, i, uint64(m.PreviewSize))
 		i--
-		dAtA[i] = 0x52
+		dAtA[i] = 0x50
+	}
+	if len(m.PreviewType) > 0 {
+		i -= len(m.PreviewType)
+		copy(dAtA[i:], m.PreviewType)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewType)))
+		i--
+		dAtA[i] = 0x4a
 	}
 	if len(m.KeyWords) > 0 {
 		i -= len(m.KeyWords)
 		copy(dAtA[i:], m.KeyWords)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.KeyWords)))
 		i--
-		dAtA[i] = 0x4a
+		dAtA[i] = 0x42
 	}
 	if len(m.PublishDate) > 0 {
 		i -= len(m.PublishDate)
 		copy(dAtA[i:], m.PublishDate)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.PublishDate)))
 		i--
-		dAtA[i] = 0x42
+		dAtA[i] = 0x3a
 	}
-	if m.Category != 0 {
-		i = encodeVarintEbook(dAtA, i, uint64(m.Category))
-		i--
-		dAtA[i] = 0x38
-	}
-	if len(m.Type) > 0 {
-		i -= len(m.Type)
-		copy(dAtA[i:], m.Type)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.Type)))
+	if len(m.Category) > 0 {
+		i -= len(m.Category)
+		copy(dAtA[i:], m.Category)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.Category)))
 		i--
 		dAtA[i] = 0x32
 	}
@@ -2021,66 +2284,118 @@ func (m *EbookResponseInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.UpdateTime)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.UpdateTime)))
 		i--
-		dAtA[i] = 0x7a
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0xaa
 	}
 	if len(m.CreateTime) > 0 {
 		i -= len(m.CreateTime)
 		copy(dAtA[i:], m.CreateTime)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.CreateTime)))
 		i--
-		dAtA[i] = 0x72
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0xa2
 	}
 	if m.IsDelete != 0 {
 		i = encodeVarintEbook(dAtA, i, uint64(m.IsDelete))
 		i--
-		dAtA[i] = 0x68
-	}
-	if len(m.PreviewDir) > 0 {
-		i -= len(m.PreviewDir)
-		copy(dAtA[i:], m.PreviewDir)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewDir)))
+		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0x62
+		dAtA[i] = 0x98
+	}
+	if len(m.EbookHashValue) > 0 {
+		i -= len(m.EbookHashValue)
+		copy(dAtA[i:], m.EbookHashValue)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookHashValue)))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x92
+	}
+	if len(m.EbookUploadName) > 0 {
+		i -= len(m.EbookUploadName)
+		copy(dAtA[i:], m.EbookUploadName)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookUploadName)))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x8a
 	}
 	if len(m.EbookDir) > 0 {
 		i -= len(m.EbookDir)
 		copy(dAtA[i:], m.EbookDir)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookDir)))
 		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x82
+	}
+	if m.EbookSize != 0 {
+		i = encodeVarintEbook(dAtA, i, uint64(m.EbookSize))
+		i--
+		dAtA[i] = 0x78
+	}
+	if len(m.EbookType) > 0 {
+		i -= len(m.EbookType)
+		copy(dAtA[i:], m.EbookType)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.EbookType)))
+		i--
+		dAtA[i] = 0x72
+	}
+	if len(m.PreviewHashValue) > 0 {
+		i -= len(m.PreviewHashValue)
+		copy(dAtA[i:], m.PreviewHashValue)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewHashValue)))
+		i--
+		dAtA[i] = 0x6a
+	}
+	if len(m.PreviewUploadName) > 0 {
+		i -= len(m.PreviewUploadName)
+		copy(dAtA[i:], m.PreviewUploadName)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewUploadName)))
+		i--
+		dAtA[i] = 0x62
+	}
+	if len(m.PreviewDir) > 0 {
+		i -= len(m.PreviewDir)
+		copy(dAtA[i:], m.PreviewDir)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewDir)))
+		i--
 		dAtA[i] = 0x5a
 	}
-	if len(m.HashValue) > 0 {
-		i -= len(m.HashValue)
-		copy(dAtA[i:], m.HashValue)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.HashValue)))
+	if m.PreviewSize != 0 {
+		i = encodeVarintEbook(dAtA, i, uint64(m.PreviewSize))
 		i--
-		dAtA[i] = 0x52
+		dAtA[i] = 0x50
+	}
+	if len(m.PreviewType) > 0 {
+		i -= len(m.PreviewType)
+		copy(dAtA[i:], m.PreviewType)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.PreviewType)))
+		i--
+		dAtA[i] = 0x4a
 	}
 	if len(m.KeyWords) > 0 {
 		i -= len(m.KeyWords)
 		copy(dAtA[i:], m.KeyWords)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.KeyWords)))
 		i--
-		dAtA[i] = 0x4a
+		dAtA[i] = 0x42
 	}
 	if len(m.PublishDate) > 0 {
 		i -= len(m.PublishDate)
 		copy(dAtA[i:], m.PublishDate)
 		i = encodeVarintEbook(dAtA, i, uint64(len(m.PublishDate)))
 		i--
-		dAtA[i] = 0x42
-	}
-	if len(m.Type) > 0 {
-		i -= len(m.Type)
-		copy(dAtA[i:], m.Type)
-		i = encodeVarintEbook(dAtA, i, uint64(len(m.Type)))
-		i--
 		dAtA[i] = 0x3a
 	}
-	if m.Category != 0 {
-		i = encodeVarintEbook(dAtA, i, uint64(m.Category))
+	if len(m.Category) > 0 {
+		i -= len(m.Category)
+		copy(dAtA[i:], m.Category)
+		i = encodeVarintEbook(dAtA, i, uint64(len(m.Category)))
 		i--
-		dAtA[i] = 0x30
+		dAtA[i] = 0x32
 	}
 	if len(m.AliasName) > 0 {
 		i -= len(m.AliasName)
@@ -2151,10 +2466,7 @@ func (m *AddRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	if m.Category != 0 {
-		n += 1 + sovEbook(uint64(m.Category))
-	}
-	l = len(m.Type)
+	l = len(m.Category)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
@@ -2166,17 +2478,43 @@ func (m *AddRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	l = len(m.HashValue)
+	l = len(m.PreviewType)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
+	}
+	if m.PreviewSize != 0 {
+		n += 1 + sovEbook(uint64(m.PreviewSize))
+	}
+	l = len(m.PreviewDir)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
+	}
+	l = len(m.PreviewUploadName)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
+	}
+	l = len(m.PreviewHashValue)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
+	}
+	l = len(m.EbookType)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
+	}
+	if m.EbookSize != 0 {
+		n += 1 + sovEbook(uint64(m.EbookSize))
 	}
 	l = len(m.EbookDir)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	l = len(m.PreviewDir)
+	l = len(m.EbookUploadName)
 	if l > 0 {
-		n += 1 + l + sovEbook(uint64(l))
+		n += 2 + l + sovEbook(uint64(l))
+	}
+	l = len(m.EbookHashValue)
+	if l > 0 {
+		n += 2 + l + sovEbook(uint64(l))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -2269,12 +2607,9 @@ func (m *UpdateRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	l = len(m.Type)
+	l = len(m.Category)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
-	}
-	if m.Category != 0 {
-		n += 1 + sovEbook(uint64(m.Category))
 	}
 	l = len(m.PublishDate)
 	if l > 0 {
@@ -2284,20 +2619,43 @@ func (m *UpdateRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	l = len(m.HashValue)
+	l = len(m.PreviewType)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	l = len(m.EbookDir)
-	if l > 0 {
-		n += 1 + l + sovEbook(uint64(l))
+	if m.PreviewSize != 0 {
+		n += 1 + sovEbook(uint64(m.PreviewSize))
 	}
 	l = len(m.PreviewDir)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	if m.IsDelete != 0 {
-		n += 1 + sovEbook(uint64(m.IsDelete))
+	l = len(m.PreviewUploadName)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
+	}
+	l = len(m.PreviewHashValue)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
+	}
+	l = len(m.EbookType)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
+	}
+	if m.EbookSize != 0 {
+		n += 1 + sovEbook(uint64(m.EbookSize))
+	}
+	l = len(m.EbookDir)
+	if l > 0 {
+		n += 2 + l + sovEbook(uint64(l))
+	}
+	l = len(m.EbookUploadName)
+	if l > 0 {
+		n += 2 + l + sovEbook(uint64(l))
+	}
+	l = len(m.EbookHashValue)
+	if l > 0 {
+		n += 2 + l + sovEbook(uint64(l))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -2336,8 +2694,9 @@ func (m *GetRequest) Size() (n int) {
 	if m.Id != 0 {
 		n += 1 + sovEbook(uint64(m.Id))
 	}
-	if m.UserId != 0 {
-		n += 1 + sovEbook(uint64(m.UserId))
+	l = len(m.UserId)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -2397,12 +2756,9 @@ func (m *GetsRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	l = len(m.Type)
+	l = len(m.Category)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
-	}
-	if m.Category != 0 {
-		n += 1 + sovEbook(uint64(m.Category))
 	}
 	l = len(m.PublishDate)
 	if l > 0 {
@@ -2412,15 +2768,25 @@ func (m *GetsRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	l = len(m.HashValue)
+	l = len(m.PreviewType)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	l = len(m.EbookDir)
+	if m.PreviewSize != 0 {
+		n += 1 + sovEbook(uint64(m.PreviewSize))
+	}
+	l = len(m.PreviewUploadName)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	l = len(m.PreviewDir)
+	l = len(m.EbookType)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
+	}
+	if m.EbookSize != 0 {
+		n += 1 + sovEbook(uint64(m.EbookSize))
+	}
+	l = len(m.EbookUploadName)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
@@ -2429,11 +2795,11 @@ func (m *GetsRequest) Size() (n int) {
 	}
 	l = len(m.CreateTime)
 	if l > 0 {
-		n += 1 + l + sovEbook(uint64(l))
+		n += 2 + l + sovEbook(uint64(l))
 	}
 	l = len(m.UpdateTime)
 	if l > 0 {
-		n += 1 + l + sovEbook(uint64(l))
+		n += 2 + l + sovEbook(uint64(l))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -2491,10 +2857,7 @@ func (m *EbookResponseInfo) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	if m.Category != 0 {
-		n += 1 + sovEbook(uint64(m.Category))
-	}
-	l = len(m.Type)
+	l = len(m.Category)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
@@ -2506,28 +2869,54 @@ func (m *EbookResponseInfo) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	l = len(m.HashValue)
+	l = len(m.PreviewType)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
-	l = len(m.EbookDir)
-	if l > 0 {
-		n += 1 + l + sovEbook(uint64(l))
+	if m.PreviewSize != 0 {
+		n += 1 + sovEbook(uint64(m.PreviewSize))
 	}
 	l = len(m.PreviewDir)
 	if l > 0 {
 		n += 1 + l + sovEbook(uint64(l))
 	}
+	l = len(m.PreviewUploadName)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
+	}
+	l = len(m.PreviewHashValue)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
+	}
+	l = len(m.EbookType)
+	if l > 0 {
+		n += 1 + l + sovEbook(uint64(l))
+	}
+	if m.EbookSize != 0 {
+		n += 1 + sovEbook(uint64(m.EbookSize))
+	}
+	l = len(m.EbookDir)
+	if l > 0 {
+		n += 2 + l + sovEbook(uint64(l))
+	}
+	l = len(m.EbookUploadName)
+	if l > 0 {
+		n += 2 + l + sovEbook(uint64(l))
+	}
+	l = len(m.EbookHashValue)
+	if l > 0 {
+		n += 2 + l + sovEbook(uint64(l))
+	}
 	if m.IsDelete != 0 {
-		n += 1 + sovEbook(uint64(m.IsDelete))
+		n += 2 + sovEbook(uint64(m.IsDelete))
 	}
 	l = len(m.CreateTime)
 	if l > 0 {
-		n += 1 + l + sovEbook(uint64(l))
+		n += 2 + l + sovEbook(uint64(l))
 	}
 	l = len(m.UpdateTime)
 	if l > 0 {
-		n += 1 + l + sovEbook(uint64(l))
+		n += 2 + l + sovEbook(uint64(l))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -2699,27 +3088,8 @@ func (m *AddRequest) Unmarshal(dAtA []byte) error {
 			m.AliasName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 5:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Category", wireType)
-			}
-			m.Category = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowEbook
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Category |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 6:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Category", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -2747,9 +3117,9 @@ func (m *AddRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Type = string(dAtA[iNdEx:postIndex])
+			m.Category = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 7:
+		case 6:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field PublishDate", wireType)
 			}
@@ -2781,7 +3151,7 @@ func (m *AddRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.PublishDate = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 8:
+		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field KeyWords", wireType)
 			}
@@ -2813,9 +3183,9 @@ func (m *AddRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.KeyWords = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 9:
+		case 8:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HashValue", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewType", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -2843,9 +3213,175 @@ func (m *AddRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.HashValue = string(dAtA[iNdEx:postIndex])
+			m.PreviewType = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 9:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewSize", wireType)
+			}
+			m.PreviewSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PreviewSize |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		case 10:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewDir", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PreviewDir = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 11:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewUploadName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PreviewUploadName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 12:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewHashValue", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PreviewHashValue = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 13:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookType", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EbookType = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 14:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookSize", wireType)
+			}
+			m.EbookSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.EbookSize |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 15:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field EbookDir", wireType)
 			}
@@ -2877,9 +3413,9 @@ func (m *AddRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.EbookDir = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 11:
+		case 16:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field PreviewDir", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookUploadName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -2907,7 +3443,39 @@ func (m *AddRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.PreviewDir = string(dAtA[iNdEx:postIndex])
+			m.EbookUploadName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 17:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookHashValue", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EbookHashValue = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -3451,7 +4019,7 @@ func (m *UpdateRequest) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 6:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Category", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -3479,28 +4047,9 @@ func (m *UpdateRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Type = string(dAtA[iNdEx:postIndex])
+			m.Category = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 7:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Category", wireType)
-			}
-			m.Category = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowEbook
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Category |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field PublishDate", wireType)
 			}
@@ -3532,7 +4081,7 @@ func (m *UpdateRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.PublishDate = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 9:
+		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field KeyWords", wireType)
 			}
@@ -3564,11 +4113,43 @@ func (m *UpdateRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.KeyWords = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewType", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PreviewType = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		case 10:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HashValue", wireType)
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewSize", wireType)
 			}
-			var stringLen uint64
+			m.PreviewSize = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowEbook
@@ -3578,57 +4159,12 @@ func (m *UpdateRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.PreviewSize |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthEbook
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthEbook
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.HashValue = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 11:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EbookDir", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowEbook
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthEbook
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthEbook
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.EbookDir = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 12:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field PreviewDir", wireType)
 			}
@@ -3660,11 +4196,11 @@ func (m *UpdateRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.PreviewDir = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 13:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IsDelete", wireType)
+		case 12:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewUploadName", wireType)
 			}
-			m.IsDelete = 0
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowEbook
@@ -3674,11 +4210,203 @@ func (m *UpdateRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.IsDelete |= uint64(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PreviewUploadName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 13:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewHashValue", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PreviewHashValue = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 14:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookType", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EbookType = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 15:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookSize", wireType)
+			}
+			m.EbookSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.EbookSize |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 16:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookDir", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EbookDir = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 17:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookUploadName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EbookUploadName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 18:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookHashValue", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EbookHashValue = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipEbook(dAtA[iNdEx:])
@@ -3878,10 +4606,10 @@ func (m *GetRequest) Unmarshal(dAtA []byte) error {
 				}
 			}
 		case 2:
-			if wireType != 0 {
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field UserId", wireType)
 			}
-			m.UserId = 0
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowEbook
@@ -3891,11 +4619,24 @@ func (m *GetRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.UserId |= uint64(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.UserId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipEbook(dAtA[iNdEx:])
@@ -4297,7 +5038,7 @@ func (m *GetsRequest) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 6:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Category", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -4325,28 +5066,9 @@ func (m *GetsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Type = string(dAtA[iNdEx:postIndex])
+			m.Category = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 7:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Category", wireType)
-			}
-			m.Category = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowEbook
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Category |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field PublishDate", wireType)
 			}
@@ -4378,7 +5100,7 @@ func (m *GetsRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.PublishDate = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 9:
+		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field KeyWords", wireType)
 			}
@@ -4410,9 +5132,9 @@ func (m *GetsRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.KeyWords = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 10:
+		case 9:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HashValue", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewType", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -4440,11 +5162,30 @@ func (m *GetsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.HashValue = string(dAtA[iNdEx:postIndex])
+			m.PreviewType = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 10:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewSize", wireType)
+			}
+			m.PreviewSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PreviewSize |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		case 11:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EbookDir", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewUploadName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -4472,11 +5213,11 @@ func (m *GetsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.EbookDir = string(dAtA[iNdEx:postIndex])
+			m.PreviewUploadName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 12:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field PreviewDir", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookType", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -4504,9 +5245,60 @@ func (m *GetsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.PreviewDir = string(dAtA[iNdEx:postIndex])
+			m.EbookType = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 13:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookSize", wireType)
+			}
+			m.EbookSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.EbookSize |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 14:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookUploadName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EbookUploadName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 15:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field IsDelete", wireType)
 			}
@@ -4525,7 +5317,7 @@ func (m *GetsRequest) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 14:
+		case 16:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CreateTime", wireType)
 			}
@@ -4557,7 +5349,7 @@ func (m *GetsRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.CreateTime = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 15:
+		case 17:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field UpdateTime", wireType)
 			}
@@ -4930,27 +5722,8 @@ func (m *EbookResponseInfo) Unmarshal(dAtA []byte) error {
 			m.AliasName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 6:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Category", wireType)
-			}
-			m.Category = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowEbook
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Category |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 7:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Category", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -4978,9 +5751,9 @@ func (m *EbookResponseInfo) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Type = string(dAtA[iNdEx:postIndex])
+			m.Category = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 8:
+		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field PublishDate", wireType)
 			}
@@ -5012,7 +5785,7 @@ func (m *EbookResponseInfo) Unmarshal(dAtA []byte) error {
 			}
 			m.PublishDate = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 9:
+		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field KeyWords", wireType)
 			}
@@ -5044,11 +5817,43 @@ func (m *EbookResponseInfo) Unmarshal(dAtA []byte) error {
 			}
 			m.KeyWords = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewType", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PreviewType = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		case 10:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HashValue", wireType)
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewSize", wireType)
 			}
-			var stringLen uint64
+			m.PreviewSize = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowEbook
@@ -5058,57 +5863,12 @@ func (m *EbookResponseInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.PreviewSize |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthEbook
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthEbook
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.HashValue = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 11:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EbookDir", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowEbook
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthEbook
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthEbook
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.EbookDir = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 12:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field PreviewDir", wireType)
 			}
@@ -5140,7 +5900,218 @@ func (m *EbookResponseInfo) Unmarshal(dAtA []byte) error {
 			}
 			m.PreviewDir = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 12:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewUploadName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PreviewUploadName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		case 13:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviewHashValue", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PreviewHashValue = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 14:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookType", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EbookType = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 15:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookSize", wireType)
+			}
+			m.EbookSize = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.EbookSize |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 16:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookDir", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EbookDir = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 17:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookUploadName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EbookUploadName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 18:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EbookHashValue", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowEbook
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthEbook
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthEbook
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.EbookHashValue = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 19:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field IsDelete", wireType)
 			}
@@ -5159,7 +6130,7 @@ func (m *EbookResponseInfo) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 14:
+		case 20:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CreateTime", wireType)
 			}
@@ -5191,7 +6162,7 @@ func (m *EbookResponseInfo) Unmarshal(dAtA []byte) error {
 			}
 			m.CreateTime = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 15:
+		case 21:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field UpdateTime", wireType)
 			}

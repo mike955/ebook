@@ -23,12 +23,20 @@ func (service *ebookService) Add(ctx context.Context, req *pb.AddRequest) (respo
 		"englishName": req.EnglishName,
 		"aliasName": req.AliasName,
 		"category": req.Category,
-		"type": req.Type,
 		"publishDate": req.PublishDate,
 		"keyWords": req.KeyWords,
-		"hashValue": req.HashValue,
-		"ebookDir": req.EbookDir,
+		
+		"previewType": req.PreviewType,
+		"previewSize": req.PreviewSize,
 		"previewDir": req.PreviewDir,
+		"previewUploadName": req.PreviewUploadName,
+		"previewHashValue": req.PreviewHashValue,
+		
+		"ebookType": req.EbookType,
+		"ebookSize": req.EbookSize,
+		"ebookDir": req.EbookDir,
+		"ebookUploadName": req.EbookUploadName,
+		"ebookHashValue": req.EbookHashValue,
 	}
 	// TODO  判断文件是否存在
 	err = service.ebookDao.Add(newEbook)
@@ -36,7 +44,7 @@ func (service *ebookService) Add(ctx context.Context, req *pb.AddRequest) (respo
 		response.Errno, response.Errmsg = err_code.Code("ADD_EBOOK_ERROR")
 		return
 	}
-	ebooks, err := service.ebookDao.FindByFields(map[string]interface{}{"userId": req.UserId, "ebookName": req.EbookName})
+	ebooks, err := service.ebookDao.FindByFields(map[string]interface{}{"user_id": req.UserId, "preview_hash_value": req.PreviewHashValue, "ebook_hash_value": req.EbookHashValue})
 	if err != nil || len(ebooks) == 0{
 		response.Errno, response.Errmsg = err_code.Code("GET_EBOOK_ERROR")
 		return
@@ -49,12 +57,20 @@ func (service *ebookService) Add(ctx context.Context, req *pb.AddRequest) (respo
 		EnglishName:                ebook.EbookName,
 		AliasName:               ebook.AliasName,
 		Category:               ebook.Category,
-		Type:               ebook.Type,
 		PublishDate:               ebook.PublishDate,
 		KeyWords:               ebook.KeyWords,
-		HashValue:               ebook.HashValue,
+		
+		PreviewType:               ebook.PreviewType,
+		PreviewSize:               ebook.PreviewSize,
+		PreviewDir:               ebook.PreviewDir,
+		PreviewUploadName:               ebook.PreviewUploadName,
+		PreviewHashValue:               ebook.PreviewHashValue,
+		
+		EbookType:               ebook.EbookType,
+		EbookSize:               ebook.EbookSize,
 		EbookDir:               ebook.EbookDir,
-		PreviewDir:               ebook.EbookDir,
+		EbookUploadName:               ebook.EbookUploadName,
+		EbookHashValue:               ebook.EbookHashValue,
 		IsDelete:             ebook.IsDelete,
 		CreateTime:           ebook.CreateTime,
 		UpdateTime:           ebook.UpdateTime,
@@ -63,7 +79,6 @@ func (service *ebookService) Add(ctx context.Context, req *pb.AddRequest) (respo
 }
 
 func (service *ebookService) Delete(ctx context.Context, req *pb.DeleteRequest) (response *pb.DeleteResponse, err error){
-	response = new(pb.DeleteResponse)
 	response = new(pb.DeleteResponse)
 	users, err := service.ebookDao.FindByFields(map[string]interface{}{"is": req.Id})
 	if err != nil {
@@ -92,7 +107,7 @@ func (service *ebookService) Update(ctx context.Context, req *pb.UpdateRequest) 
 		response.Errno, response.Errmsg = err_code.Code("EBOOK_IS_NOT_EXIST_ERROR")
 		return
 	}
-	where := map[string]interface{}{"is": req.Id}
+	where := map[string]interface{}{"is": req.Id, "user_id": req.UserId}
 	updateFields := map[string]interface{}{}
 	if ebookName := req.EbookName; ebookName != "" {
 		updateFields["ebook_name"] = ebookName
@@ -103,11 +118,8 @@ func (service *ebookService) Update(ctx context.Context, req *pb.UpdateRequest) 
 	if aliasName := req.AliasName; aliasName != "" {
 		updateFields["alias_name"] = aliasName
 	}
-	if ebookType := req.Type; ebookType != "" {
-		updateFields["type"] = ebookType
-	}
-	if category := req.Category; category != 0 {
-		updateFields["status"] = category
+	if category := req.Category; category != "" {
+		updateFields["category"] = category
 	}
 	if publishDate := req.PublishDate; publishDate != "" {
 		updateFields["publish_date"] = publishDate
@@ -115,18 +127,39 @@ func (service *ebookService) Update(ctx context.Context, req *pb.UpdateRequest) 
 	if keyWords := req.KeyWords; keyWords != "" {
 		updateFields["key_words"] = keyWords
 	}
-	if hashValue := req.HashValue; hashValue != "" {
-		updateFields["hash_value"] = hashValue
+	
+	if previewType := req.PreviewType; previewType != "" {
+		updateFields["preview_type"] = previewType
 	}
-	if ebookDir := req.EbookDir; ebookDir != "" {
-		updateFields["ebook_dir"] = ebookDir
+	if previewSize := req.PreviewSize; previewSize != 0 {
+		updateFields["preview_size"] = previewSize
 	}
 	if previewDir := req.PreviewDir; previewDir != "" {
 		updateFields["preview_dir"] = previewDir
 	}
-	if isDelete := req.IsDelete; isDelete != 0 {
-		updateFields["is_delete"] = isDelete
+	if previewUploadName := req.PreviewUploadName; previewUploadName != "" {
+		updateFields["preview_upload_name"] = previewUploadName
 	}
+	if previewHashValue := req.PreviewHashValue; previewHashValue != "" {
+		updateFields["preview_hash_value"] = previewHashValue
+	}
+	
+	if ebookType := req.EbookType; ebookType != "" {
+		updateFields["ebook_type"] = ebookType
+	}
+	if ebookSize := req.EbookSize; ebookSize != 0 {
+		updateFields["ebook_size"] = ebookSize
+	}
+	if ebookDir := req.EbookDir; ebookDir != "" {
+		updateFields["ebook_type"] = ebookDir
+	}
+	if ebookUploadName := req.EbookUploadName; ebookUploadName != "" {
+		updateFields["ebook_upload_name"] = ebookUploadName
+	}
+	if ebookHashValue := req.EbookHashValue; ebookHashValue != "" {
+		updateFields["ebook_hash_value"] = ebookHashValue
+	}
+	
 	err = service.ebookDao.UpdateFields(where, updateFields)
 	if err != nil {
 		response.Errno, response.Errmsg = err_code.Code("UPDATE_EBOOK_ERROR")
@@ -159,12 +192,20 @@ func (service *ebookService) Get(ctx context.Context, req *pb.GetRequest) (respo
 		EnglishName:                ebook.EbookName,
 		AliasName:               ebook.AliasName,
 		Category:               ebook.Category,
-		Type:               ebook.Type,
 		PublishDate:               ebook.PublishDate,
 		KeyWords:               ebook.KeyWords,
-		HashValue:               ebook.HashValue,
+		
+		PreviewType:               ebook.PreviewType,
+		PreviewSize:               ebook.PreviewSize,
+		PreviewDir:               ebook.PreviewDir,
+		PreviewUploadName:               ebook.PreviewUploadName,
+		PreviewHashValue:               ebook.PreviewHashValue,
+		
+		EbookType:               ebook.EbookType,
+		EbookSize:               ebook.EbookSize,
 		EbookDir:               ebook.EbookDir,
-		PreviewDir:               ebook.EbookDir,
+		EbookUploadName:               ebook.EbookUploadName,
+		EbookHashValue:               ebook.EbookHashValue,
 		IsDelete:             ebook.IsDelete,
 		CreateTime:           ebook.CreateTime,
 		UpdateTime:           ebook.UpdateTime,
@@ -185,18 +226,12 @@ func (service *ebookService) Gets(ctx context.Context, req *pb.GetsRequest) (res
 		condition["ebook_name"] = "%" + ebookName + "%"		// todo convert like
 	}
 	if englishName := req.EnglishName; englishName != "" {
-		condition["role_id"] = englishName
+		condition["english_name"] = englishName
 	}
 	if aliasName := req.AliasName; aliasName != "" {
-		condition["status"] = aliasName
+		condition["alias_name"] = aliasName
 	}
-	if category := req.Category; category != 0 {
-		condition["is_delete"] = category
-	}
-	if ebookType := req.Type; ebookType != "" {
-		condition["type"] = ebookType
-	}
-	if category := req.Category; category != 0 {
+	if category := req.Category; category != "" {
 		condition["category"] = category
 	}
 	if publishDate := req.PublishDate; publishDate != "" {
@@ -205,15 +240,27 @@ func (service *ebookService) Gets(ctx context.Context, req *pb.GetsRequest) (res
 	if keyWords := req.KeyWords; keyWords != "" {
 		condition["key_words"] = keyWords
 	}
-	if hashValue := req.HashValue; hashValue != "" {
-		condition["hash_value"] = hashValue
+	
+	if previewType := req.PreviewType; previewType != "" {
+		condition["preview_type"] = previewType
 	}
-	if ebookDir := req.EbookDir; ebookDir != "" {
-		condition["ebook_dir"] = ebookDir
+	if previewSize := req.PreviewSize; previewSize != 0 {
+		condition["preview_size"] = previewSize
 	}
-	if previewDir := req.PreviewDir; previewDir != "" {
-		condition["preview_dir"] = previewDir
+	if previewUploadName := req.PreviewUploadName; previewUploadName != "" {
+		condition["preview_upload_name"] = previewUploadName
 	}
+	
+	if ebookType := req.EbookType; ebookType != "" {
+		condition["ebook_type"] = ebookType
+	}
+	if ebookSize := req.EbookSize; ebookSize != 0 {
+		condition["ebook_size"] = ebookSize
+	}
+	if ebookUploadName := req.EbookUploadName; ebookUploadName != "" {
+		condition["ebook_upload_name"] = ebookUploadName
+	}
+	
 	if isDelete := req.IsDelete; isDelete != 0 {
 		condition["is_delete"] = isDelete
 	}
@@ -230,12 +277,20 @@ func (service *ebookService) Gets(ctx context.Context, req *pb.GetsRequest) (res
 			EnglishName:                ebook.EbookName,
 			AliasName:               ebook.AliasName,
 			Category:               ebook.Category,
-			Type:               ebook.Type,
 			PublishDate:               ebook.PublishDate,
 			KeyWords:               ebook.KeyWords,
-			HashValue:               ebook.HashValue,
+			
+			PreviewType:               ebook.PreviewType,
+			PreviewSize:               ebook.PreviewSize,
+			PreviewDir:               ebook.PreviewDir,
+			PreviewUploadName:               ebook.PreviewUploadName,
+			PreviewHashValue:               ebook.PreviewHashValue,
+			
+			EbookType:               ebook.EbookType,
+			EbookSize:               ebook.EbookSize,
 			EbookDir:               ebook.EbookDir,
-			PreviewDir:               ebook.EbookDir,
+			EbookUploadName:               ebook.EbookUploadName,
+			EbookHashValue:               ebook.EbookHashValue,
 			IsDelete:             ebook.IsDelete,
 			CreateTime:           ebook.CreateTime,
 			UpdateTime:           ebook.UpdateTime,

@@ -11,13 +11,21 @@ type Ebook struct {
 	EbookName string	`json:"ebook_name"`
 	EnglishName string	`json:"english_name"`
 	AliasName string	`json:"alias_name"`
-	Category uint64	`json:"category"`
-	Type string	`json:"type"`
+	Category string	`json:"category"`
 	PublishDate string	`json:"publish_date"`
 	KeyWords string	`json:"key_words"`
-	HashValue string	`json:"hash_value"`
-	EbookDir string	`json:"ebook_dir"`
+	
+	PreviewType string	`json:"preview_type"`
+	PreviewSize int64	`json:"preview_size"`
 	PreviewDir string	`json:"preview_dir"`
+	PreviewUploadName string	`json:"preview_upload_name"`
+	PreviewHashValue string	`json:"preview_hash_value"`
+	
+	EbookType string	`json:"ebook_type"`
+	EbookSize int64	`json:"ebook_size"`
+	EbookDir string	`json:"ebook_dir"`
+	EbookUploadName string	`json:"ebook_upload_name"`
+	EbookHashValue string	`json:"ebook_hash_value"`
 	IsDelete  uint64 `gorm:"default:0" json:"is_delete"`
 }
 
@@ -30,13 +38,21 @@ func (dao EbookDao) Add(data map[string]interface{}) (err error) {
 		EbookName:       data["ebookName"].(string),
 		EnglishName:     data["englishName"].(string),
 		AliasName:    data["aliasName"].(string),
-		Category: data["category"].(uint64),
-		Type:            data["type"].(string),
+		Category: data["category"].(string),
 		PublishDate:     data["publishDate"].(string),
 		KeyWords:          data["keyWords"].(string),
-		HashValue:          data["hashValue"].(string),
+		
+		PreviewType: data["previewType"].(string),
+		PreviewSize: data["previewSize"].(int64),
+		PreviewDir: data["previewDir"].(string),
+		PreviewUploadName: data["previewUploadName"].(string),
+		PreviewHashValue: data["previewHashValue"].(string),
+		
+		EbookType:            data["ebookType"].(string),
+		EbookSize:     data["ebookSize"].(int64),
 		EbookDir:          data["ebookDir"].(string),
-		PreviewDir:          data["previewDir"].(string),
+		EbookUploadName:          data["ebookUploadName"].(string),
+		EbookHashValue:          data["ebookHashValue"].(string),
 	}
 	if err := DB.Create(&account).Error; err !=nil {
 		return err

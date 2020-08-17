@@ -16,13 +16,21 @@ message AddRequest {
   string ebook_name  = 2;
   string english_name  = 3;
   string alias_name  = 4;
-  uint64 category  = 5;
-  string type  = 6;
-  string publish_date  = 7;
-  string key_words  = 8;
-  string hash_value  = 9;
-  string ebook_dir  = 10;
-  string preview_dir  = 11;
+  string category  = 5;
+  string publish_date  = 6;
+  string key_words  = 7;
+
+  string preview_type  = 8;
+  int64 preview_size  = 9;
+  string preview_dir  = 10;
+  string preview_upload_name  = 11;
+  string preview_hash_value  = 12;
+
+  string ebook_type  = 13;
+  int64 ebook_size  = 14;
+  string ebook_dir  = 15;
+  string ebook_upload_name  = 16;
+  string ebook_hash_value  = 17;
 }
 message AddResponse {
   int64 errno = 1;
@@ -42,17 +50,24 @@ message DeleteResponse {
 message UpdateRequest {
   uint64 id = 1;         // 选择条件
   string user_id  = 2;   // 选择条件
-  string ebook_name  = 3;     // 更新字段
-  string english_name  = 4;   // 更新字段
-  string alias_name  = 5;     // 更新字段
-  string type  = 6;           // 更新字段
-  uint64 category  = 7;       // 更新字段
-  string publish_date = 8;    // 更新字段
-  string key_words  = 9;      // 更新字段
-  string hash_value  = 10; // 更新字段
-  string ebook_dir  = 11;// 更新字段
-  string preview_dir  = 12;// 更新字段
-  uint64 is_delete = 13;      // 更新字段
+  string ebook_name  = 3;
+  string english_name  = 4;
+  string alias_name  = 5;
+  string category  = 6;
+  string publish_date  = 7;
+  string key_words  = 8;
+
+  string preview_type  = 9;
+  int64 preview_size  = 10;
+  string preview_dir  = 11;
+  string preview_upload_name  = 12;
+  string preview_hash_value  = 13;
+
+  string ebook_type  = 14;
+  int64 ebook_size  = 15;
+  string ebook_dir  = 16;
+  string ebook_upload_name  = 17;
+  string ebook_hash_value  = 18;
 }
 message UpdateResponse {
   int64 errno = 1;
@@ -62,7 +77,7 @@ message UpdateResponse {
 
 message GetRequest {
   uint64 id = 1;
-  uint64 user_id  = 2;
+  string user_id  = 2;
 }
 message GetResponse {
   int64 errno = 1;
@@ -76,16 +91,21 @@ message GetsRequest {
   string ebook_name  = 3;
   string english_name  = 4;
   string alias_name  = 5;
-  string type  = 6;
-  uint64 category  = 7;
-  string publish_date = 8;
-  string key_words  = 9;
-  string hash_value  = 10;
-  string ebook_dir  = 11;
-  string preview_dir  = 12;
-  uint64 is_delete = 13;
-  string create_time = 14;
-  string update_time = 15;
+  string category  = 6;
+  string publish_date  = 7;
+  string key_words  = 8;
+
+  string preview_type  = 9;
+  int64 preview_size  = 10;
+  string preview_upload_name  = 11;
+
+  string ebook_type  = 12;
+  int64 ebook_size  = 13;
+  string ebook_upload_name  = 14;
+  
+  uint64 is_delete = 15;
+  string create_time = 16;
+  string update_time = 17;
 }
 message GetsResponse {
   int64 errno = 1;
@@ -95,18 +115,27 @@ message GetsResponse {
 
 message EbookResponseInfo {
   uint64 id = 1;
-  string user_id = 2;
+  string user_id  = 2;
   string ebook_name  = 3;
   string english_name  = 4;
   string alias_name  = 5;
-  uint64 category  = 6;
-  string type  = 7;
-  string publish_date  = 8;
-  string key_words  = 9;
-  string hash_value  = 10;
-  string ebook_dir  = 11;
-  string preview_dir  = 12;
-  uint64 is_delete = 13;
-  string create_time = 14;
-  string update_time = 15;
+  string category  = 6;
+  string publish_date  = 7;
+  string key_words  = 8;
+
+  string preview_type  = 9;
+  int64 preview_size  = 10;
+  string preview_dir  = 11;
+  string preview_upload_name  = 12;
+  string preview_hash_value  = 13;
+
+  string ebook_type  = 14;
+  int64 ebook_size  = 15;
+  string ebook_dir  = 16;
+  string ebook_upload_name  = 17;
+  string ebook_hash_value  = 18;
+
+  uint64 is_delete = 19;
+  string create_time = 20;
+  string update_time = 21;
 }
