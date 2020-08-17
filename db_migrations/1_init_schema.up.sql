@@ -1,3 +1,5 @@
+CREATE DATABASE `ebook`;
+
 DROP TABLE IF EXISTS `ebook`.`ebook_user`;
 CREATE TABLE `ebook`.`ebook_user` (
     `id` BIGINT(32) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键id',

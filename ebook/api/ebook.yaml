@@ -19,14 +19,12 @@ paths:
             schema:
               type: "object"
               properties:
-                username:
-                  type: "string"
-                email:
-                  type: "string"
-                password:
-                  type: "string"
-                roleId:
-                  type: "number"
+                  error:
+                    type: "number"
+                  errmsg:
+                    type: "string"
+                  data:
+                    $ref: "#/components/schemas/UserInfo"
       responses:
         "200":
           description: "OK"
@@ -72,7 +70,7 @@ paths:
             schema:
               type: "object"
               properties:
-                auth_id:
+                userId:
                   type: "string"
       responses:
         "200":
@@ -81,21 +79,162 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BooleanResponse"
-  # /ebook/ebook/add:
-  #   post:
-  #     summary: "添加电子书"
-  #     requestBody: 
-  #     responses:
-  # /ebook/ebook/get:
-  #   post:
-  #     summary: "查看电子书详情"
-  #     requestBody: 
-  #     responses:
-  # /ebook/ebook/getList:
-  #   post:
-  #     summary: "获取电子书列表"
-  #     requestBody: 
-  #     responses:
+  /ebook/user/get:
+    post:
+      summary: "查看用户信息"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                userId:
+                  type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInfo"
+  /ebook/ebook/add:
+    post:
+      summary: "添加电子书"
+      requestBody: 
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: "object"
+              properties:
+                ebookName:
+                  type: "string"
+                englishName:
+                  type: "string"
+                aliasName:
+                  type: "string"
+                category:
+                  type: "string"
+                publishDate:
+                  type: "string"
+                keyWords:
+                  type: "string"
+                pic:
+                  type: "string"
+                file:
+                  type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "number"
+                  errmsg:
+                    type: "string"
+                  data:
+                    $ref: "#/components/schemas/ebookResponse"
+  /ebook/ebook/get:
+    post:
+      summary: "查看电子书详情"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                id:
+                  type: "number"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "number"
+                  errmsg:
+                    type: "string"
+                  data:
+                    $ref: "#/components/schemas/ebookResponse"
+  /ebook/ebook/getList:
+    post:
+      summary: "获取电子书列表"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                ids:
+                  type: "number"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "number"
+                  errmsg:
+                    type: "string"
+                  data:
+                    type: "array"
+                    items:
+                      $ref: "#/components/schemas/ebookResponse"
+  /ebook/ebook/download:
+    post:
+      summary: "下载电子书"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                id:
+                  type: "number"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/pdf:
+              schema:
+                type: "string"
+                format: "binary"
+  /ebook/ebook/view:
+    post:
+      summary: "预览图片/电子书"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                id:
+                  type: "number"
+                type:
+                  type: "string"
+                  enum: ["image", "ebook"]
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/pdf:
+              schema:
+                type: "string"
+                format: "binary"
 
 components:
   schemas:
@@ -127,3 +266,24 @@ components:
           type: "string"
         data:
           type: "boolean"
+    ebookResponse:
+      type: "object"
+      properties:
+        id:
+          type: "number"
+        ebookName:
+          type: "string"
+        englishName:
+          type: "string"
+        aliasName:
+          type: "string"
+        category:
+          type: "string"
+        publishDate:
+          type: "string"
+        keyWords:
+          type: "string"
+        create_time:
+          type: "string"
+        update_time:
+          type: "string"
